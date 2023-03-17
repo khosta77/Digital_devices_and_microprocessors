@@ -18,11 +18,7 @@
 	{Семеренко~Д.~А.} % ФИО преподавателя
 	
 	\tableofcontents
-	%Реализовать шифратор для вывода знака на ССИ:
-%	1.1 написать алгебраические уравнения в СКНФ и СДНФ;
-%	1.2 минимизировать с помощью: законов алгебры логики, карт Карно, метода Квайна;
-%	1.3 привести полученныя выражения к базису 2И-НЕ/2ИЛИ-НЕ;
-%	1.4 начертить цифровую схему.
+
 	\chapter{Реализация шифратора для вывода знака на ССИ.}
 	На~рисунке~\ref{img:BCD} пример семисегментного индикатора.
 	
@@ -352,13 +348,9 @@
     	\begin{tikzpicture}[karnaugh, American style]
     		\karnaughmap{4}{$a^{\text{СКНФ}}$}{{$x_2$}{$x_0$}{$x_3$}{$x_1$}}%
     		{1011 1111 0111 1111}{}
-    	\end{tikzpicture}
-		\\
-		$y^{\text{СДНФ}}_a = x_2 \bar{x_0} \vee \bar{x_1} \bar{x_3} \vee x_0 \bar{x_1} \bar{x_2} \vee \bar{x_0} x_1 x_3$
-		\\
-		$y^{\text{СКНФ}}_a = (x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot
-		(x_0 \vee \bar{x_1} \vee x_2 \vee x_3) $ 
-		\\
+    	\end{tikzpicture} \\
+		$y^{\text{СДНФ}}_a = x_2 \bar{x_0} \vee \bar{x_1} \bar{x_3} \vee x_0 \bar{x_1} \bar{x_2} \vee \bar{x_0} x_1 x_3$ \\
+		$y^{\text{СКНФ}}_a = (x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee x_2 \vee x_3)$ \\
 	}
 
 	\centering{
@@ -383,12 +375,9 @@
 		\begin{tikzpicture}[karnaugh, American style]
 			\karnaughmap{4}{$b^{\text{СКНФ}}$}{{$x_2$}{$x_0$}{$x_3$}{$x_1$}}%
 			{1110 1111 1011 1111}{}
-		\end{tikzpicture}
-		\\
-		$y^{\text{СДНФ}}_b = \bar{x_1} x_2 \bar{x_3} \vee \bar{x_0} x_2 x_3 \vee \bar{x_0} \bar{x_1} x_3 \vee \bar{x_0} \bar{x_2} \bar{x_3} \vee x_0 \bar{x_1} \bar{x_3}$
-		\\
-		$y^{\text{СКНФ}}_b = (x_0 \vee \bar{x_1} \vee x_2 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee x_3)$
-		\\ 
+		\end{tikzpicture} \\
+		$y^{\text{СДНФ}}_b = \bar{x_1} x_2 \bar{x_3} \vee \bar{x_0} x_2 x_3 \vee \bar{x_0} \bar{x_1} x_3 \vee \bar{x_0} \bar{x_2} \bar{x_3} \vee x_0 \bar{x_1} \bar{x_3}$ \\
+		$y^{\text{СКНФ}}_b = (x_0 \vee \bar{x_1} \vee x_2 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee x_3)$ \\ 
 	}
 
 	\centering{
@@ -746,146 +735,133 @@ $(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$ 3	 & 								 &   				   	    					\\
 	Чтобы не загромождать запись двойными отрицаниями, они будут опускаться после того, как будет показано их применение, то есть:
 	
 	\begin{center}
-$\overline{\overline{A \vee B \vee C \vee D}} =$
-$|\text{убрали из записи}| = $
-$\overline{\bar{A} \cdot \bar{B} \cdot \bar{C} \cdot \bar{D}}$ 
-%$\overline{\overline{\overline{\bar{A} \cdot \bar{B}}} \cdot   \overline{\overline{\bar{C} \cdot \bar{D}}}} =$
+		$\overline{\overline{A \vee B \vee C \vee D}} =$
+		$|\text{убрали из записи}| = $
+		$\overline{\bar{A} \cdot \bar{B} \cdot \bar{C} \cdot \bar{D}}$ 
+		%$\overline{\overline{\overline{\bar{A} \cdot \bar{B}}} \cdot   \overline{\overline{\bar{C} \cdot \bar{D}}}} =$
 	\end{center}
 
-	\subsection{2И-НЕ}
+	\subsection{2И-НЕ}	
+	$y^{\text{ДНФ}}_a = \overline{\overline{\bar{x_0} x_2 \vee \bar{x_1} \bar{x_3} \vee x_0 \bar{x_1} \bar{x_2} \vee \bar{x_0} x_1 x_2}} =$ \\
+	$= \overline{\overline{\bar{x_0} x_2} \cdot \overline{\bar{x_0} \bar{x_3}} \cdot \overline{x_0 \bar{x_1} \bar{x_2}} \cdot \overline{\bar{x_0} x_1 x_2}}$ \\
+	$y^{\text{КНФ}}_a = \overline{\overline{\overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3})}} \cdot (x_0 \vee \bar{x_1} \vee x_2 \vee x_3)}} = $ \\
+	$= \overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3})}} \cdot \overline{\overline{(x_0 \vee \bar{x_1} \vee x_2 \vee x_3)}} = $ \\
+	$= \overline{\bar{x_0} \bar{x_1} \bar{x_2} x_3} \cdot \overline{\bar{x_0} x_1 \bar{x_2} \bar{x_3}}$ \\
 	
-	$y^{\text{ДНФ}}_a = \overline{\overline{
-	\bar{x_0} x_2 \vee 
-	\bar{x_1} \bar{x_3} \vee 
-	x_0 \bar{x_1} \bar{x_2} \vee
-	\bar{x_0} x_1 x_2
-	}} =$ \\
-    $= \overline{
-    \overline{\bar{x_0} x_2} \cdot
-    \overline{\bar{x_0} \bar{x_3}} \cdot
-    \overline{x_0 \bar{x_1} \bar{x_2}} \cdot
-    \overline{\bar{x_0} x_1 x_2}
-	}$ \\
-	$y^{\text{КНФ}}_a = \overline{\overline{
-	\overline{\overline{
-	(x_0 \vee x_1 \vee x_2 \vee \bar{x_3})
-	}} \cdot (x_0 \vee \bar{x_1} \vee x_2 \vee x_3)
-	}} = $ \\
-	$= \overline{\overline{(
-	x_0 \vee x_1 \vee x_2 \vee \bar{x_3}
-	)}} \cdot \overline{\overline{(x_0 \vee \bar{x_1} \vee x_2 \vee x_3)}} = $ \\
-	$= \overline{\bar{x_0} \bar{x_1} \bar{x_2} x_3} \cdot
-	\overline{\bar{x_0} x_1 \bar{x_2} \bar{x_3}}$ \\
+	$y^{\text{ДНФ}}_b = \overline{\overline{\bar{x_1} x_2 \bar{x_3} \vee \bar{x_0} x_2 x_3 \vee \bar{x_0} \bar{x_1} x_3 \vee \bar{x_0} \bar{x_2} \bar{x_3} \vee x_0 \bar{x_1} \bar{x_3}}} = $ \\
+	$= \overline{\overline{\bar{x_1} x_2 \bar{x_3}} \cdot\overline{\bar{x_0} x_2 x_3} \cdot\overline{\bar{x_0} \bar{x_1} x_3} \cdot\overline{\bar{x_0} \bar{x_2} \bar{x_3}} \cdot \overline{x_0 \bar{x_1} \bar{x_3}}}$ \\
+	$y^{\text{КНФ}}_b = \overline{\overline{\overline{\overline{(x_0 \vee \bar{x_1} \vee x_2 \bar{x_3})}} \cdot(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee x_3) =}}$ \\
+	$= \overline{\overline{(x_0 \vee \bar{x_1} \vee x_2 \bar{x_3})}} \cdot\overline{\overline{(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee x_3)}} =$ \\
+	$= \overline{\bar{x_0} x_1 \bar{x_2} x_3} \cdot \overline{\bar{x_0} x_1 x_2 \bar{x_3}}$ \\
 	
-	$y^{\text{ДНФ}}_b = \overline{\overline{
-	\bar{x_1} x_2 \bar{x_3} \vee
-	\bar{x_0} x_2 x_3 \vee
-	\bar{x_0} \bar{x_1} x_3 \vee
-	\bar{x_0} \bar{x_2} \bar{x_3} \vee
-	x_0 \bar{x_1} \bar{x_3}
-	}} = $ \\
-	$= \overline{
-	\overline{\bar{x_1} x_2 \bar{x_3}} \cdot
-	\overline{\bar{x_0} x_2 x_3} \cdot
-	\overline{\bar{x_0} \bar{x_1} x_3} \cdot
-	\overline{\bar{x_0} \bar{x_2} \bar{x_3}} \cdot
-	\overline{x_0 \bar{x_1} \bar{x_3}}
-	}$ \\
-	$y^{\text{КНФ}}_b = \overline{\overline{
-	\overline{\overline{(x_0 \vee \bar{x_1} \vee x_2 \bar{x_3})}} \cdot
-	(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee x_3) =
-	}}$ \\
-	$= \overline{\overline{(x_0 \vee \bar{x_1} \vee x_2 \bar{x_3})}} \cdot
-	\overline{\overline{(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee x_3)}} =$ \\
-	$= \overline{\bar{x_0} x_1 \bar{x_2} x_3} \cdot
-	\overline{\bar{x_0} x_1 x_2 \bar{x_3}}$ \\
+	$y^{\text{ДНФ}}_c = \overline{\overline{\bar{x_0} \bar{x_2} \vee x_0 \bar{x_1} \bar{x_2} \vee x_0 \bar{x_1} \bar{x_3} \vee\bar{x_0} x_2 x_3 \vee\bar{x_0} x_1 x_2}} =$ \\
+	$= \overline{\overline{\bar{x_0} \bar{x_2}} \cdot\overline{x_0 \bar{x_1} \bar{x_2}} \cdot\overline{x_0 \bar{x_1} \bar{x_3}} \cdot\overline{\bar{x_0} x_2 x_3} \cdot \overline{\bar{x_0} x_1 x_2}}$ \\
+	$y^{\text{КНФ}}_c = \overline{\overline{(x_0 \vee x_1 \vee \bar{x_2} \vee x_3)}} =$ $ \overline{\bar{x_0} \bar{x_1} x_2 \bar{x_3}}$ \\
 	
-	$y^{\text{ДНФ}}_c = \overline{\overline{
-	\bar{x_0} \bar{x_2} \vee
-	x_0 \bar{x_1} \bar{x_2} \vee
-	x_0 \bar{x_1} \bar{x_3} \vee
-	\bar{x_0} x_2 x_3 \vee
-	\bar{x_0} x_1 x_2
-	}} =$ \\
-	$= \overline{
-	\overline{\bar{x_0} \bar{x_2}} \cdot
-	\overline{x_0 \bar{x_1} \bar{x_2}} \cdot
-	\overline{x_0 \bar{x_1} \bar{x_3}} \cdot
-	\overline{\bar{x_0} x_2 x_3} \cdot
-	\overline{\bar{x_0} x_1 x_2}
-	}$ \\
-	$y^{\text{КНФ}}_c = \overline{\overline{
-	(x_0 \vee x_1 \vee \bar{x_2} \vee x_3)
-	}} =$ 
-	$ \overline{\bar{x_0} \bar{x_1} x_2 \bar{x_3}}$ \\
-
-	$y^{\text{ДНФ}}_d = \overline{\overline{
-	x_0 \bar{x_1} \bar{x_2} \vee
-	\bar{x_0} \bar{x_1} x_2 \vee
-	\bar{x_0} x_2 \bar{x_3} \vee
-	\bar{x_0} \bar{x_1} \bar{x_3} \vee
-	\bar{x_0} x_1 \bar{x_2} x_3
-	}} =$ \\
-	$\overline{
-	\overline{x_0 \bar{x_1} \bar{x_2}} \vee
-	\overline{\bar{x_0} \bar{x_1} x_2} \vee
-	\overline{\bar{x_0} x_2 \bar{x_3}} \vee
-	\overline{\bar{x_0} \bar{x_1} \bar{x_3}} \vee
-	\overline{\bar{x_0} x_1 \bar{x_2} x_3}
-	}$ \\
-	$y^{\text{КНФ}}_d = \overline{\overline{
-	\overline{\overline{
-	(x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot
-	(x_0 \vee \bar{x_1} \vee x_2 \vee x_3) \cdot
-	(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3})
-	}} \cdot (\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)
-	}} =$ \\
-	$\overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3})}} \cdot
-	\overline{\overline{(x_0 \vee \bar{x_1} \vee x_2 \vee x_3)}} \cdot
-	\overline{\overline{(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3})}} \cdot
-	\overline{\overline{(\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)}} =$ \\
-	$= \overline{\bar{x_0} \bar{x_1} \bar{x_2} x_3} \cdot
-	\overline{\bar{x_0} x_1 \bar{x_2} \bar{x_3}} \cdot
-	\overline{\bar{x_0} x_1 x_2 x_3} \cdot
-	\overline{x_0 \bar{x_1} x_2 \bar{x_3}}$ \\
-
-
-	$y^{\text{ДНФ}}_e = \overline{\overline{
-	\bar{x_1} \bar{x_3} \vee
-	\bar{x_0} x_2 \bar{x_3}
-	}} = \overline{
-	\overline{\bar{x_1} \bar{x_3}} \cdot \overline{\bar{x_0} x_2 \bar{x_3}}
-	}$ \\
-	$y^{\text{КНФ}}_e = \overline{\overline{
-	\overline{\overline{
-	(x_0 \vee \bar{x_3}) \vee
-	(x_0 \vee \bar{x_1} \vee x_2)
-	}} \cdot
-	(x_1 \vee x_2 \vee \bar{x_3})
-	}} =$ \\
-	$= \overline{\overline{(x_0 \vee \bar{x_3})}} \cdot
-	\overline{\overline{(x_0 \vee \bar{x_1} \vee x_2)}} \cdot
-	\overline{\overline{(x_1 \vee x_2 \vee \bar{x_3})}} =$ \\
-	$= \overline{\bar{x_0} x_3} \cdot
-	\overline{\bar{x_0} x_1 \bar{x_2}} \cdot
-	\overline{\bar{x_1} \bar{x_2} x_3}$ \\
-
-
+	$y^{\text{ДНФ}}_d = \overline{\overline{x_0 \bar{x_1} \bar{x_2} \vee\bar{x_0} \bar{x_1} x_2 \vee\bar{x_0} x_2 \bar{x_3} \vee\bar{x_0} \bar{x_1} \bar{x_3} \vee\bar{x_0} x_1 \bar{x_2} x_3}} =$ \\
+	$\overline{\overline{x_0 \bar{x_1} \bar{x_2}} \vee\overline{\bar{x_0} \bar{x_1} x_2} \vee\overline{\bar{x_0} x_2 \bar{x_3}} \vee\overline{\bar{x_0} \bar{x_1} \bar{x_3}} \vee \overline{\bar{x_0} x_1 \bar{x_2} x_3}}$ \\
+	$y^{\text{КНФ}}_d = \overline{\overline{\overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot(x_0 \vee \bar{x_1} \vee x_2 \vee x_3) \cdot(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3})}} \cdot (\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)}} =$ \\
+	$\overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3})}} \cdot \overline{\overline{(x_0 \vee \bar{x_1} \vee x_2 \vee x_3)}} \cdot\overline{\overline{(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3})}} \cdot \overline{\overline{(\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)}} =$ \\
+	$= \overline{\bar{x_0} \bar{x_1} \bar{x_2} x_3} \cdot \overline{\bar{x_0} x_1 \bar{x_2} \bar{x_3}} \cdot \overline{\bar{x_0} x_1 x_2 x_3} \cdot \overline{x_0 \bar{x_1} x_2 \bar{x_3}}$ \\
+	
+	$y^{\text{ДНФ}}_e = \overline{\overline{\bar{x_1} \bar{x_3} \vee \bar{x_0} x_2 \bar{x_3}}} = \overline{\overline{\bar{x_1} \bar{x_3}} \cdot \overline{\bar{x_0} x_2 \bar{x_3}}}$ \\
+	$y^{\text{КНФ}}_e = \overline{\overline{\overline{\overline{(x_0 \vee \bar{x_3}) \vee (x_0 \vee \bar{x_1} \vee x_2)}} \cdot (x_1 \vee x_2 \vee \bar{x_3})}} =$ \\
+	$= \overline{\overline{(x_0 \vee \bar{x_3})}} \cdot \overline{\overline{(x_0 \vee \bar{x_1} \vee x_2)}} \cdot \overline{\overline{(x_1 \vee x_2 \vee \bar{x_3})}} =$ \\
+	$= \overline{\bar{x_0} x_3} \cdot \overline{\bar{x_0} x_1 \bar{x_2}} \cdot \overline{\bar{x_1} \bar{x_2} x_3}$ \\
+	
 	$y^{\text{ДНФ}}_f = \overline{\overline{x_0 \bar{x_1} \bar{x_3} \vee x_0 \bar{x_1} \bar{x_2} \vee \bar{x_0} \bar{x_2} \bar{x_3} \vee \bar{x_0} x_1 x_2 \vee \bar{x_0} x_1 \bar{x_2}}} =$ \\
 	$= \overline{\overline{x_0 \bar{x_1} \bar{x_3}} \vee \overline{x_0 \bar{x_1} \bar{x_2}} \vee \overline{\bar{x_0} \bar{x_2} \bar{x_3}} \vee \overline{\bar{x_0} x_1 x_3} \vee \overline{\bar{x_0} x_1 \bar{x_2}}}$ \\
 	$y^{\text{КНФ}}_f = \overline{\overline{\overline{\overline{(x_0 \vee x_1 \vee \bar{x_2}) \cdot(x_0 \vee \bar{x_2} \vee \bar{x_3})}} \cdot (x_0 \vee x_1 \vee \bar{x_3})}} =$ \\
 	$= \overline{\overline{(x_0 \vee x_1 \vee \bar{x_2})}} \cdot \overline{\overline{(x_0 \vee \bar{x_2} \vee \bar{x_3})}} \cdot \overline{\overline{(x_0 \vee x_1 \vee \bar{x_3})}}$
 	$= \overline{\bar{x_0} \bar{x_1} x_2} \cdot \overline{\bar{x_0} x_2 x_3} \cdot \overline{\bar{x_0} \bar{x_1} \bar{x_3}}$ \\
-
-
+	
 	$y^{\text{ДНФ}}_g = \overline{\overline{x_0 \bar{x_1} \bar{x_3} \vee \bar{x_0} \bar{x_1} x_2 \vee \bar{x_0} x_1 \bar{x_3} \vee \bar{x_0} x_1 \bar{x_2}}}$
 	$= \overline{\overline{x_0 \bar{x_1} \bar{x_3}} \cdot \overline{\bar{x_0} \bar{x_1} x_2} \cdot \overline{\bar{x_0} x_1 \bar{x_3}} \cdot \overline{\bar{x_0} x_1 \bar{x_2}}}$ \\
 	$y^{\text{КНФ}}_g = \overline{\overline{\overline{\overline{(x_0 \vee x_1 \vee x_2) \cdot (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3})}} \cdot (\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)}} =$ \\
 	$= \overline{\overline{(x_0 \vee x_1 \vee x_2)}} \cdot \overline{\overline{(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3})}} \cdot \overline{\overline{(\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)}} =$ \\
 	$= \overline{\bar{x_0} \bar{x_1} \bar{x_2}} \cdot \overline{\bar{x_0} x_1 x_2 x_3} \cdot \overline{x_0 \bar{x_1} x_2 \bar{x_3}}$ \\
 	
-	
 	\subsection{2ИЛИ-НЕ}
+	
+	$y^{\text{ДНФ}}_a = \overline{\overline{\overline{\overline{ \bar{x_0} x_2 \vee \bar{x_1} \bar{x_3} }} \vee \overline{\overline{ x_0 \bar{x_1} \bar{x_2} \vee \bar{x_0} x_1 x_3}} }}$
+	$= \overline{\overline{\bar{x_0} x_2}} \vee \overline{\overline{\bar{x_1} \bar{x_3}}} \vee \overline{\overline{x_0 \bar{x_1} \bar{x_2}}} \vee \overline{\overline{\bar{x_0} x_1 x_3}} =$ \\
+	$= \overline{ x_0 \vee \bar{x_2}} \vee \overline{x_1 \vee x_3} \vee \overline{\bar{x_0} \vee x_1 \vee x_2} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_3}}$ \\
+	$y^{\text{КНФ}}_a = \overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee x_2 \vee x_3)}} =$\\
+	$= \overline{\overline{x_0 \vee x_1 \vee x_2 \vee \bar{x_3}} \vee \overline{x_0 \vee \bar{x_1} \vee x_2 \vee x_3}}$ \\
+	
+	$y^{\text{ДНФ}}_b = \overline{\overline{
+			\overline{\overline{
+					\bar{x_1} x_2 \bar{x_3} \vee \bar{x_0} x_2 x_3
+			}} \vee
+			\overline{\overline{
+					\overline{\overline{
+							\bar{x_0} \bar{x_1} x_3 \vee \bar{x_0} \bar{x_2} \bar{x_3}
+					}} \vee x_0 \bar{x_1} \bar{x_3}
+			}}
+	}} =$ \\
+	$= \overline{\overline{\bar{x_1} x_2 x_3}} \vee \overline{\overline{\bar{x_0} x_2 x_3}} \vee \overline{\overline{\bar{x_0} \bar{x_1} x_3}} \vee \overline{\overline{\bar{x_0} \bar{x_2} \bar{x_3}}} \vee \overline{\overline{x_0 \bar{x_1} \bar{x_3}}} =$ \\
+	$= \overline{x_1 \vee \bar{x_2} \vee x_3} \vee \overline{x_0 \vee \bar{x_2} \vee \bar{x_3}} \vee \overline{x_0 \vee x_1 \vee \bar{x_3}} \vee \overline{x_0 \vee x_2 \vee x_3} \vee \overline{\bar{x_0} \vee x_1 \vee x_3}$ \\
+	$y^{\text{КНФ}}_b = \overline{\overline{(x_0 \vee \bar{x_1} \vee x_2 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee x_3)}}$ \\
+	$= \overline{\overline{x_0 \vee \bar{x_1} \vee x_2 \vee \bar{x_3}} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_2} \vee x_3}}$ \\
+	
+	$y^{\text{ДНФ}}_c =  \overline{\overline{
+			\overline{\overline{
+					\bar{x_0} \bar{x_2} \vee x_0 \bar{x_1} \bar{x_2}
+			}} \vee
+			\overline{\overline{
+					\overline{\overline{
+							x_0 \bar{x_1} \bar{x_3} \vee \bar{x_0} x_2 x_3
+					}} \vee \bar{x_0} x_1 x_2
+			}}
+	}} =$ \\
+	$= \overline{\overline{\bar{x_0} \bar{x_2}}} \vee \overline{\overline{x_0 \bar{x_1} \bar{x_2}}} \vee  \overline{\overline{x_0 \bar{x_1} \bar{x_3}}} \vee  \overline{\overline{\bar{x_0} x_2 x_3}} \vee \overline{\overline{\bar{x_0} x_1 x_2}} =$ \\
+	$= \overline{x_0 \vee x_2} \vee \overline{\bar{x_0} \vee x_1 \vee x_2} \vee \overline{\bar{x_0} \vee x_1 \vee x_3} \vee \overline{x_0 \vee \bar{x_2} \vee \bar{x_3}} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_2}}$ \\
+	$y^{\text{КНФ}}_c = \overline{\overline{x_0 \vee x_1 \vee \bar{x_2} \vee x_3}}$ \\
+	
+	$y^{\text{ДНФ}}_d = \overline{\overline{
+			\overline{\overline{
+					x_0 \bar{x_1} \bar{x_2} \vee \bar{x_0} \bar{x_1} x_2 
+			}} \vee 
+			\overline{\overline{
+					\overline{\overline{
+							\bar{x_0} x_2 \bar{x_3} \vee \bar{x_0} \bar{x_1} \bar{x_3}
+					}} \vee \bar{x_0} x_1 \bar{x_2} x_3
+			}}
+	}} =$ \\
+	$= \overline{\overline{x_0 \bar{x_1} \bar{x_2}}} \vee \overline{\overline{\bar{x_0} \bar{x_1} x_2}} \vee \overline{\overline{\bar{x_0} x_2 \bar{x_3}}} \vee \overline{\overline{\bar{x_0} \bar{x_1} \bar{x_3}}} \vee \overline{\overline{\bar{x_0} x_1 \bar{x_2} x_3}}$ \\
+	$= \overline{\bar{x_0} \vee x_1 \vee x_2} \vee \overline{x_0 \vee x_1 \vee \bar{x_2}} \vee \overline{x_0 \vee \bar{x_2} \vee x_3} \vee \overline{x_0 \vee x_1 \vee x_3} \vee \overline{x_0 \vee \bar{x_1} \vee x_2 \vee \bar{x_3}}$ \\
+	$y^{\text{КНФ}}_d = \overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee x_2 \vee x_3) \cdot (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) \cdot (\bar{x_0} \vee x_1  \vee \bar{x_2} \vee x_3)}} =$ \\
+	$=\overline{\overline{x_0 \vee x_1 \vee x_2 \vee \bar{x_3}} \vee\overline{x_0 \vee \bar{x_1} \vee x_2 \vee x_3} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}} \vee \overline{\bar{x_0} \vee x_1  \vee \bar{x_2} \vee x_3}}$ \\
+	
+	$y^{\text{ДНФ}}_e = \overline{\overline{\bar{x_1} \bar{x_3} \vee \bar{x_0} x_2 \bar{x_3}}} $
+	$= \overline{\overline{\bar{x_1} \bar{x_3}}} \vee \overline{\overline{\bar{x_0} x_2 \bar{x_3}}} $
+	$= \overline{x_1 \vee x_3} \vee \overline{x_0 \vee \bar{x_2} \vee x_3}$ \\
+	$y^{\text{КНФ}}_e = \overline{\overline{(x_0 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee x_2) \cdot (x_1 \vee x_2 \vee \bar{x_3})}}$ \\
+	$= \overline{\overline{x_0 \vee \bar{x_3}} \vee \overline{x_0 \vee \bar{x_1} \vee x_2} \vee \overline{x_1 \vee x_2 \vee \bar{x_3}}}$ \\
+	
+	$y^{\text{ДНФ}}_f = \overline{\overline{
+			\overline{\overline{
+					x_0 \bar{x_1} \bar{x_3} \vee x_0 \bar{x_1} \bar{x_2} 
+			}} \vee
+			\overline{\overline{
+					\overline{\overline{
+							\bar{x_0} \bar{x_2} \bar{x_3} \vee \bar{x_0} x_1 x_3 
+					}} \vee \bar{x_0} x_1 \bar{x_2}
+			}}
+	}} =$ \\
+	$= \overline{\overline{x_0 \bar{x_1} \bar{x_3}}} \vee \overline{\overline{x_0 \bar{x_1} \bar{x_2}}} \vee \overline{\overline{\bar{x_0} \bar{x_2} \bar{x_3}}} \vee \overline{\overline{\bar{x_0} x_1 x_3}} \vee \overline{\overline{\bar{x_0} x_1 \bar{x_2}}}$ \\
+	$= \overline{\bar{x_0} \vee x_1 \vee x_3} \vee \overline{\bar{x_0} \vee x_1 \vee x_2} \vee \overline{x_0 \vee x_2 \vee x_3} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_3}} \vee \overline{x_0 \vee \bar{x_1} \vee x_2}$ \\
+	$y^{\text{КНФ}}_f = \overline{\overline{(x_0 \vee x_1 \vee \bar{x_2}) \cdot (x_0 \vee \bar{x_2} \vee \bar{x_3}) \cdot (x_0 \vee x_1 \vee \bar{x_3})}}$ \\
+	$= \overline{ \overline{x_0 \vee x_1 \vee \bar{x_2}} \vee \overline{x_0 \vee \bar{x_2} \vee \bar{x_3}} \vee \overline{x_0 \vee x_1 \vee \bar{x_3}}}$ \\
+	
+	$y^{\text{ДНФ}}_g = \overline{\overline{\overline{\overline{\bar{x_0} \bar{x_1} \bar{x_3} \vee \bar{x_0} \bar{x_1} x_2}} \vee \overline{\overline{\bar{x_0} x_1 \bar{x_3} \vee \bar{x_0} x_1 \bar{x_2}}}}}$
+	$= \overline{\overline{\bar{x_0} \bar{x_1} \bar{x_3}}} \vee
+	\overline{\overline{\bar{x_0} \bar{x_1} x_2}} \vee
+	\overline{\overline{\bar{x_0} x_1 \bar{x_3}}} \vee
+	\overline{\overline{\bar{x_0} x_1 \bar{x_2}}} $ \\
+	$= \overline{x_0 \vee x_1 \vee x_3} \vee \overline{x_0 \vee x_1 \vee \bar{x_2}} \vee \overline{x_0 \vee \bar{x_1} \vee x_3} \vee \overline{x_0 \vee \bar{x_1} \vee x_2}$ \\
+	$y^{\text{КНФ}}_g = \overline{\overline{(x_0 \vee x_1 \vee x_2) \cdot (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) \cdot (\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)}}$ \\
+	$= \overline{\overline{x_0 \vee x_1 \vee x_2} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}} \vee \overline{\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3}}$ \\
 	
 	\section{Цифровая схема}
 	\chapter{xxx}
