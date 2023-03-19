@@ -22,7 +22,7 @@
 	\chapter{Реализация шифратора для вывода знака на ССИ.}
 	На~рисунке~\ref{img:BCD} пример семисегментного индикатора.
 	
-	\includeimage
+\includeimage
 	{BCD} % Имя файла без расширения (файл должен быть расположен в директории inc/img/)
 	{f} % Обтекание (без обтекания)
 	{h} % Положение рисунка (см. figure из пакета float)
@@ -736,10 +736,15 @@ $(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$ 3	 & 								 &   				   	    					\\
 	
 	\begin{center}
 		$\overline{\overline{A \vee B \vee C \vee D}} =$
-		$|\text{убрали из записи}| = $
-		$\overline{\bar{A} \cdot \bar{B} \cdot \bar{C} \cdot \bar{D}}$ 
-		%$\overline{\overline{\overline{\bar{A} \cdot \bar{B}}} \cdot   \overline{\overline{\bar{C} \cdot \bar{D}}}} =$
+		$\overline{\bar{A} \cdot \bar{B} \cdot \bar{C} \cdot \bar{D}}$ \\
+		$A \vee B \vee C \vee D =$
+		$\overline{\overline{
+				   \overline{\overline{A \vee B}} \vee
+				   \overline{\overline{C \vee D}}
+				}}$
 	\end{center}
+
+	\newpage
 
 	\subsection{2И-НЕ}	
 	$y^{\text{ДНФ}}_a = \overline{\overline{\bar{x_0} x_2 \vee \bar{x_1} \bar{x_3} \vee x_0 \bar{x_1} \bar{x_2} \vee \bar{x_0} x_1 x_2}} =$ \\
@@ -759,9 +764,9 @@ $(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$ 3	 & 								 &   				   	    					\\
 	$y^{\text{КНФ}}_c = \overline{\overline{(x_0 \vee x_1 \vee \bar{x_2} \vee x_3)}} =$ $ \overline{\bar{x_0} \bar{x_1} x_2 \bar{x_3}}$ \\
 	
 	$y^{\text{ДНФ}}_d = \overline{\overline{x_0 \bar{x_1} \bar{x_2} \vee\bar{x_0} \bar{x_1} x_2 \vee\bar{x_0} x_2 \bar{x_3} \vee\bar{x_0} \bar{x_1} \bar{x_3} \vee\bar{x_0} x_1 \bar{x_2} x_3}} =$ \\
-	$\overline{\overline{x_0 \bar{x_1} \bar{x_2}} \vee\overline{\bar{x_0} \bar{x_1} x_2} \vee\overline{\bar{x_0} x_2 \bar{x_3}} \vee\overline{\bar{x_0} \bar{x_1} \bar{x_3}} \vee \overline{\bar{x_0} x_1 \bar{x_2} x_3}}$ \\
-	$y^{\text{КНФ}}_d = \overline{\overline{\overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot(x_0 \vee \bar{x_1} \vee x_2 \vee x_3) \cdot(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3})}} \cdot (\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)}} =$ \\
-	$\overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3})}} \cdot \overline{\overline{(x_0 \vee \bar{x_1} \vee x_2 \vee x_3)}} \cdot\overline{\overline{(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3})}} \cdot \overline{\overline{(\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)}} =$ \\
+	$\overline{\overline{x_0 \bar{x_1} \bar{x_2}} \cdot \overline{\bar{x_0} \bar{x_1} x_2} \cdot \overline{\bar{x_0} x_2 \bar{x_3}} \cdot \overline{\bar{x_0} \bar{x_1} \bar{x_3}} \cdot \overline{\bar{x_0} x_1 \bar{x_2} x_3}}$ \\
+	$y^{\text{КНФ}}_d = \overline{\overline{\overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot(x_0 \vee \bar{x_1} \vee x_2 \vee x_3) \cdot(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3})}} \cdot (\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)}}$ \\
+	$= \overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3})}} \cdot \overline{\overline{(x_0 \vee \bar{x_1} \vee x_2 \vee x_3)}} \cdot\overline{\overline{(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3})}} \cdot \overline{\overline{(\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)}}$ \\
 	$= \overline{\bar{x_0} \bar{x_1} \bar{x_2} x_3} \cdot \overline{\bar{x_0} x_1 \bar{x_2} \bar{x_3}} \cdot \overline{\bar{x_0} x_1 x_2 x_3} \cdot \overline{x_0 \bar{x_1} x_2 \bar{x_3}}$ \\
 	
 	$y^{\text{ДНФ}}_e = \overline{\overline{\bar{x_1} \bar{x_3} \vee \bar{x_0} x_2 \bar{x_3}}} = \overline{\overline{\bar{x_1} \bar{x_3}} \cdot \overline{\bar{x_0} x_2 \bar{x_3}}}$ \\
@@ -770,10 +775,10 @@ $(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$ 3	 & 								 &   				   	    					\\
 	$= \overline{\bar{x_0} x_3} \cdot \overline{\bar{x_0} x_1 \bar{x_2}} \cdot \overline{\bar{x_1} \bar{x_2} x_3}$ \\
 	
 	$y^{\text{ДНФ}}_f = \overline{\overline{x_0 \bar{x_1} \bar{x_3} \vee x_0 \bar{x_1} \bar{x_2} \vee \bar{x_0} \bar{x_2} \bar{x_3} \vee \bar{x_0} x_1 x_2 \vee \bar{x_0} x_1 \bar{x_2}}} =$ \\
-	$= \overline{\overline{x_0 \bar{x_1} \bar{x_3}} \vee \overline{x_0 \bar{x_1} \bar{x_2}} \vee \overline{\bar{x_0} \bar{x_2} \bar{x_3}} \vee \overline{\bar{x_0} x_1 x_3} \vee \overline{\bar{x_0} x_1 \bar{x_2}}}$ \\
+	$= \overline{\overline{x_0 \bar{x_1} \bar{x_3}} \cdot \overline{x_0 \bar{x_1} \bar{x_2}} \cdot \overline{\bar{x_0} \bar{x_2} \bar{x_3}} \cdot \overline{\bar{x_0} x_1 x_3} \cdot \overline{\bar{x_0} x_1 \bar{x_2}}}$ \\
 	$y^{\text{КНФ}}_f = \overline{\overline{\overline{\overline{(x_0 \vee x_1 \vee \bar{x_2}) \cdot(x_0 \vee \bar{x_2} \vee \bar{x_3})}} \cdot (x_0 \vee x_1 \vee \bar{x_3})}} =$ \\
 	$= \overline{\overline{(x_0 \vee x_1 \vee \bar{x_2})}} \cdot \overline{\overline{(x_0 \vee \bar{x_2} \vee \bar{x_3})}} \cdot \overline{\overline{(x_0 \vee x_1 \vee \bar{x_3})}}$
-	$= \overline{\bar{x_0} \bar{x_1} x_2} \cdot \overline{\bar{x_0} x_2 x_3} \cdot \overline{\bar{x_0} \bar{x_1} \bar{x_3}}$ \\
+	$= \overline{\bar{x_0} \bar{x_1} x_2} \cdot \overline{\bar{x_0} x_2 x_3} \cdot \overline{\bar{x_0} \bar{x_1} x_3}$ \\
 	
 	$y^{\text{ДНФ}}_g = \overline{\overline{x_0 \bar{x_1} \bar{x_3} \vee \bar{x_0} \bar{x_1} x_2 \vee \bar{x_0} x_1 \bar{x_3} \vee \bar{x_0} x_1 \bar{x_2}}}$
 	$= \overline{\overline{x_0 \bar{x_1} \bar{x_3}} \cdot \overline{\bar{x_0} \bar{x_1} x_2} \cdot \overline{\bar{x_0} x_1 \bar{x_3}} \cdot \overline{\bar{x_0} x_1 \bar{x_2}}}$ \\
@@ -864,7 +869,131 @@ $(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$ 3	 & 								 &   				   	    					\\
 	$= \overline{\overline{x_0 \vee x_1 \vee x_2} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}} \vee \overline{\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3}}$ \\
 	
 	\section{Цифровая схема}
-	\chapter{xxx}
+	Все схемы строились через КНФ.
+	
+	\includeimage
+	{a_circuit}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема для светодиода А.} % Подпись рисунка
+	\includeimage
+	{a_waveform}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Сигнал на светодиоде А.} % Подпись рисунка
+	
+	\includeimage
+	{b_circuit}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема для светодиода B.} % Подпись рисунка
+	\includeimage
+	{b_waveform}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Сигнал на светодиоде B.} % Подпись рисунка
+	
+	\includeimage
+	{c_circuit}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема для светодиода C.} % Подпись рисунка
+	\includeimage
+	{c_waveform}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Сигнал на светодиоде C.} % Подпись рисунка
+	
+	\includeimage
+	{d_circuit}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема для светодиода D.} % Подпись рисунка
+	\includeimage
+	{d_waveform}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Сигнал на светодиоде D.} % Подпись рисунка
+	
+	\includeimage
+	{e_circuit}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема для светодиода E.} % Подпись рисунка
+	\includeimage
+	{e_waveform}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Сигнал на светодиоде E.} % Подпись рисунка
+	
+	\includeimage
+	{f_circuit}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема для светодиода F.} % Подпись рисунка
+	\includeimage
+	{f_waveform}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Сигнал на светодиоде F.} % Подпись рисунка
+	
+	\includeimage
+	{g_circuit}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема для светодиода G.} % Подпись рисунка
+	\includeimage
+	{g_waveform}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Сигнал на светодиоде G.} % Подпись рисунка
+	
+	\includeimage
+	{bcd_circuit}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема для светодиода BSD.} % Подпись рисунка
+	\includeimage
+	{bcd_waveform}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Сигнал на BSD.} % Подпись рисунка
+	
+	
+	\chapter{Счётчик с коэффициентом счёта 6.}
+	
+	\includeimage
+	{two_circuit}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема декодера для цифры 2.} % Подпись рисунка
+	\includeimage
+	{two_waveform}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Вывод декодера для цифры 2.} % Подпись рисунка
+	
+	\chapter{Преобразователь кода, на выходе которого формируется
+			 последовательность бинарных чисел соответствующая цифрам
+			 студенческого билета.}
 	
 	
 	
