@@ -1,6 +1,6 @@
 |counter
 A <= BCD:inst2.A
-START => CNT:inst.C
+START => VD2_20:inst3.START
 B <= BCD:inst2.B
 C <= BCD:inst2.C
 D <= BCD:inst2.D
@@ -229,5 +229,149 @@ C => inst11.IN0
 C => inst11.IN1
 Q1 <= inst1.DB_MAX_OUTPUT_PORT_TYPE
 Q2 <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|counter|VD2_20:inst3
+OUT2 <= my_dff:inst.Q
+START => my_dff:inst.C
+OUT4 <= my_dff:inst1.Q
+OUT8 <= my_dff:inst3.Q
+OUT16 <= my_dff:inst2.Q
+OUT32 <= my_dff:inst4.Q
+OUT64 <= my_dff:inst5.Q
+OUT128 <= my_dff:inst6.Q
+OUT256 <= my_dff:inst7.Q
+OUT512 <= my_dff:inst8.Q
+OUT1024 <= my_dff:inst9.Q
+OUT2048 <= my_dff:inst10.Q
+OUT4096 <= my_dff:inst11.Q
+OUT8192 <= my_dff:inst12.Q
+OUT16384 <= my_dff:inst13.Q
+OUT32768 <= my_dff:inst14.Q
+OUT65536 <= my_dff:inst15.Q
+OUT131072 <= my_dff:inst16.Q
+OUT262144 <= my_dff:inst17.Q
+OUT524288 <= my_dff:inst18.Q
+OUT1048576 <= my_dff:inst19.Q
+
+
+|counter|VD2_20:inst3|my_dff:inst
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst1
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst3
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst2
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst4
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst5
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst6
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst7
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst8
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst9
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst10
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst11
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst12
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst13
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst14
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst15
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst16
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst17
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst18
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
+
+
+|counter|VD2_20:inst3|my_dff:inst19
+Q <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+C => inst11.IN0
+C => inst11.IN1
 
 
