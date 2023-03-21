@@ -1,0 +1,185 @@
+------------------------------------------------------------
+TimeQuest Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1200mV 85C Model Setup 'START'
+Slack : -0.135
+TNS   : -0.135
+
+Type  : Slow 1200mV 85C Model Setup 'CNT:inst|inst2'
+Slack : 0.169
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Setup 'CNT:inst|inst1'
+Slack : 0.317
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'CNT:inst|inst2'
+Slack : 0.145
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'START'
+Slack : 0.268
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'CNT:inst|inst1'
+Slack : 0.384
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Recovery 'CNT:inst|inst2'
+Slack : -1.078
+TNS   : -1.078
+
+Type  : Slow 1200mV 85C Model Recovery 'CNT:inst|inst1'
+Slack : -0.876
+TNS   : -0.876
+
+Type  : Slow 1200mV 85C Model Recovery 'START'
+Slack : 0.269
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Removal 'START'
+Slack : -1.088
+TNS   : -1.088
+
+Type  : Slow 1200mV 85C Model Removal 'CNT:inst|inst1'
+Slack : 0.151
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Removal 'CNT:inst|inst2'
+Slack : 0.334
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'START'
+Slack : -3.000
+TNS   : -4.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'CNT:inst|inst1'
+Slack : -1.000
+TNS   : -1.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'CNT:inst|inst2'
+Slack : -1.000
+TNS   : -1.000
+
+Type  : Slow 1200mV 0C Model Setup 'START'
+Slack : -0.077
+TNS   : -0.077
+
+Type  : Slow 1200mV 0C Model Setup 'CNT:inst|inst2'
+Slack : 0.191
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'CNT:inst|inst1'
+Slack : 0.398
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'CNT:inst|inst2'
+Slack : 0.138
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'START'
+Slack : 0.238
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'CNT:inst|inst1'
+Slack : 0.341
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Recovery 'CNT:inst|inst2'
+Slack : -0.854
+TNS   : -0.854
+
+Type  : Slow 1200mV 0C Model Recovery 'CNT:inst|inst1'
+Slack : -0.674
+TNS   : -0.674
+
+Type  : Slow 1200mV 0C Model Recovery 'START'
+Slack : 0.380
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Removal 'START'
+Slack : -1.007
+TNS   : -1.007
+
+Type  : Slow 1200mV 0C Model Removal 'CNT:inst|inst1'
+Slack : 0.148
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Removal 'CNT:inst|inst2'
+Slack : 0.299
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'START'
+Slack : -3.000
+TNS   : -4.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'CNT:inst|inst1'
+Slack : -1.000
+TNS   : -1.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'CNT:inst|inst2'
+Slack : -1.000
+TNS   : -1.000
+
+Type  : Fast 1200mV 0C Model Setup 'CNT:inst|inst2'
+Slack : 0.352
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'START'
+Slack : 0.411
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'CNT:inst|inst1'
+Slack : 0.624
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'START'
+Slack : -0.143
+TNS   : -0.143
+
+Type  : Fast 1200mV 0C Model Hold 'CNT:inst|inst2'
+Slack : 0.043
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'CNT:inst|inst1'
+Slack : 0.206
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Recovery 'CNT:inst|inst2'
+Slack : -0.184
+TNS   : -0.184
+
+Type  : Fast 1200mV 0C Model Recovery 'CNT:inst|inst1'
+Slack : -0.062
+TNS   : -0.062
+
+Type  : Fast 1200mV 0C Model Recovery 'START'
+Slack : 0.840
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Removal 'START'
+Slack : -0.914
+TNS   : -0.914
+
+Type  : Fast 1200mV 0C Model Removal 'CNT:inst|inst1'
+Slack : 0.049
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Removal 'CNT:inst|inst2'
+Slack : 0.171
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'START'
+Slack : -3.000
+TNS   : -4.125
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'CNT:inst|inst1'
+Slack : -1.000
+TNS   : -1.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'CNT:inst|inst2'
+Slack : -1.000
+TNS   : -1.000
+
+------------------------------------------------------------
