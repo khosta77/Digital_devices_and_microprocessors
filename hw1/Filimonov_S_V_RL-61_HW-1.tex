@@ -869,7 +869,9 @@ $(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$ 3	 & 								 &   				   	    					\\
 	$= \overline{\overline{x_0 \vee x_1 \vee x_2} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}} \vee \overline{\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3}}$ \\
 	
 	\section{Цифровая схема}
-	Все схемы строились через КНФ.
+	\begin{flushleft}
+		Все схемы строились через КНФ.
+	\end{flushleft}
 	
 	\includeimage
 	{a_circuit}
@@ -977,20 +979,95 @@ $(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$ 3	 & 								 &   				   	    					\\
 	
 	
 	\chapter{Счётчик с коэффициентом счёта 6.}
+	\section{Декодер номера билета.}
+	\begin{flushleft}
+		Для начала построим декодер для билет под номером 20L274.
+	\end{flushleft}
+
+	\begin{center}
+		\begin{tabular}{ |c||c|c|c||c|c|c|c| } 
+			\hline
+			Символ & $a_0$ & $a_1$ & $a_2$ & $x_0$ & $x_1$ & $x_2$ & $x_3$ \\
+			\hline
+			2 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+			0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\ 
+			Л & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\ 
+			2 & 0 & 1 & 1 & 0 & 0 & 1 & 0 \\ 
+			7 & 1 & 0 & 0 & 0 & 1 & 1 & 1 \\ 
+			4 & 1 & 0 & 1 & 0 & 1 & 0 & 0 \\  
+			\hline
+		\end{tabular}
+	\end{center}
 	
-	\includeimage
-	{two_circuit}
-	{f} % Обтекание (без обтекания)
-	{h} % Положение рисунка (см. figure из пакета float)
-	{1.0\textwidth} % Ширина рисунка
-	{Схема декодера для цифры 2.} % Подпись рисунка
-	\includeimage
-	{two_waveform}
-	{f} % Обтекание (без обтекания)
-	{h} % Положение рисунка (см. figure из пакета float)
-	{1.0\textwidth} % Ширина рисунка
-	{Вывод декодера для цифры 2.} % Подпись рисунка
+	$x_0^{\text{СДНФ}} = \bar{a_0} a_1 \bar{a_2}$ \\
+	$x_1^{\text{СДНФ}} = a_0 \bar{a_1} \bar{a_2} \vee a_0 \bar{a_1} a_2$ \\
+	$x_2^{\text{СДНФ}} = \bar{a_0} \bar{a_1} \bar{a_2} \vee \bar{a_0} a_1 \bar{a_2} \vee \bar{a_0} a_1 a_2 \vee a_0 \bar{a_1} \bar{a_2}$ \\
+	$x_3^{\text{СДНФ}} = a_0 \bar{a_1} \bar{a_2}$ \\
 	
+	\begin{flushleft}
+		Переведем в 2И-НЕ: 
+	\end{flushleft}
+	
+	$x_0^{\text{ДНФ}} = \overline{\overline{\bar{a_0} a_1 \bar{a_2}}}$ \\
+	$x_1^{\text{ДНФ}} = \overline{\overline{a_0 \bar{a_1} \bar{a_2} \vee a_0 \bar{a_1} a_2}} =$ $\overline{\overline{a_0 \bar{a_1} \bar{a_2}} \cdot \overline{a_0 \bar{a_1} a_2}}$ \\
+	$x_2^{\text{ДНФ}} = \overline{\overline{\bar{a_0} \bar{a_1} \bar{a_2} \vee \bar{a_0} a_1 \bar{a_2} \vee \bar{a_0} a_1 a_2 \vee a_0 \bar{a_1} \bar{a_2}}} =$
+	$\overline{\overline{\bar{a_0} \bar{a_1} \bar{a_2}} \cdot \overline{\bar{a_0} a_1 \bar{a_2}} \cdot \overline{\bar{a_0} a_1 a_2} \cdot \overline{a_0 \bar{a_1} \bar{a_2}}}$ \\
+	$x_0^{\text{ДНФ}} = \overline{\overline{a_0 \bar{a_1} \bar{a_2}}}$ \\
+
+	\includeimage
+	{decoder_20L274_circuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема декодера для студенческого билета 20L274.} % Подпись рисунка
+
+	\includeimage
+	{decoder_20L274_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Вывод декодера для студенческого билета 20L274.} % Подпись рисунка
+	
+	\section{Счётчик для 6 знаков.}
+	\begin{flushleft}
+		Построим счётчик для 6 знаков.
+	\end{flushleft}
+
+	\includeimage
+	{CNT_citcuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема счётчика на D-триггерах для 6 знаков.} % Подпись рисунка
+
+	\includeimage
+	{CNT_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Вывод счётчика на D-триггерах для 6 знаков.} % Подпись рисунка
+	
+	\begin{flushleft}
+		Как~видно~из~графика~\ref{img:CNT_waveform}, как только значение доходит
+		до 1 1 0 происходит сброс значений. Пострим финальную схему для вывода
+		номера билета.
+	\end{flushleft}
+
+	\section{Общая схема.}
+	\includeimage
+	{counter_circuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема вывода билета.} % Подпись рисунка
+
+	\includeimage
+	{counter_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Вывод вывода билета.} % Подпись рисунка
+
 	\chapter{Преобразователь кода, на выходе которого формируется
 			 последовательность бинарных чисел соответствующая цифрам
 			 студенческого билета.}
