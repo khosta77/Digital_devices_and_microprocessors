@@ -36,9 +36,9 @@
 # -------------------------------------------------------------------------- #
 
 
-set_global_assignment -name FAMILY "Cyclone IV GX"
-set_global_assignment -name DEVICE auto
-set_global_assignment -name TOP_LEVEL_ENTITY VD2_20
+set_global_assignment -name FAMILY "Cyclone IV E"
+set_global_assignment -name DEVICE EP4CE6F17C8
+set_global_assignment -name TOP_LEVEL_ENTITY counter
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "22:04:00  MARCH 19, 2023"
 set_global_assignment -name LAST_QUARTUS_VERSION "13.0 SP1"
@@ -65,8 +65,24 @@ set_global_assignment -name VECTOR_WAVEFORM_FILE counter_waveform.vwf
 set_global_assignment -name BDF_FILE my_dff.bdf
 set_global_assignment -name BDF_FILE VD2_20.bdf
 set_global_assignment -name VECTOR_WAVEFORM_FILE VD2_20_waveform.vwf
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_location_assignment PIN_D1 -to "LED-A"
+set_location_assignment PIN_F3 -to "LED-B"
+set_location_assignment PIN_F2 -to "LED-C"
+set_location_assignment PIN_F1 -to "LED-D"
+set_location_assignment PIN_G2 -to "LED-E"
+set_location_assignment PIN_G1 -to "LED-F"
+set_location_assignment PIN_E7 -to "LED-G"
+set_location_assignment PIN_E1 -to START
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE "D:/hw_circuit/counter_waveform.vwf"
+set_location_assignment PIN_G5 -to U2_138_select
+set_location_assignment PIN_J1 -to U3_138_select
+set_location_assignment PIN_F8 -to A0
+set_location_assignment PIN_L4 -to A1
+set_location_assignment PIN_L3 -to A2
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
-set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE "D:/hw_circuit/VD2_20_waveform.vwf"

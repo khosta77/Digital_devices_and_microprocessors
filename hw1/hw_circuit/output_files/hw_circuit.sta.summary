@@ -2,784 +2,784 @@
 TimeQuest Timing Analyzer Summary
 ------------------------------------------------------------
 
-Type  : Slow 1200mV 85C Model Setup 'START'
-Slack : -0.051
-TNS   : -0.051
+Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst6|inst2'
+Slack : -0.215
+TNS   : -0.215
+
+Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst16|inst2'
+Slack : -0.127
+TNS   : -0.127
 
 Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst19|inst2'
-Slack : 0.014
-TNS   : 0.000
+Slack : -0.123
+TNS   : -0.123
 
-Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst5|inst2'
-Slack : 0.072
-TNS   : 0.000
+Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst17|inst2'
+Slack : -0.047
+TNS   : -0.047
 
-Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst2|inst2'
-Slack : 0.081
+Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst1|inst2'
+Slack : -0.047
+TNS   : -0.047
+
+Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst13|inst2'
+Slack : 0.050
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst11|inst2'
-Slack : 0.083
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst13|inst2'
-Slack : 0.083
+Slack : 0.059
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst9|inst2'
-Slack : 0.083
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst1|inst2'
-Slack : 0.090
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst7|inst2'
-Slack : 0.090
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst15|inst2'
-Slack : 0.105
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst16|inst2'
-Slack : 0.123
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst10|inst2'
-Slack : 0.125
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst12|inst2'
-Slack : 0.125
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst8|inst2'
-Slack : 0.125
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst17|inst2'
-Slack : 0.126
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst3|inst2'
-Slack : 0.126
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst14|inst2'
-Slack : 0.127
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst4|inst2'
-Slack : 0.128
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst|inst2'
-Slack : 0.151
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst6|inst2'
-Slack : 0.157
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst18|inst2'
-Slack : 0.172
+Slack : 0.086
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Setup 'CNT:inst|inst2'
-Slack : 0.193
+Slack : 0.106
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Setup 'CNT:inst|inst1'
-Slack : 0.317
+Slack : 0.114
 TNS   : 0.000
 
-Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst15|inst2'
-Slack : -0.014
-TNS   : -0.014
-
-Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst5|inst2'
-Slack : 0.020
+Type  : Slow 1200mV 85C Model Setup 'START'
+Slack : 0.130
 TNS   : 0.000
 
-Type  : Slow 1200mV 85C Model Hold 'START'
-Slack : 0.025
+Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst3|inst2'
+Slack : 0.144
 TNS   : 0.000
 
-Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst14|inst2'
-Slack : 0.042
+Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst14|inst2'
+Slack : 0.147
 TNS   : 0.000
 
-Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst4|inst2'
-Slack : 0.042
+Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst15|inst2'
+Slack : 0.178
 TNS   : 0.000
 
-Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst17|inst2'
-Slack : 0.043
+Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst18|inst2'
+Slack : 0.178
 TNS   : 0.000
 
-Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst3|inst2'
-Slack : 0.043
+Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst10|inst2'
+Slack : 0.187
 TNS   : 0.000
 
-Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst10|inst2'
-Slack : 0.044
+Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst5|inst2'
+Slack : 0.187
 TNS   : 0.000
 
-Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst12|inst2'
-Slack : 0.044
+Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst2|inst2'
+Slack : 0.194
 TNS   : 0.000
 
-Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst8|inst2'
-Slack : 0.044
+Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst|inst2'
+Slack : 0.201
 TNS   : 0.000
 
-Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst1|inst2'
-Slack : 0.062
+Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst7|inst2'
+Slack : 0.209
 TNS   : 0.000
 
-Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst7|inst2'
-Slack : 0.062
+Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst4|inst2'
+Slack : 0.213
 TNS   : 0.000
 
-Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst11|inst2'
-Slack : 0.070
+Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst12|inst2'
+Slack : 0.221
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Setup 'VD2_20:inst3|my_dff:inst8|inst2'
+Slack : 0.270
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst9|inst2'
-Slack : 0.070
-TNS   : 0.000
+Slack : -0.040
+TNS   : -0.040
+
+Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst8|inst2'
+Slack : -0.035
+TNS   : -0.035
+
+Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst11|inst2'
+Slack : -0.032
+TNS   : -0.032
 
 Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst13|inst2'
-Slack : 0.071
+Slack : 0.009
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst2|inst2'
-Slack : 0.073
+Slack : 0.010
 TNS   : 0.000
 
-Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst6|inst2'
-Slack : 0.083
+Type  : Slow 1200mV 85C Model Hold 'START'
+Slack : 0.036
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst12|inst2'
+Slack : 0.036
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst4|inst2'
+Slack : 0.045
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst7|inst2'
+Slack : 0.048
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst17|inst2'
+Slack : 0.052
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst1|inst2'
+Slack : 0.052
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst14|inst2'
+Slack : 0.054
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst|inst2'
-Slack : 0.088
+Slack : 0.054
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst3|inst2'
+Slack : 0.061
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst10|inst2'
+Slack : 0.064
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst5|inst2'
+Slack : 0.064
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst15|inst2'
+Slack : 0.072
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst18|inst2'
-Slack : 0.111
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Hold 'CNT:inst|inst2'
-Slack : 0.122
+Slack : 0.072
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst16|inst2'
-Slack : 0.164
+Slack : 0.107
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'CNT:inst|inst2'
+Slack : 0.180
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst6|inst2'
+Slack : 0.193
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'VD2_20:inst3|my_dff:inst19|inst2'
-Slack : 0.188
+Slack : 0.281
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'CNT:inst|inst1'
-Slack : 0.384
+Slack : 0.497
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Recovery 'CNT:inst|inst2'
-Slack : -1.091
-TNS   : -1.091
+Slack : -2.011
+TNS   : -2.011
 
 Type  : Slow 1200mV 85C Model Recovery 'CNT:inst|inst1'
-Slack : -1.034
-TNS   : -1.034
+Slack : -1.779
+TNS   : -1.779
 
 Type  : Slow 1200mV 85C Model Recovery 'VD2_20:inst3|my_dff:inst19|inst2'
-Slack : -0.738
-TNS   : -0.738
+Slack : -1.552
+TNS   : -1.552
 
 Type  : Slow 1200mV 85C Model Removal 'VD2_20:inst3|my_dff:inst19|inst2'
-Slack : -0.120
-TNS   : -0.120
+Slack : -0.033
+TNS   : -0.033
 
 Type  : Slow 1200mV 85C Model Removal 'CNT:inst|inst1'
-Slack : 0.217
+Slack : 0.234
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Removal 'CNT:inst|inst2'
-Slack : 0.248
+Slack : 0.446
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'START'
 Slack : -3.000
-TNS   : -4.000
+TNS   : -4.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'CNT:inst|inst1'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'CNT:inst|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst10|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst11|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst12|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst13|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst14|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst15|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst16|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst17|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst18|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst19|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst1|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst2|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst3|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst4|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst5|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst6|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst7|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst8|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst9|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
-Type  : Slow 1200mV 0C Model Setup 'START'
-Slack : 0.020
-TNS   : 0.000
+Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst6|inst2'
+Slack : -0.185
+TNS   : -0.185
 
 Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst19|inst2'
-Slack : 0.061
-TNS   : 0.000
+Slack : -0.102
+TNS   : -0.102
 
-Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst5|inst2'
-Slack : 0.117
-TNS   : 0.000
+Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst16|inst2'
+Slack : -0.099
+TNS   : -0.099
 
-Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst2|inst2'
-Slack : 0.129
-TNS   : 0.000
+Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst1|inst2'
+Slack : -0.014
+TNS   : -0.014
+
+Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst17|inst2'
+Slack : -0.013
+TNS   : -0.013
 
 Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst11|inst2'
-Slack : 0.130
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst9|inst2'
-Slack : 0.130
+Slack : 0.045
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst13|inst2'
-Slack : 0.131
+Slack : 0.056
 TNS   : 0.000
 
-Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst1|inst2'
-Slack : 0.136
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst7|inst2'
-Slack : 0.136
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst15|inst2'
-Slack : 0.151
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst16|inst2'
-Slack : 0.151
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst10|inst2'
-Slack : 0.166
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst12|inst2'
-Slack : 0.166
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst8|inst2'
-Slack : 0.166
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst17|inst2'
-Slack : 0.168
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst3|inst2'
-Slack : 0.168
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst14|inst2'
-Slack : 0.170
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst4|inst2'
-Slack : 0.170
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst|inst2'
-Slack : 0.193
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst18|inst2'
-Slack : 0.196
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst6|inst2'
-Slack : 0.197
+Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst9|inst2'
+Slack : 0.090
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Setup 'CNT:inst|inst2'
-Slack : 0.225
+Slack : 0.119
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst3|inst2'
+Slack : 0.133
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst14|inst2'
+Slack : 0.137
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'START'
+Slack : 0.175
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst2|inst2'
+Slack : 0.177
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst15|inst2'
+Slack : 0.190
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst18|inst2'
+Slack : 0.190
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst10|inst2'
+Slack : 0.198
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst5|inst2'
+Slack : 0.198
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Setup 'CNT:inst|inst1'
-Slack : 0.398
+Slack : 0.210
 TNS   : 0.000
 
-Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst15|inst2'
-Slack : -0.012
-TNS   : -0.012
-
-Type  : Slow 1200mV 0C Model Hold 'START'
-Slack : 0.008
+Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst|inst2'
+Slack : 0.210
 TNS   : 0.000
 
-Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst5|inst2'
-Slack : 0.020
+Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst7|inst2'
+Slack : 0.216
 TNS   : 0.000
 
-Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst14|inst2'
-Slack : 0.039
+Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst4|inst2'
+Slack : 0.219
 TNS   : 0.000
 
-Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst17|inst2'
-Slack : 0.039
+Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst12|inst2'
+Slack : 0.224
 TNS   : 0.000
 
-Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst4|inst2'
-Slack : 0.039
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst10|inst2'
-Slack : 0.041
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst12|inst2'
-Slack : 0.041
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst3|inst2'
-Slack : 0.041
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst8|inst2'
-Slack : 0.041
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst1|inst2'
-Slack : 0.060
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst7|inst2'
-Slack : 0.060
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst11|inst2'
-Slack : 0.066
+Type  : Slow 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst8|inst2'
+Slack : 0.264
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst9|inst2'
-Slack : 0.066
+Slack : -0.014
+TNS   : -0.014
+
+Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst11|inst2'
+Slack : 0.003
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst8|inst2'
+Slack : 0.015
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'START'
+Slack : 0.028
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst13|inst2'
-Slack : 0.067
+Slack : 0.032
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst2|inst2'
-Slack : 0.069
+Slack : 0.052
 TNS   : 0.000
 
-Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst6|inst2'
-Slack : 0.083
+Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst14|inst2'
+Slack : 0.060
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst17|inst2'
+Slack : 0.065
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst3|inst2'
+Slack : 0.065
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst1|inst2'
+Slack : 0.066
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst12|inst2'
+Slack : 0.067
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst4|inst2'
+Slack : 0.074
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst7|inst2'
+Slack : 0.076
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst|inst2'
-Slack : 0.084
+Slack : 0.083
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst10|inst2'
+Slack : 0.092
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst5|inst2'
+Slack : 0.092
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst15|inst2'
+Slack : 0.102
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst18|inst2'
-Slack : 0.112
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Hold 'CNT:inst|inst2'
-Slack : 0.120
+Slack : 0.102
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst16|inst2'
-Slack : 0.160
+Slack : 0.131
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'CNT:inst|inst2'
+Slack : 0.209
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst6|inst2'
+Slack : 0.214
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst19|inst2'
-Slack : 0.182
+Slack : 0.313
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'CNT:inst|inst1'
-Slack : 0.341
+Slack : 0.447
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Recovery 'CNT:inst|inst2'
-Slack : -0.869
-TNS   : -0.869
+Slack : -1.710
+TNS   : -1.710
 
 Type  : Slow 1200mV 0C Model Recovery 'CNT:inst|inst1'
-Slack : -0.820
-TNS   : -0.820
+Slack : -1.576
+TNS   : -1.576
 
 Type  : Slow 1200mV 0C Model Recovery 'VD2_20:inst3|my_dff:inst19|inst2'
-Slack : -0.552
-TNS   : -0.552
+Slack : -1.290
+TNS   : -1.290
 
 Type  : Slow 1200mV 0C Model Removal 'VD2_20:inst3|my_dff:inst19|inst2'
-Slack : -0.111
-TNS   : -0.111
+Slack : -0.027
+TNS   : -0.027
 
 Type  : Slow 1200mV 0C Model Removal 'CNT:inst|inst1'
-Slack : 0.206
+Slack : 0.227
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Removal 'CNT:inst|inst2'
-Slack : 0.219
+Slack : 0.410
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'START'
 Slack : -3.000
-TNS   : -4.000
+TNS   : -4.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'CNT:inst|inst1'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'CNT:inst|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst10|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst11|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst12|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst13|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst14|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst15|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst16|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst17|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst18|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst19|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst1|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst2|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst3|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst4|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst5|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst6|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst7|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst8|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst9|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'VD2_20:inst3|my_dff:inst|inst2'
-Slack : -1.000
-TNS   : -1.000
+Slack : -1.487
+TNS   : -1.487
 
-Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst19|inst2'
-Slack : 0.287
+Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst6|inst2'
+Slack : 0.256
 TNS   : 0.000
 
-Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst2|inst2'
-Slack : 0.294
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst11|inst2'
-Slack : 0.295
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst9|inst2'
-Slack : 0.295
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst13|inst2'
-Slack : 0.296
+Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst17|inst2'
+Slack : 0.300
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst1|inst2'
 Slack : 0.300
 TNS   : 0.000
 
-Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst7|inst2'
-Slack : 0.300
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst5|inst2'
-Slack : 0.306
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst10|inst2'
-Slack : 0.318
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst12|inst2'
-Slack : 0.318
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst8|inst2'
-Slack : 0.318
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst3|inst2'
-Slack : 0.319
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst17|inst2'
-Slack : 0.320
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst|inst2'
-Slack : 0.320
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst14|inst2'
-Slack : 0.321
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst4|inst2'
-Slack : 0.321
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst6|inst2'
-Slack : 0.322
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst15|inst2'
-Slack : 0.325
-TNS   : 0.000
-
 Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst16|inst2'
-Slack : 0.335
+Slack : 0.311
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst19|inst2'
+Slack : 0.341
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst13|inst2'
+Slack : 0.356
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst9|inst2'
+Slack : 0.378
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Setup 'CNT:inst|inst2'
-Slack : 0.359
+Slack : 0.387
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst15|inst2'
+Slack : 0.399
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst18|inst2'
-Slack : 0.361
+Slack : 0.399
 TNS   : 0.000
 
-Type  : Fast 1200mV 0C Model Setup 'START'
-Slack : 0.454
+Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst10|inst2'
+Slack : 0.401
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst5|inst2'
+Slack : 0.401
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst|inst2'
+Slack : 0.411
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst7|inst2'
+Slack : 0.412
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst4|inst2'
+Slack : 0.413
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst11|inst2'
+Slack : 0.414
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst12|inst2'
+Slack : 0.419
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst3|inst2'
+Slack : 0.419
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst14|inst2'
+Slack : 0.424
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst8|inst2'
+Slack : 0.446
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'VD2_20:inst3|my_dff:inst2|inst2'
+Slack : 0.459
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Setup 'CNT:inst|inst1'
 Slack : 0.624
 TNS   : 0.000
 
+Type  : Fast 1200mV 0C Model Setup 'START'
+Slack : 0.744
+TNS   : 0.000
+
 Type  : Fast 1200mV 0C Model Hold 'START'
-Slack : -0.276
-TNS   : -0.276
-
-Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst15|inst2'
-Slack : -0.059
-TNS   : -0.059
-
-Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst5|inst2'
-Slack : -0.035
-TNS   : -0.035
-
-Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst14|inst2'
-Slack : 0.000
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst4|inst2'
-Slack : 0.000
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst17|inst2'
-Slack : 0.001
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst3|inst2'
-Slack : 0.002
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst10|inst2'
-Slack : 0.003
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst12|inst2'
-Slack : 0.003
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst8|inst2'
-Slack : 0.003
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst1|inst2'
-Slack : 0.009
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst7|inst2'
-Slack : 0.009
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst13|inst2'
-Slack : 0.013
-TNS   : 0.000
+Slack : -0.419
+TNS   : -0.419
 
 Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst11|inst2'
-Slack : 0.014
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst9|inst2'
-Slack : 0.014
-TNS   : 0.000
+Slack : -0.108
+TNS   : -0.108
 
 Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst2|inst2'
-Slack : 0.015
-TNS   : 0.000
+Slack : -0.090
+TNS   : -0.090
 
-Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst6|inst2'
-Slack : 0.015
-TNS   : 0.000
+Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst8|inst2'
+Slack : -0.072
+TNS   : -0.072
 
-Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst18|inst2'
-Slack : 0.017
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'CNT:inst|inst2'
-Slack : 0.020
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst|inst2'
-Slack : 0.021
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst19|inst2'
-Slack : 0.039
-TNS   : 0.000
+Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst9|inst2'
+Slack : -0.064
+TNS   : -0.064
 
 Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst16|inst2'
-Slack : 0.045
+Slack : -0.044
+TNS   : -0.044
+
+Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst13|inst2'
+Slack : -0.039
+TNS   : -0.039
+
+Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst12|inst2'
+Slack : -0.037
+TNS   : -0.037
+
+Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst|inst2'
+Slack : -0.032
+TNS   : -0.032
+
+Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst4|inst2'
+Slack : -0.031
+TNS   : -0.031
+
+Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst7|inst2'
+Slack : -0.031
+TNS   : -0.031
+
+Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst14|inst2'
+Slack : -0.025
+TNS   : -0.025
+
+Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst10|inst2'
+Slack : -0.024
+TNS   : -0.024
+
+Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst5|inst2'
+Slack : -0.024
+TNS   : -0.024
+
+Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst1|inst2'
+Slack : -0.023
+TNS   : -0.023
+
+Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst17|inst2'
+Slack : -0.022
+TNS   : -0.022
+
+Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst15|inst2'
+Slack : -0.020
+TNS   : -0.020
+
+Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst18|inst2'
+Slack : -0.020
+TNS   : -0.020
+
+Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst3|inst2'
+Slack : -0.020
+TNS   : -0.020
+
+Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst19|inst2'
+Slack : -0.014
+TNS   : -0.014
+
+Type  : Fast 1200mV 0C Model Hold 'CNT:inst|inst2'
+Slack : -0.011
+TNS   : -0.011
+
+Type  : Fast 1200mV 0C Model Hold 'VD2_20:inst3|my_dff:inst6|inst2'
+Slack : 0.012
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Hold 'CNT:inst|inst1'
@@ -787,32 +787,32 @@ Slack : 0.206
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Recovery 'CNT:inst|inst2'
-Slack : -0.180
-TNS   : -0.180
+Slack : -0.352
+TNS   : -0.352
 
 Type  : Fast 1200mV 0C Model Recovery 'CNT:inst|inst1'
-Slack : -0.149
-TNS   : -0.149
+Slack : -0.244
+TNS   : -0.244
 
 Type  : Fast 1200mV 0C Model Recovery 'VD2_20:inst3|my_dff:inst19|inst2'
-Slack : 0.039
-TNS   : 0.000
+Slack : -0.107
+TNS   : -0.107
 
 Type  : Fast 1200mV 0C Model Removal 'VD2_20:inst3|my_dff:inst19|inst2'
-Slack : -0.103
-TNS   : -0.103
+Slack : -0.075
+TNS   : -0.075
 
 Type  : Fast 1200mV 0C Model Removal 'CNT:inst|inst1'
-Slack : 0.095
+Slack : 0.069
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Removal 'CNT:inst|inst2'
-Slack : 0.125
+Slack : 0.180
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'START'
 Slack : -3.000
-TNS   : -4.145
+TNS   : -4.098
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'CNT:inst|inst1'
 Slack : -1.000

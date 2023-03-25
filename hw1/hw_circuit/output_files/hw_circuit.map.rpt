@@ -1,5 +1,5 @@
 Analysis & Synthesis report for hw_circuit
-Tue Mar 21 17:15:57 2023
+Sat Mar 25 22:49:49 2023
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Full Version
 
 
@@ -41,23 +41,19 @@ applicable agreement for further details.
 +---------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                          ;
 +------------------------------------+--------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Tue Mar 21 17:15:57 2023            ;
+; Analysis & Synthesis Status        ; Successful - Sat Mar 25 22:49:49 2023            ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Full Version ;
 ; Revision Name                      ; hw_circuit                                       ;
 ; Top-level Entity Name              ; counter                                          ;
-; Family                             ; Cyclone IV GX                                    ;
+; Family                             ; Cyclone IV E                                     ;
 ; Total logic elements               ; 30                                               ;
 ;     Total combinational functions  ; 30                                               ;
 ;     Dedicated logic registers      ; 23                                               ;
 ; Total registers                    ; 23                                               ;
-; Total pins                         ; 8                                                ;
+; Total pins                         ; 13                                               ;
 ; Total virtual pins                 ; 0                                                ;
 ; Total memory bits                  ; 0                                                ;
 ; Embedded Multiplier 9-bit elements ; 0                                                ;
-; Total GXB Receiver Channel PCS     ; 0                                                ;
-; Total GXB Receiver Channel PMA     ; 0                                                ;
-; Total GXB Transmitter Channel PCS  ; 0                                                ;
-; Total GXB Transmitter Channel PMA  ; 0                                                ;
 ; Total PLLs                         ; 0                                                ;
 +------------------------------------+--------------------------------------------------+
 
@@ -67,8 +63,9 @@ applicable agreement for further details.
 +----------------------------------------------------------------------------+--------------------+--------------------+
 ; Option                                                                     ; Setting            ; Default Value      ;
 +----------------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                                     ; EP4CE6F17C8        ;                    ;
 ; Top-level entity name                                                      ; counter            ; hw_circuit         ;
-; Family name                                                                ; Cyclone IV GX      ; Cyclone IV GX      ;
+; Family name                                                                ; Cyclone IV E       ; Cyclone IV GX      ;
 ; Use smart compilation                                                      ; Off                ; Off                ;
 ; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation ; On                 ; On                 ;
 ; Enable compact report table                                                ; Off                ; Off                ;
@@ -157,11 +154,12 @@ applicable agreement for further details.
 ; Maximum allowed            ; 12          ;
 ;                            ;             ;
 ; Average used               ; 1.00        ;
-; Maximum used               ; 1           ;
+; Maximum used               ; 2           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processors 2-12        ;   0.0%      ;
+;     Processor 2            ; < 0.1%      ;
+;     Processors 3-12        ;   0.0%      ;
 +----------------------------+-------------+
 
 
@@ -186,56 +184,72 @@ applicable agreement for further details.
 +----------------------------------+-----------------+------------------------------------+----------------------------------+---------+
 
 
-+---------------------------------------------+
-; Analysis & Synthesis Resource Usage Summary ;
-+--------------------------+------------------+
-; Resource                 ; Usage            ;
-+--------------------------+------------------+
-; I/O pins                 ; 8                ;
-; DSP block 9-bit elements ; 0                ;
-; Maximum fan-out node     ; CNT:inst|inst1   ;
-; Maximum fan-out          ; 9                ;
-; Total fan-out            ; 106              ;
-; Average fan-out          ; 1.54             ;
-+--------------------------+------------------+
++--------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                  ;
++---------------------------------------------+----------------+
+; Resource                                    ; Usage          ;
++---------------------------------------------+----------------+
+; Estimated Total logic elements              ; 30             ;
+;                                             ;                ;
+; Total combinational functions               ; 30             ;
+; Logic element usage by number of LUT inputs ;                ;
+;     -- 4 input functions                    ; 0              ;
+;     -- 3 input functions                    ; 6              ;
+;     -- <=2 input functions                  ; 24             ;
+;                                             ;                ;
+; Logic elements by mode                      ;                ;
+;     -- normal mode                          ; 30             ;
+;     -- arithmetic mode                      ; 0              ;
+;                                             ;                ;
+; Total registers                             ; 23             ;
+;     -- Dedicated logic registers            ; 23             ;
+;     -- I/O registers                        ; 0              ;
+;                                             ;                ;
+; I/O pins                                    ; 13             ;
+; Embedded Multiplier 9-bit elements          ; 0              ;
+; Maximum fan-out node                        ; CNT:inst|inst1 ;
+; Maximum fan-out                             ; 10             ;
+; Total fan-out                               ; 114            ;
+; Average fan-out                             ; 1.44           ;
++---------------------------------------------+----------------+
 
 
-+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                     ;
-+----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+-----------+------+--------------+-------------------------------------+--------------+
-; Compilation Hierarchy Node ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; DSP 36x36 ; Pins ; Virtual Pins ; Full Hierarchy Name                 ; Library Name ;
-+----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+-----------+------+--------------+-------------------------------------+--------------+
-; |counter                   ; 30 (0)            ; 23 (0)       ; 0           ; 0            ; 0       ; 0         ; 0         ; 8    ; 0            ; |counter                            ; work         ;
-;    |BCD:inst2|             ; 5 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|BCD:inst2                  ; work         ;
-;       |A:inst|             ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|BCD:inst2|A:inst           ; work         ;
-;       |C:inst2|            ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|BCD:inst2|C:inst2          ; work         ;
-;       |D:inst3|            ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|BCD:inst2|D:inst3          ; work         ;
-;       |F:inst5|            ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|BCD:inst2|F:inst5          ; work         ;
-;       |G:inst6|            ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|BCD:inst2|G:inst6          ; work         ;
-;    |CNT:inst|              ; 4 (4)             ; 3 (3)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|CNT:inst                   ; work         ;
-;    |VD2_20:inst3|          ; 20 (0)            ; 20 (0)       ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3               ; work         ;
-;       |my_dff:inst10|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst10 ; work         ;
-;       |my_dff:inst11|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst11 ; work         ;
-;       |my_dff:inst12|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst12 ; work         ;
-;       |my_dff:inst13|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst13 ; work         ;
-;       |my_dff:inst14|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst14 ; work         ;
-;       |my_dff:inst15|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst15 ; work         ;
-;       |my_dff:inst16|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst16 ; work         ;
-;       |my_dff:inst17|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst17 ; work         ;
-;       |my_dff:inst18|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst18 ; work         ;
-;       |my_dff:inst19|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst19 ; work         ;
-;       |my_dff:inst1|       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst1  ; work         ;
-;       |my_dff:inst2|       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst2  ; work         ;
-;       |my_dff:inst3|       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst3  ; work         ;
-;       |my_dff:inst4|       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst4  ; work         ;
-;       |my_dff:inst5|       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst5  ; work         ;
-;       |my_dff:inst6|       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst6  ; work         ;
-;       |my_dff:inst7|       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst7  ; work         ;
-;       |my_dff:inst8|       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst8  ; work         ;
-;       |my_dff:inst9|       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst9  ; work         ;
-;       |my_dff:inst|        ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst   ; work         ;
-;    |decoder_20L274:inst1|  ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 0    ; 0            ; |counter|decoder_20L274:inst1       ; work         ;
-+----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+-----------+------+--------------+-------------------------------------+--------------+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                         ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------+--------------+
+; Compilation Hierarchy Node ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                 ; Library Name ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------+--------------+
+; |counter                   ; 30 (0)            ; 23 (0)       ; 0           ; 0            ; 0       ; 0         ; 13   ; 0            ; |counter                            ; work         ;
+;    |BCD:inst2|             ; 5 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|BCD:inst2                  ; work         ;
+;       |A:inst|             ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|BCD:inst2|A:inst           ; work         ;
+;       |C:inst2|            ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|BCD:inst2|C:inst2          ; work         ;
+;       |D:inst3|            ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|BCD:inst2|D:inst3          ; work         ;
+;       |F:inst5|            ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|BCD:inst2|F:inst5          ; work         ;
+;       |G:inst6|            ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|BCD:inst2|G:inst6          ; work         ;
+;    |CNT:inst|              ; 4 (4)             ; 3 (3)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|CNT:inst                   ; work         ;
+;    |VD2_20:inst3|          ; 20 (0)            ; 20 (0)       ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3               ; work         ;
+;       |my_dff:inst10|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst10 ; work         ;
+;       |my_dff:inst11|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst11 ; work         ;
+;       |my_dff:inst12|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst12 ; work         ;
+;       |my_dff:inst13|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst13 ; work         ;
+;       |my_dff:inst14|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst14 ; work         ;
+;       |my_dff:inst15|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst15 ; work         ;
+;       |my_dff:inst16|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst16 ; work         ;
+;       |my_dff:inst17|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst17 ; work         ;
+;       |my_dff:inst18|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst18 ; work         ;
+;       |my_dff:inst19|      ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst19 ; work         ;
+;       |my_dff:inst1|       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst1  ; work         ;
+;       |my_dff:inst2|       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst2  ; work         ;
+;       |my_dff:inst3|       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst3  ; work         ;
+;       |my_dff:inst4|       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst4  ; work         ;
+;       |my_dff:inst5|       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst5  ; work         ;
+;       |my_dff:inst6|       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst6  ; work         ;
+;       |my_dff:inst7|       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst7  ; work         ;
+;       |my_dff:inst8|       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst8  ; work         ;
+;       |my_dff:inst9|       ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst9  ; work         ;
+;       |my_dff:inst|        ; 1 (1)             ; 1 (1)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|VD2_20:inst3|my_dff:inst   ; work         ;
+;    |decoder_20L274:inst1|  ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |counter|decoder_20L274:inst1       ; work         ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
@@ -269,7 +283,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Full Version
-    Info: Processing started: Tue Mar 21 17:15:55 2023
+    Info: Processing started: Sat Mar 25 22:49:48 2023
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off hw_circuit -c hw_circuit
 Info (20030): Parallel compilation is enabled and will use 12 of the 12 processors detected
 Info (12021): Found 1 design units, including 1 entities, in source file decoder_20l274.bdf
@@ -312,20 +326,22 @@ Info (12128): Elaborating entity "decoder_20L274" for hierarchy "decoder_20L274:
 Warning (275011): Block or symbol "NAND2" of instance "inst4" overlaps another block or symbol
 Info (12128): Elaborating entity "CNT" for hierarchy "CNT:inst"
 Info (12128): Elaborating entity "VD2_20" for hierarchy "VD2_20:inst3"
-Info (12128): Elaborating entity "my_dff" for hierarchy "VD2_20:inst3|my_dff:inst"
+Info (12128): Elaborating entity "my_dff" for hierarchy "VD2_20:inst3|my_dff:inst19"
 Warning (13024): Output pins are stuck at VCC or GND
-    Warning (13410): Pin "B" is stuck at VCC
+    Warning (13410): Pin "LED-B" is stuck at VCC
+    Warning (13410): Pin "U2_138_select" is stuck at VCC
+    Warning (13410): Pin "U3_138_select" is stuck at VCC
 Info (286030): Timing-Driven Synthesis is running
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 38 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 43 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 1 input pins
-    Info (21059): Implemented 7 output pins
+    Info (21059): Implemented 12 output pins
     Info (21061): Implemented 30 logic cells
-Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 4 warnings
-    Info: Peak virtual memory: 4687 megabytes
-    Info: Processing ended: Tue Mar 21 17:15:57 2023
-    Info: Elapsed time: 00:00:02
+Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 6 warnings
+    Info: Peak virtual memory: 4627 megabytes
+    Info: Processing ended: Sat Mar 25 22:49:49 2023
+    Info: Elapsed time: 00:00:01
     Info: Total CPU time (on all processors): 00:00:01
 
 
