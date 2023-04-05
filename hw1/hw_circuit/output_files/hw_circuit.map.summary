@@ -1,12 +1,12 @@
-Analysis & Synthesis Status : Successful - Sat Mar 25 22:49:49 2023
-Quartus II 64-Bit Version : 13.0.1 Build 232 06/12/2013 SP 1 SJ Full Version
+Analysis & Synthesis Status : Successful - Tue Apr 04 17:51:51 2023
+Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Standard Edition
 Revision Name : hw_circuit
 Top-level Entity Name : counter
 Family : Cyclone IV E
-Total logic elements : 30
-    Total combinational functions : 30
-    Dedicated logic registers : 23
-Total registers : 23
+Total logic elements : 28
+    Total combinational functions : 28
+    Dedicated logic registers : 20
+Total registers : 20
 Total pins : 13
 Total virtual pins : 0
 Total memory bits : 0
