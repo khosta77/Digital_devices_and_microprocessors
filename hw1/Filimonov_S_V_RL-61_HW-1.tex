@@ -3,6 +3,46 @@
 %\usepackage{karnaugh-map}
 \usepackage{tikz}
 \usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{listings}
+\usepackage{appendix}
+\usepackage{bm, amsmath, amsfonts}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{subfig}
+\usepackage{url}
+\usepackage{multirow}
+\usepackage{array} 
+\usepackage{wrapfig} % in preamble
+
+% set the code style
+\RequirePackage{listings}
+\RequirePackage{xcolor}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{
+	numbers=left,  
+	frame=tb,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	framerule=1pt,
+	rulecolor=\color{gray!35},
+	backgroundcolor=\color{gray!5},
+	basicstyle={\ttfamily},
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
 
 \usetikzlibrary{karnaugh}
 
@@ -976,6 +1016,12 @@ $(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$ 3	 & 								 &   				   	    					\\
 	{h} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
 	{Сигнал на BSD.} % Подпись рисунка
+	\includeimage
+	{BCD_new}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема для светодиода BSD(С отрицанием, так как в ПЛИС светодиоды на анодах).} % Подпись рисунка
 	
 	
 	\chapter{Счётчик с коэффициентом счёта 6.}
@@ -1006,18 +1052,23 @@ $(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$ 3	 & 								 &   				   	    					\\
 		ничего не увидим, так как переключение бует слишком быстрым.
 		Необходимо собрать делитель напряжения сигнала до частоты в
 		50 Гц. Важно будет уточнить, что чтобы проверить схему в 
-		Quartus II, сделаем сквозной выход "TEST", потому что в 
+		Quartus II, сделаем сквозной выход [0], потому что в 
 		противном случае сигнал будет нельзя проверить внутри 
 		электронной системы так как он будет слишком растянут, в то 
-		время перед тем как добавить его в ПЛИС надо будет переключить на OUT.
+		время перед тем как добавить его в ПЛИС надо будет переключить на [15].
 	\end{flushleft}
 
-	\includeimage
-	{VD2_20_circuit}
-	{f} % Обтекание (без обтекания)
-	{H} % Положение рисунка (см. figure из пакета float)
-	{1.0\textwidth} % Ширина рисунка
-	{Делитель частоты сигнала.} % Подпись рисунка
+	\begin{lstlisting}[language=verilog,escapeinside=``]
+module VD2(clk, out_pos);
+	input clk;
+	output reg [19:0]out_pos;
+
+	always @(posedge clk)
+	begin
+		out_pos <= out_pos + 1'd1;
+	end
+endmodule
+	\end{lstlisting}
 	
 	\includeimage
 	{VD2_20_waveform}
@@ -1126,7 +1177,51 @@ $(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$ 3	 & 								 &   				   	    					\\
 	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
 	{Подключения пинов на ПЛИС Cyclone IV E - EP4CE6F17C8.} % Подпись рисунка
+	\begin{flushleft}
+		Произошла проблема с запуском на ПЛИС, все не корретно отображается. 
+		Исправляем ошибки.
+	\end{flushleft}
 	
+	\section{Исправление ошибок.}
+	
+	\begin{flushleft}
+		Вывод билета на экран был не корректный, символы были в перемешку, было 
+		решено добавить дополнительный элемент SUB, который выставляет символы в 
+		правильном порядке.
+	\end{flushleft}
+	
+	\includeimage
+	{SUB}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Преобразователь.} % Подпись рисунка
+	
+	\begin{flushleft}
+		Подставим элемент в схему:
+	\end{flushleft}
+
+	\includeimage
+	{counter_circuit_new}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Обновленная схема.} % Подпись рисунка
+	
+	\begin{flushleft}
+		Вывод:
+	\end{flushleft}
+
+	\includeimage
+	{20L274}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Вывод моего билета 20Л274.} % Подпись рисунка
+	
+	\begin{flushleft}
+		P. s. П = Л = L
+	\end{flushleft}
 \end{document}
 
 
