@@ -1,0 +1,1254 @@
+\documentclass{bmstu}
+\usepackage{multirow}
+%\usepackage{karnaugh-map}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{listings}
+\usepackage{appendix}
+\usepackage{bm, amsmath, amsfonts}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{subfig}
+\usepackage{url}
+\usepackage{multirow}
+\usepackage{array} 
+\usepackage{wrapfig} % in preamble
+
+% set the code style
+\RequirePackage{listings}
+\RequirePackage{xcolor}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{
+	numbers=left,  
+	frame=tb,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	framerule=1pt,
+	rulecolor=\color{gray!35},
+	backgroundcolor=\color{gray!5},
+	basicstyle={\ttfamily},
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+
+\usetikzlibrary{karnaugh}
+
+\begin{document}
+	\makereporttitle
+	{Радиоэлектроника и лазерная техника (РЛ)} % Название факультета
+	{Технология приборостроения (РЛ6)} % Название кафедры
+	{домашней работе №1} % Название работы (в дат. падеже)
+	{Цифровые устройства и микропроцессоры} % Название курса (необязательный аргумент)
+	{ПЛИС Altera ССИ, минимизация алгебраических функций} % Тема работы
+	{20Л274} % Номер варианта (необязательный аргумент)
+	{Филимонов~С.~В./РЛ6-61} % Номер группы/ФИО студента (если авторов несколько, их необходимо разделить запятой)
+	{Семеренко~Д.~А.} % ФИО преподавателя
+	
+	\tableofcontents
+
+	\chapter{Реализация шифратора для вывода знака на ССИ.}
+	На~рисунке~\ref{img:BCD} пример семисегментного индикатора.
+	
+\includeimage
+	{BCD} % Имя файла без расширения (файл должен быть расположен в директории inc/img/)
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{0.25\textwidth} % Ширина рисунка
+	{Семисегментный индикатор} % Подпись рисунка 
+	
+	Кодировка
+
+	\begin{center}
+		\begin{tabular}{ |c||c|c|c|c||c|c|c|c|c|c|c| } 
+			\hline
+		     Символ & $x_0$ & $x_1$ & $x_2$ & $x_3$ &  a & b & c & d & e & f & g \\
+		    \hline
+			 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 0 \\ 
+			 1 & 0 & 0 & 0 & 1 & 0 & 1 & 1 & 0 & 0 & 0 & 0 \\
+			 2 & 0 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 1 & 0 & 1 \\
+			 3 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 0 & 1 \\
+			 4 & 0 & 1 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 1 \\
+			 5 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 1 & 0 & 1 & 1 \\
+			 6 & 0 & 1 & 1 & 0 & 1 & 0 & 1 & 1 & 1 & 1 & 1 \\
+			 7 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 \\
+			 8 & 1 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+			 9 & 1 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 \\
+			 Л & 1 & 0 & 1 & 0 & 1 & 1 & 1 & 0 & 1 & 1 & 0 \\
+			\hline
+		\end{tabular}
+	\end{center}
+	
+	\section{Алгебраические уравнения в СКНФ и СДНФ}
+	Определим СКНФ и СДНФ: \\
+	$y^{\text{СКНФ}}_a = (x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot
+						 (x_0 \vee \bar{x_1} \vee x_2 \vee x_3) $ \\
+	$y^{\text{СДНФ}}_a = \bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} \vee
+						 \bar{x_0} \bar{x_1} x_2 \bar{x_3} \vee 
+						 \bar{x_0} \bar{x_1} x_2 x_3 \vee
+						 \bar{x_0} x_1 \bar{x_2} x_3 \vee 
+					     \bar{x_0} x_1 x_2 \bar{x_3} \vee 
+						 \bar{x_0} x_1 x_2 x_3 \vee 
+	                     x_0 \bar{x_1} \bar{x_2} \bar{x_3} \vee 
+	                     x_0 \bar{x_1} \bar{x_2} x_3 \vee 
+	                     x_0 \bar{x_1} x_2 \bar{x_3}$
+	\\
+	\\             
+	$y^{\text{СКНФ}}_b = (x_0 \vee \bar{x_1} \vee x_2 \vee \bar{x_3}) \cdot 
+						 (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee x_3)$ \\ 
+	$y^{\text{СДНФ}}_b = \bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} \vee 
+						 \bar{x_0} \bar{x_1} \bar{x_2} x_3 \vee
+						 \bar{x_0} \bar{x_1} x_2 \bar{x_3} \vee 
+						 \bar{x_0} \bar{x_1} x_2 x_3 \vee
+						 \bar{x_0} x_1 \bar{x_2} \bar{x_3} \vee 
+						 \bar{x_0} x_1 x_2 x_3 \vee 
+						 x_0 \bar{x_1} \bar{x_2} \bar{x_3} \vee 
+						 x_0 \bar{x_1} \bar{x_2} x_3 \vee 
+						 x_0 \bar{x_1} x_2 \bar{x_3}$ 
+	\\
+	\\
+	$y^{\text{СКНФ}}_c = (x_0 \vee x_1 \vee \bar{x_2} \vee x_3)$ \\           
+    $y^{\text{СДНФ}}_c = \bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} \vee
+    					 \bar{x_0} \bar{x_1} \bar{x_2} x_3 \vee 
+    					 \bar{x_0} \bar{x_1} x_2 x_3 \vee
+    					 \bar{x_0} x_1 \bar{x_2} \bar{x_3} \vee 
+				     	 \bar{x_0} x_1 \bar{x_2} x_3 \vee 
+    					 \bar{x_0} x_1 x_2 \bar{x_3} \vee 
+    					 \bar{x_0} x_1 x_2 x_3 \vee 
+    					 x_0 \bar{x_1} \bar{x_2} \bar{x_3} \vee 
+    					 x_0 \bar{x_1} \bar{x_2} x_3 \vee 
+        				 x_0 \bar{x_1} x_2 \bar{x_3}$
+	\\
+	\\
+    $y^{\text{СКНФ}}_d = (x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot
+    					 (x_0 \vee \bar{x_1} \vee x_2 \vee x_3) \cdot 
+    					 (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) \cdot 
+    					 (\bar{x_0} \vee x_1  \vee \bar{x_2} \vee x_3)$ \\
+    $y^{\text{СДНФ}}_d = \bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} \vee
+    					 \bar{x_0} \bar{x_1} x_2 \bar{x_3} \vee 
+   						 \bar{x_0} \bar{x_1} x_2 x_3 \vee
+   						 \bar{x_0} x_1 \bar{x_2} x_3 \vee 
+   						 \bar{x_0} x_1 x_2 \bar{x_3} \vee 
+   						 x_0 \bar{x_1} \bar{x_2} \bar{x_3} \vee 
+   						 x_0 \bar{x_1} \bar{x_2} x_3$
+	\\
+	\\
+    $y^{\text{СКНФ}}_e = (x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot
+    					 (x_0 \vee x_1 \vee \bar{x_2} \vee \bar{x_3}) \cdot
+    					 (x_0 \vee \bar{x_1} \vee x_2 \vee x_3) \cdot 
+    					 (x_0 \vee \bar{x_1} \vee x_2 \vee \bar{x_3}) \cdot 
+    					 (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) \cdot 
+    					 (\bar{x_0} \vee x_1 \vee x_2 \vee \bar{x_3})$ \\
+    $y^{\text{СДНФ}}_e = \bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} \vee
+    					 \bar{x_0} \bar{x_1} x_2 \bar{x_3} \vee 
+    					 \bar{x_0} x_1 x_2 \bar{x_3} \vee
+    					 x_0 \bar{x_1} \bar{x_2} \bar{x_3} \vee
+    					 x_0 \bar{x_1} x_2 \bar{x_3}$
+	\\
+	\\
+    $y^{\text{СКНФ}}_f = (x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot 
+    					 (x_0 \vee x_1 \vee \bar{x_2} \vee x_3) \cdot 
+    					 (x_0 \vee x_1 \vee \bar{x_2} \vee \bar{x_3}) \cdot 
+    					 (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3})$ \\     
+    $y^{\text{СДНФ}}_f = \bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} \vee
+    					 \bar{x_0} x_1 \bar{x_2} \bar{x_3} \vee 
+    					 \bar{x_0} x_1 \bar{x_2} x_3 \vee
+    					 \bar{x_0} x_1 x_2 \bar{x_3} \vee 
+    					 x_0 \bar{x_1} \bar{x_2} \bar{x_3} \vee 
+    					 x_0 \bar{x_1} \bar{x_2} x_3 \vee 
+    					 x_0 \bar{x_1} x_2 \bar{x_3}$
+	\\
+	\\
+    $y^{\text{СКНФ}}_g = (x_0 \vee x_1 \vee x_2 \vee x_3) \cdot 
+    					 (x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot 
+    					 (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) \cdot 
+    					 (\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)$ \\					            
+    $y^{\text{СДНФ}}_g = \bar{x_0} \bar{x_1} x_2 \bar{x_3} \vee
+    					 \bar{x_0} \bar{x_1} x_2 x_3 \vee 
+    					 \bar{x_0} x_1 \bar{x_2} \bar{x_3} \vee
+    					 \bar{x_0} x_1 \bar{x_2} x_3 \vee 
+   						 \bar{x_0} x_1 x_2 \bar{x_3} \vee 
+   						 x_0 \bar{x_1} \bar{x_2} \bar{x_3} \vee 
+   						 x_0 \bar{x_1} \bar{x_2} x_3$
+
+%=======================================================================================================================
+	\section{Минимизация с помощью различных алгоритмов}
+	\subsection{Законы алгебры логики}
+	Для начала сократим выражение с  помощью законов алгебры логики:
+	\\
+
+	\begin{center}
+	$y^{\text{СКНФ}}_a = (x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee x_2 \vee x_3) =  $ \\
+	$ ((x_0 \vee x_2) \vee (x_1 \vee \bar{x_3})) \cdot ((x_0 \vee x_2) \vee (\bar{x_1} \vee x_3)) =  $ \\
+	$ (x_0 \vee x_2) \vee ((x_1 \vee \bar{x_3}) \cdot (\bar{x_1} \vee x_3))$
+	\\
+	$y^{\text{СДНФ}}_a = \bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} \vee
+						 \underline{\bar{x_0} \bar{x_1} x_2 \bar{x_3}} \vee 
+					     \underline{\underline{\bar{x_0} \bar{x_1} x_2 x_3}} \vee
+						 \bar{x_0} x_1 \bar{x_2} x_3 \vee 
+						 \bar{x_0} x_1 x_2 \bar{x_3} \vee 
+						 \underline{\underline{\bar{x_0} x_1 x_2 x_3}} \vee 
+						 \underline{\underline{\underline{x_0 \bar{x_1} \bar{x_2} \bar{x_3}}}} \vee 
+						\underline{\underline{\underline{ x_0 \bar{x_1} \bar{x_2} x_3}}} \vee 
+						 \underline{x_0 \bar{x_1} x_2 \bar{x_3}} = $
+	$\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} \vee
+	 \bar{x_0} x_2 x_3 \vee
+ 	 \bar{x_0} x_1 \bar{x_2} x_3 \vee 
+  	 \bar{x_0} x_1 x_2 \bar{x_3} \vee 
+     x_0 \bar{x_1} \bar{x_2} \vee 
+ 	 \bar{x_1} x_2 \bar{x_3}$
+	\end{center}
+
+	
+	Используем закон дистрибутивности
+	\begin{center}
+	   \begin{tabular}{ |c| } 
+	     \hline
+	       $x \vee (y \cdot z) = (x \vee y) \cdot (x \vee z)$ \\
+	     \hline
+	     \end{tabular}
+	\end{center}
+    
+	\begin{center}
+		$y^{\text{СКНФ}}_b = (x_0 \vee \bar{x_1} \vee x_2 \vee \bar{x_3}) \cdot 
+							 (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee x_3) = $ \\
+		$\bar{x_1} \vee x_0 \vee (x_2 \vee \bar{x_3} \cdot 
+							 (\bar{x_2} \vee x_3))$
+		\\ 
+		$y^{\text{СДНФ}}_b = \underline{\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3}} \vee 
+							 \underline{\bar{x_0} \bar{x_1} \bar{x_2} x_3} \vee
+							 \underline{\underline{\bar{x_0} \bar{x_1} x_2 \bar{x_3}}} \vee 
+							 \underline{\underline{\bar{x_0} \bar{x_1} x_2 x_3}} \vee
+							 \bar{x_0} x_1 \bar{x_2} \bar{x_3} \vee 
+							 \bar{x_0} x_1 x_2 x_3 \vee 
+							 \underline{\underline{\underline{x_0 \bar{x_1} \bar{x_2} \bar{x_3}}}} \vee 
+							 x_0 \bar{x_1} \bar{x_2} x_3 \vee 
+							 \underline{\underline{\underline{x_0 \bar{x_1} x_2 \bar{x_3}}}} = $ \\
+		$\underline{\bar{x_0} \bar{x_1} \bar{x_2}} \vee 
+		 \underline{\bar{x_0} \bar{x_1} x_2} \vee
+		 \bar{x_0} x_1 \bar{x_2} \bar{x_3} \vee 
+		 \bar{x_0} x_1 x_2 x_3 \vee 
+		 x_0 \bar{x_1} \bar{x_2} x_3 \vee
+		 x_0 \bar{x_1} \bar{x_3} = $ \\
+		$\bar{x_0} \bar{x_1} \vee
+		 \bar{x_0} x_1 \bar{x_2} \bar{x_3} \vee 
+		 \bar{x_0} x_1 x_2 x_3 \vee 
+		 x_0 \bar{x_1} \bar{x_2} x_3 \vee
+		 x_0 \bar{x_1} \bar{x_3} $ 		
+	\end{center} 
+
+
+	Для $y^{\text{СКНФ}}_c$ сокращать нечего $y^{\text{СКНФ}}_c = (x_0 \vee x_1 \vee \bar{x_2} \vee x_3)$.
+	\begin{center}   
+		$y^{\text{СДНФ}}_c = \underline{\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3}} \vee
+							 \underline{\bar{x_0} \bar{x_1} \bar{x_2} x_3} \vee 
+							 \bar{x_0} \bar{x_1} x_2 x_3 \vee
+							 \underline{\underline{\bar{x_0} x_1 \bar{x_2} \bar{x_3}}} \vee 
+							 \underline{\underline{\bar{x_0} x_1 \bar{x_2} x_3}} \vee 
+							 \underline{\underline{\underline{\bar{x_0} x_1 x_2 \bar{x_3}}}} \vee 
+							 \underline{\underline{\underline{\bar{x_0} x_1 x_2 x_3}}} \vee 
+							 \underline{\underline{\underline{\underline{x_0 \bar{x_1} \bar{x_2} \bar{x_3}}}}} \vee 
+							 \underline{\underline{\underline{\underline{x_0 \bar{x_1} \bar{x_2} x_3}}}} \vee 
+							 x_0 \bar{x_1} x_2 \bar{x_3} = $ \\
+		$\underline{\bar{x_0} \bar{x_1} \bar{x_2}} \vee
+		 \bar{x_0} \bar{x_1} x_2 x_3 \vee
+		 \underline{\underline{\bar{x_0} x_1 \bar{x_2}}} \vee
+		 \underline{\underline{\bar{x_0} x_1 x_2}} \vee
+		 \underline{x_0 \bar{x_1} \bar{x_2}} \vee
+		 x_0 \bar{x_1} x_2 \bar{x_3} = $ \\
+		$\bar{x_1} \bar{x_2} \vee
+		 \bar{x_0} \bar{x_1} x_2 x_3 \vee
+		 \bar{x_0} x_1 \vee
+		 x_0 \bar{x_1} x_2 \bar{x_3}$
+	\end{center}       
+
+
+	\begin{center}
+       $y^{\text{СКНФ}}_d = (x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot
+							(x_0 \vee \bar{x_1} \vee x_2 \vee x_3) \cdot 
+							(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) \cdot 
+							(\bar{x_0} \vee x_1  \vee \bar{x_2} \vee x_3) = $ \\
+	   $(x_0 \vee (x_1 \vee x_2 \vee \bar{x_3}) \cdot 
+	   			  (\bar{x_1} \vee x_2 \vee x_3) \cdot 
+	   			  (\bar{x_1} \vee \bar{x_2} \vee \bar{x_3})
+	    ) \cdot (\bar{x_0} \vee x_1  \vee \bar{x_2} \vee x_3)$ \\   
+	   $y^{\text{СДНФ}}_d = \underline{\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3}} \vee
+							\underline{\bar{x_0} \bar{x_1} x_2 \bar{x_3}} \vee 
+							\bar{x_0} \bar{x_1} x_2 x_3 \vee
+							\bar{x_0} x_1 \bar{x_2} x_3 \vee 
+							\bar{x_0} x_1 x_2 \bar{x_3} \vee$ 
+							$\underline{\underline{x_0 \bar{x_1} \bar{x_2} \bar{x_3}}} \vee 
+							\underline{\underline{x_0 \bar{x_1} \bar{x_2} x_3}} = $ \\
+	   $\bar{x_0} \bar{x_1} \bar{x_3} \vee
+	    \bar{x_0} \bar{x_1} x_2 x_3 \vee
+	    \bar{x_0} x_1 \bar{x_2} x_3 \vee 
+	    \bar{x_0} x_1 x_2 \bar{x_3} \vee 
+	    x_0 \bar{x_1} \bar{x_2}$				
+	\end{center}
+
+
+	\begin{center}
+		$y^{\text{СКНФ}}_e = \underline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3})} \cdot
+							 \underline{(x_0 \vee x_1 \vee \bar{x_2} \vee \bar{x_3})} \cdot
+							 \underline{\underline{(x_0 \vee \bar{x_1} \vee x_2 \vee x_3)}} \cdot 
+							 \underline{\underline{(x_0 \vee \bar{x_1} \vee x_2 \vee \bar{x_3})}} \cdot 
+							 (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) \cdot 
+							 (\bar{x_0} \vee x_1 \vee x_2 \vee \bar{x_3}) = $ \\
+		$(x_0 \vee x_1 \vee \bar{x_3}) \cdot 
+		 (x_0 \vee \bar{x_1} \vee x_2) \cdot
+		 ((x_0 \vee \bar{x_1} \vee \bar{x_2}) \cdot (\bar{x_0} \vee x_1 \vee x_2)) \vee \bar{x_3}$ \\		             
+		$y^{\text{СДНФ}}_e = \underline{\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3}} \vee
+							 \underline{\bar{x_0} \bar{x_1} x_2 \bar{x_3}} \vee 
+						     \bar{x_0} x_1 x_2 \bar{x_3} \vee
+							 \underline{\underline{x_0 \bar{x_1} \bar{x_2} \bar{x_3}}} \vee
+							 \underline{\underline{x_0 \bar{x_1} x_2 \bar{x_3}}} = $ \\
+	   $\underline{\bar{x_0} \bar{x_1} \bar{x_3}} \vee
+	    \bar{x_0} x_1 x_2 \bar{x_3} \vee
+	    \underline{x_0 \bar{x_1} \bar{x_3}} = $ \\
+	   $\bar{x_1} \bar{x_3} \vee
+	    \bar{x_0} x_1 x_2 \bar{x_3}$
+	\end{center}
+
+
+	\begin{center}
+	   $y^{\text{СКНФ}}_f = (x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot 
+							(x_0 \vee x_1 \vee \bar{x_2} \vee x_3) \cdot 
+							(x_0 \vee x_1 \vee \bar{x_2} \vee \bar{x_3}) \cdot 
+							(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) = $ \\
+	   $(x_0 \vee x_1 \vee (x_2 \vee \bar{x_3}) \cdot (\bar{x_2} \vee x_3)) \cdot
+	    (x_0 \vee \bar{x_2} \bar{x_3})$ \\
+	   $y^{\text{СДНФ}}_f = \underline{\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3}} \vee
+							\underline{\bar{x_0} x_1 \bar{x_2} \bar{x_3}} \vee 
+							\bar{x_0} x_1 \bar{x_2} x_3 \vee
+							\bar{x_0} x_1 x_2 \bar{x_3} \vee 
+							\underline{\underline{x_0 \bar{x_1} \bar{x_2} \bar{x_3}}} \vee $
+							$\underline{\underline{x_0 \bar{x_1} \bar{x_2} x_3}} \vee 
+							x_0 \bar{x_1} x_2 \bar{x_3} = $ \\
+	   $\bar{x_0} \bar{x_2} \bar{x_3} \vee 
+	    \bar{x_0} x_1 \bar{x_2} x_3 \vee
+	    \bar{x_0} x_1 x_2 \bar{x_3} \vee
+	    x_0 \bar{x_1} \bar{x_2} \vee
+	    x_0 \bar{x_1} x_2 \bar{x_3} $
+	\end{center}
+
+
+	\begin{center}
+       $y^{\text{СКНФ}}_g = (x_0 \vee x_1 \vee x_2 \vee x_3) \cdot 
+							(x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot 
+							(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) \cdot 
+							(\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3) = $ \\
+	   $(x_0 \vee x_1 \vee x_2) \cdot
+	    ((x_0 \vee \bar{x_1} \vee \bar{x_3}) \cdot (\bar{x_0} \vee x_1 \vee x_3) \vee \bar{x_2})$ \\		            
+	   $y^{\text{СДНФ}}_g = \underline{\bar{x_0} \bar{x_1} x_2 \bar{x_3}} \vee
+							\underline{\bar{x_0} \bar{x_1} x_2 x_3} \vee 
+							\underline{\underline{\bar{x_0} x_1 \bar{x_2} \bar{x_3}}} \vee
+							\underline{\underline{\bar{x_0} x_1 \bar{x_2} x_3}} \vee 
+							\bar{x_0} x_1 x_2 \bar{x_3} \vee 
+							\underline{\underline{\underline{x_0 \bar{x_1} \bar{x_2} \bar{x_3}}}} \vee$ 
+							$\underline{\underline{\underline{x_0 \bar{x_1} \bar{x_2} x_3}}} = $ \\
+	   $\bar{x_0} \bar{x_1} x_2 \vee
+	    \bar{x_0} x_1 \bar{x_2} \vee
+	    \bar{x_0} x_1 x_2 \bar{x_3} \vee
+	    x_0 \bar{x_1} \bar{x_2}$
+	\end{center}
+
+
+%=======================================================================================================================
+	\subsection{Карты Карно}
+	\centering{
+    	\begin{tikzpicture}[karnaugh,
+    						American style, 
+    						grp/.style n args={3}{#1,fill=#1!30,
+    							minimum width=#2\kmunitlength,
+    							minimum height=#3\kmunitlength,
+    							rounded corners=0.2\kmunitlength,
+    							fill opacity=0.6,
+    							rectangle,draw}]
+			\karnaughmap{4}{$a^{\text{СДНФ}}$}{{$x_2$}{$x_0$}{$x_3$}{$x_1$}}%
+			{0001 1111 0101 1001}{
+				\node[grp={blue}{1.9}{1.9}](n000) at (3.0,3.0) {};
+				\node[grp={green}{1.9}{1.9}](n001) at (2.0,2.0) {};
+				\node[grp={red}{0.9}{1.9}](n002) at (1.5,1.0) {};
+				\node[grp={cyan}{0.9}{0.9}](n004) at (3.5,3.5) {};
+				\node[grp={cyan}{0.9}{0.9}](n005) at (3.5,0.5) {};
+			}
+		\end{tikzpicture}
+    	\begin{tikzpicture}[karnaugh, American style]
+    		\karnaughmap{4}{$a^{\text{СКНФ}}$}{{$x_2$}{$x_0$}{$x_3$}{$x_1$}}%
+    		{1011 1111 0111 1111}{}
+    	\end{tikzpicture} \\
+		$y^{\text{СДНФ}}_a = x_2 \bar{x_0} \vee \bar{x_1} \bar{x_3} \vee x_0 \bar{x_1} \bar{x_2} \vee \bar{x_0} x_1 x_3$ \\
+		$y^{\text{СКНФ}}_a = (x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee x_2 \vee x_3)$ \\
+	}
+
+	\centering{
+	\begin{tikzpicture}[karnaugh,
+						American style, 
+						grp/.style n args={3}{#1,fill=#1!30,
+							minimum width=#2\kmunitlength,
+							minimum height=#3\kmunitlength,
+							rounded corners=0.2\kmunitlength,
+							fill opacity=0.6,
+							rectangle,draw}]
+					\karnaughmap{4}{$b^{\text{СДНФ}}$}{{$x_2$}{$x_0$}{$x_3$}{$x_1$}}%
+					{0001 1101 0101 0111}{
+						\node[grp={blue}{1.9}{0.9}](n000) at (3.0,3.5) {};
+						\node[grp={green}{1.9}{0.9}](n001) at (2.0,2.5) {};
+						\node[grp={red}{0.9}{1.9}](n002) at (1.5,1.0) {};
+						\node[grp={yellow}{1.9}{0.9}](n003) at (3.0,1.5) {};
+						\node[grp={cyan}{0.9}{0.9}](n004) at (2.5,3.5) {};
+						\node[grp={cyan}{0.9}{0.9}](n005) at (2.5,0.5) {};
+			}
+		\end{tikzpicture}
+		\begin{tikzpicture}[karnaugh, American style]
+			\karnaughmap{4}{$b^{\text{СКНФ}}$}{{$x_2$}{$x_0$}{$x_3$}{$x_1$}}%
+			{1110 1111 1011 1111}{}
+		\end{tikzpicture} \\
+		$y^{\text{СДНФ}}_b = \bar{x_1} x_2 \bar{x_3} \vee \bar{x_0} x_2 x_3 \vee \bar{x_0} \bar{x_1} x_3 \vee \bar{x_0} \bar{x_2} \bar{x_3} \vee x_0 \bar{x_1} \bar{x_3}$ \\
+		$y^{\text{СКНФ}}_b = (x_0 \vee \bar{x_1} \vee x_2 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee x_3)$ \\ 
+	}
+
+	\centering{
+	\begin{tikzpicture}[karnaugh,
+		American style, 
+		grp/.style n args={3}{#1,fill=#1!30,
+			minimum width=#2\kmunitlength,
+			minimum height=#3\kmunitlength,
+			rounded corners=0.2\kmunitlength,
+			fill opacity=0.6,
+			rectangle,draw}]
+		\karnaughmap{4}{$c^{\text{СДНФ}}$}{{$x_2$}{$x_0$}{$x_3$}{$x_1$}}%
+		{0001 1110 0101 1111}{
+			\node[grp={blue}{1.9}{1.9}](n000) at (3.0,1.0) {};
+			\node[grp={green}{0.9}{1.9}](n001) at (1.5,1.0) {};
+			\node[grp={red}{0.9}{1.9}](n002) at (1.5,2.0) {};
+			\node[grp={yellow}{1.9}{0.9}](n003) at (3.0,3.5) {};
+			\node[grp={cyan}{0.9}{1.9}](n004) at (3.5,3.0) {};
+		}
+	\end{tikzpicture}
+	\begin{tikzpicture}[karnaugh, American style]
+		\karnaughmap{4}{$c^{\text{СКНФ}}$}{{$x_2$}{$x_0$}{$x_3$}{$x_1$}}%
+		{1101 1111 1111 1111}{}
+	\end{tikzpicture}
+	\\
+	$y^{\text{СДНФ}}_c = \bar{x_0} \bar{x_2} \vee x_0 \bar{x_1} \bar{x_2} \vee x_0 \bar{x_1} \bar{x_3} \vee \bar{x_0} x_2 x_3 \vee \bar{x_0} x_1 x_2$
+	\\
+	$y^{\text{СКНФ}}_c = (x_0 \vee x_1 \vee \bar{x_2} \vee x_3)$
+	\\      
+	}
+
+	\centering{
+	\begin{tikzpicture}[karnaugh,
+		American style, 
+		grp/.style n args={3}{#1,fill=#1!30,
+			minimum width=#2\kmunitlength,
+			minimum height=#3\kmunitlength,
+			rounded corners=0.2\kmunitlength,
+			fill opacity=0.6,
+			rectangle,draw}]
+		\karnaughmap{4}{$d^{\text{СДНФ}}$}{{$x_2$}{$x_0$}{$x_3$}{$x_1$}}%
+		{0000 0111 0101 1001}{
+			\node[grp={blue}{0.9}{1.9}](n000) at (2.5,2.0) {};
+			\node[grp={green}{0.9}{1.9}](n001) at (2.5,3.0) {};
+			\node[grp={red}{1.9}{0.9}](n002) at (3.0,2.5) {};
+			\node[grp={yellow}{0.9}{1.9}](n003) at (1.5,1.0) {};
+		}
+	\end{tikzpicture}
+	\begin{tikzpicture}[karnaugh, American style]
+		\karnaughmap{4}{$d^{\text{СКНФ}}$}{{$x_2$}{$x_0$}{$x_3$}{$x_1$}}%
+		{1011 1101 0110 1111}{}
+	\end{tikzpicture}
+	\\
+	$y^{\text{СДНФ}}_d = x_0 \bar{x_1} \bar{x_2} \vee \bar{x_0} \bar{x_1} x_2 \vee \bar{x_0} x_2 \bar{x_3} \vee \bar{x_0} \bar{x_1} \bar{x_3} \vee \bar{x_0} x_1 \bar{x_2} x_3$ 
+	\\
+	$y^{\text{СКНФ}}_d = (x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee x_2 \vee x_3) \cdot (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) \cdot (\bar{x_0} \vee x_1  \vee \bar{x_2} \vee x_3)$
+	\\
+	}
+
+	\centering{
+	\begin{tikzpicture}[karnaugh,
+		American style, 
+		grp/.style n args={3}{#1,fill=#1!30,
+			minimum width=#2\kmunitlength,
+			minimum height=#3\kmunitlength,
+			rounded corners=0.2\kmunitlength,
+			fill opacity=0.6,
+			rectangle,draw}]
+		\karnaughmap{4}{$e^{\text{СДНФ}}$}{{$x_2$}{$x_0$}{$x_3$}{$x_1$}}%
+		{0001 0011 0001 0001}{
+			\node[grp={blue}{1.9}{1.9}](n000) at (2.0,2.0) {};
+			\node[grp={green}{1.9}{0.9}](n001) at (3.0,2.5) {};
+		}
+	\end{tikzpicture}
+	\begin{tikzpicture}[karnaugh,
+		American style, 
+		grp/.style n args={3}{#1,fill=#1!30,
+			minimum width=#2\kmunitlength,
+			minimum height=#3\kmunitlength,
+			rounded corners=0.2\kmunitlength,
+			fill opacity=0.6,
+			rectangle,draw}]
+		\karnaughmap{4}{$e^{\text{СКНФ}}$}{{$x_2$}{$x_0$}{$x_3$}{$x_1$}}%
+		{1011 1111 0000 0111}{
+			\node[grp={blue}{1.9}{1.9}](n000) at (1.0,1.0) {};
+			\node[grp={green}{0.9}{0.9}](n001) at (1.5,3.5) {};
+			\node[grp={green}{0.9}{0.9}](n001) at (1.5,0.5) {};
+			\node[grp={red}{0.9}{0.9}](n002) at (0.5,0.5) {};
+			\node[grp={red}{0.9}{0.9}](n002) at (3.5,0.5) {};
+		}
+	\end{tikzpicture}
+	\\
+	$y^{\text{СДНФ}}_e = \bar{x_1} \bar{x_3} \vee \bar{x_0} x_2 \bar{x_3}$ 
+	\\
+	$y^{\text{СКНФ}}_e = (x_0 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee x_2) \cdot (x_1 \vee x_2 \vee \bar{x_3})$
+	\\
+	}
+	\centering{
+	\begin{tikzpicture}[karnaugh,
+		American style, 
+		grp/.style n args={3}{#1,fill=#1!30,
+			minimum width=#2\kmunitlength,
+			minimum height=#3\kmunitlength,
+			rounded corners=0.2\kmunitlength,
+			fill opacity=0.6,
+			rectangle,draw}]
+		\karnaughmap{4}{$f^{\text{СДНФ}}$}{{$x_2$}{$x_0$}{$x_3$}{$x_1$}}%
+		{0001 0010 0101 1011}{
+			\node[grp={blue}{0.9}{1.9}](n000) at (1.5,2.0) {};
+			\node[grp={green}{0.9}{1.9}](n001) at (1.5,1.0) {};
+			\node[grp={red}{1.9}{0.9}](n002) at (3.0,1.5) {};
+			\node[grp={yellow}{0.9}{1.9}](n003) at (3.5,2.0) {};
+			\node[grp={cyan}{0.9}{1.9}](n004) at (3.5,1.0) {};
+		}
+	\end{tikzpicture}
+	\begin{tikzpicture}[karnaugh,
+		American style, 
+		grp/.style n args={3}{#1,fill=#1!30,
+			minimum width=#2\kmunitlength,
+			minimum height=#3\kmunitlength,
+			rounded corners=0.2\kmunitlength,
+			fill opacity=0.6,
+			rectangle,draw}]
+		\karnaughmap{4}{$f^{\text{СКНФ}}$}{{$x_2$}{$x_0$}{$x_3$}{$x_1$}}%
+		{1101 1111 0100 1111}{
+			\node[grp={blue}{0.9}{1.9}](n000) at (0.5,2.0) {};
+			\node[grp={green}{0.9}{1.9}](n001) at (0.5,1.0) {};
+			\node[grp={red}{1.9}{0.9}](n002) at (1.0,1.5) {};
+		}
+	\end{tikzpicture}
+	\\
+	$y^{\text{СДНФ}}_f = x_0 \bar{x_1} \bar{x_3} \vee x_0 \bar{x_1} \bar{x_2} \vee \bar{x_0} \bar{x_2} \bar{x_3} \vee \bar{x_0} x_1 x_3 \vee \bar{x_0} x_1 \bar{x_2}$ 
+	\\
+	$y^{\text{СКНФ}}_f = (x_0 \vee x_1 \vee \bar{x_2}) \cdot (x_0 \vee \bar{x_2} \vee \bar{x_3}) \cdot (x_0 \vee x_1 \vee \bar{x_3})$
+	\\
+	}
+
+
+	\centering{
+	\begin{tikzpicture}[karnaugh,
+		American style, 
+		grp/.style n args={3}{#1,fill=#1!30,
+			minimum width=#2\kmunitlength,
+			minimum height=#3\kmunitlength,
+			rounded corners=0.2\kmunitlength,
+			fill opacity=0.6,
+			rectangle,draw}]
+		\karnaughmap{4}{$g^{\text{СДНФ}}$}{{$x_2$}{$x_0$}{$x_3$}{$x_1$}}%
+		{0001 0111 0001 1010}{
+			\node[grp={blue}{0.9}{1.9}](n000) at (1.5,2.0) {};
+			\node[grp={green}{0.9}{1.9}](n001) at (2.5,3.0) {};
+			\node[grp={red}{0.9}{1.9}](n002) at (3.5,2.0) {};
+			\node[grp={yellow}{0.9}{1.9}](n003) at (3.5,1.0) {};
+		}
+	\end{tikzpicture}
+	\begin{tikzpicture}[karnaugh,
+		American style, 
+		grp/.style n args={3}{#1,fill=#1!30,
+			minimum width=#2\kmunitlength,
+			minimum height=#3\kmunitlength,
+			rounded corners=0.2\kmunitlength,
+			fill opacity=0.6,
+			rectangle,draw}]
+		\karnaughmap{4}{$g^{\text{СКНФ}}$}{{$x_2$}{$x_0$}{$x_3$}{$x_1$}}%
+		{0111 1101 0110 1111}{
+			\node[grp={blue}{0.9}{0.9}](n000) at (0.5,3.5) {};
+			\node[grp={blue}{0.9}{0.9}](n000) at (0.5,0.5) {};
+			%\node[grp={green}{0.9}{1.9}](n001) at (2.5,3.0) {};
+			%\node[grp={red}{0.9}{1.9}](n002) at (3.5,2.0) {};
+			%\node[grp={yellow}{0.9}{1.9}](n003) at (3.5,1.0) {};
+		}
+	\end{tikzpicture}
+	\\
+	$y^{\text{СДНФ}}_g = x_0 \bar{x_1} \bar{x_3} \vee \bar{x_0} \bar{x_1} x_2 \vee \bar{x_0} x_1 \bar{x_3} \vee \bar{x_0} x_1 \bar{x_2}$ 
+	\\
+	$y^{\text{СКНФ}}_g = (x_0 \vee x_1 \vee x_2) \cdot (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) \cdot (\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)$
+	\\
+	}
+
+	\subsection{Метод Квайна}
+	\subsubsection{СДНФ}
+	\begin{center}
+		\begin{tabular}{ |c|c|c|c| }     
+		    \hline
+		$\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} $  0&0 + 1 = $\bar{x_0} \bar{x_1} \bar{x_3} $  0' &0' + 9' = $\bar{x_1} \bar{x_3} $  0'' &$\bar{x_0} x_1 x_3 $\\
+		$\bar{x_0} \bar{x_1} x_2 \bar{x_3} $  1&0 + 6 = $\bar{x_1} \bar{x_2} \bar{x_3} $  1' &1' + 4' = $\bar{x_1} \bar{x_3} $  1'' &$\bar{x_0} x_2 $\\
+		$\bar{x_0} \bar{x_1} x_2 x_3 $  2&1 + 2 = $\bar{x_0} \bar{x_1} x_2 $  2' &2' + 7' = $\bar{x_0} x_2 $  2'' &$\bar{x_1} \bar{x_3} $\\
+		$\bar{x_0} x_1 \bar{x_2} x_3 $  3&1 + 4 = $\bar{x_0} x_2 \bar{x_3} $  3' &3' + 5' = $\bar{x_0} x_2 $  3'' &$x_0 \bar{x_1} \bar{x_2} $\\
+		$\bar{x_0} x_1 x_2 \bar{x_3} $  4&1 + 8 = $\bar{x_1} x_2 \bar{x_3} $  4' & &   \\
+		$\bar{x_0} x_1 x_2 x_3 $  5&2 + 5 = $\bar{x_0} x_2 x_3 $  5' & &   \\
+		$x_0 \bar{x_1} \bar{x_2} \bar{x_3} $  6&3 + 5 = $\bar{x_0} x_1 x_3 $  6' & &   \\
+		$x_0 \bar{x_1} \bar{x_2} x_3 $  7&4 + 5 = $\bar{x_0} x_1 x_2 $  7' & &   \\
+		$x_0 \bar{x_1} x_2 \bar{x_3} $  8&6 + 7 = $x_0 \bar{x_1} \bar{x_2} $  8' & &   \\
+		&6 + 8 = $x_0 \bar{x_1} \bar{x_3} $  9' & &   \\
+			\hline
+		\end{tabular}
+	\end{center}
+	$y_a =$ $\bar{x_0} x_1 x_3 $ + $\bar{x_0} x_2 $ + $\bar{x_1} \bar{x_3} $ + $x_0 \bar{x_1} \bar{x_2} $
+
+
+	\begin{center}
+		\begin{tabular}{ |c|c|c|c| }         
+			\hline
+		$\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} $  0&0 + 1 = $\bar{x_0} \bar{x_1} \bar{x_2} $  0' &0' + 6' = $\bar{x_0} \bar{x_1} $  0'' &$\bar{x_0} \bar{x_1} $\\
+		$\bar{x_0} \bar{x_1} \bar{x_2} x_3 $  1&0 + 2 = $\bar{x_0} \bar{x_1} \bar{x_3} $  1' &0' + 9' = $\bar{x_1} \bar{x_2} $  1'' &$\bar{x_0} \bar{x_2} \bar{x_3} $\\
+		$\bar{x_0} \bar{x_1} x_2 \bar{x_3} $  2&0 + 4 = $\bar{x_0} \bar{x_2} \bar{x_3} $  2' &1' + 4' = $\bar{x_0} \bar{x_1} $  2'' &$\bar{x_0} x_2 x_3 $\\
+		$\bar{x_0} \bar{x_1} x_2 x_3 $  3&0 + 6 = $\bar{x_1} \bar{x_2} \bar{x_3} $  3' &1' + 10' = $\bar{x_1} \bar{x_3} $  3'' &$\bar{x_1} \bar{x_2} $\\
+		$\bar{x_0} x_1 \bar{x_2} \bar{x_3} $  4&1 + 3 = $\bar{x_0} \bar{x_1} x_3 $  4' &3' + 5' = $\bar{x_1} \bar{x_2} $  4'' &$\bar{x_1} \bar{x_3} $\\
+		$\bar{x_0} x_1 x_2 x_3 $  5&1 + 7 = $\bar{x_1} \bar{x_2} x_3 $  5' &3' + 7' = $\bar{x_1} \bar{x_3} $  5'' &   \\
+		$x_0 \bar{x_1} \bar{x_2} \bar{x_3} $  6&2 + 3 = $\bar{x_0} \bar{x_1} x_2 $  6' & &   \\
+		$x_0 \bar{x_1} \bar{x_2} x_3 $  7&2 + 8 = $\bar{x_1} x_2 \bar{x_3} $  7' & &   \\
+		$x_0 \bar{x_1} x_2 \bar{x_3} $  8&3 + 5 = $\bar{x_0} x_2 x_3 $  8' & &   \\
+		&6 + 7 = $x_0 \bar{x_1} \bar{x_2} $  9' & &   \\
+		&6 + 8 = $x_0 \bar{x_1} \bar{x_3} $ 10' & &   \\
+			\hline
+		\end{tabular}
+	\end{center}
+	$y_b =$ $\bar{x_0} \bar{x_1} $ + $\bar{x_0} \bar{x_2} \bar{x_3} $ + $\bar{x_0} x_2 x_3 $ + $\bar{x_1} \bar{x_2} $ + $\bar{x_1} \bar{x_3} $
+
+
+	\begin{center}
+		\begin{tabular}{ |c|c|c|c| }   
+		    \hline
+		$\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} $  0&0 + 1 = $\bar{x_0} \bar{x_1} \bar{x_2} $  0' &0' + 7' = $\bar{x_0} \bar{x_2} $  0'' &$\bar{x_0} \bar{x_2} $\\
+		$\bar{x_0} \bar{x_1} \bar{x_2} x_3 $  1&0 + 3 = $\bar{x_0} \bar{x_2} \bar{x_3} $  1' &0' + 11' = $\bar{x_1} \bar{x_2} $  1'' &$\bar{x_0} x_1 $\\
+		$\bar{x_0} \bar{x_1} x_2 x_3 $  2&0 + 7 = $\bar{x_1} \bar{x_2} \bar{x_3} $  2' &1' + 4' = $\bar{x_0} \bar{x_2} $  2'' &$\bar{x_0} x_3 $\\
+		$\bar{x_0} x_1 \bar{x_2} \bar{x_3} $  3&1 + 2 = $\bar{x_0} \bar{x_1} x_3 $  3' &2' + 5' = $\bar{x_1} \bar{x_2} $  3'' &$\bar{x_1} \bar{x_2} $\\
+		$\bar{x_0} x_1 \bar{x_2} x_3 $  4&1 + 4 = $\bar{x_0} \bar{x_2} x_3 $  4' &3' + 9' = $\bar{x_0} x_3 $  4'' &$x_0 \bar{x_1} \bar{x_3} $\\
+		$\bar{x_0} x_1 x_2 \bar{x_3} $  5&1 + 8 = $\bar{x_1} \bar{x_2} x_3 $  5' &4' + 6' = $\bar{x_0} x_3 $  5'' &   \\
+		$\bar{x_0} x_1 x_2 x_3 $  6&2 + 6 = $\bar{x_0} x_2 x_3 $  6' &7' + 10' = $\bar{x_0} x_1 $  6'' &   \\
+		$x_0 \bar{x_1} \bar{x_2} \bar{x_3} $  7&3 + 4 = $\bar{x_0} x_1 \bar{x_2} $  7' &8' + 9' = $\bar{x_0} x_1 $  7'' &   \\
+		$x_0 \bar{x_1} \bar{x_2} x_3 $  8&3 + 5 = $\bar{x_0} x_1 \bar{x_3} $  8' & &   \\
+		$x_0 \bar{x_1} x_2 \bar{x_3} $  9&4 + 6 = $\bar{x_0} x_1 x_3 $  9' & &   \\
+		&5 + 6 = $\bar{x_0} x_1 x_2 $ 10' & &   \\
+		&7 + 8 = $x_0 \bar{x_1} \bar{x_2} $ 11' & &   \\
+		&7 + 9 = $x_0 \bar{x_1} \bar{x_3} $ 12' & &   \\
+			\hline
+		\end{tabular}
+	\end{center}
+	$y_c =$ $\bar{x_0} \bar{x_2} $ + $\bar{x_0} x_1 $ + $\bar{x_0} x_3 $ + $\bar{x_1} \bar{x_2} $ + $x_0 \bar{x_1} \bar{x_3} $
+
+
+	\begin{center}
+		\begin{tabular}{ |c|c|c| }       
+			\hline
+		$\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} $  0&0 + 1 = $\bar{x_0} \bar{x_1} \bar{x_3} $  0' &$\bar{x_0} \bar{x_1} \bar{x_3} $\\
+		$\bar{x_0} \bar{x_1} x_2 \bar{x_3} $  1&0 + 5 = $\bar{x_1} \bar{x_2} \bar{x_3} $  1' &$\bar{x_0} \bar{x_1} x_2 $\\
+		$\bar{x_0} \bar{x_1} x_2 x_3 $  2&1 + 2 = $\bar{x_0} \bar{x_1} x_2 $  2' &$\bar{x_0} x_2 \bar{x_3} $\\
+		$\bar{x_0} x_1 \bar{x_2} x_3 $  3&1 + 4 = $\bar{x_0} x_2 \bar{x_3} $  3' &$\bar{x_1} \bar{x_2} \bar{x_3} $\\
+		$\bar{x_0} x_1 x_2 \bar{x_3} $  4&5 + 6 = $x_0 \bar{x_1} \bar{x_2} $  4' &$x_0 \bar{x_1} \bar{x_2} $\\
+		$x_0 \bar{x_1} \bar{x_2} \bar{x_3} $  5& &   \\
+		$x_0 \bar{x_1} \bar{x_2} x_3 $  6& &   \\
+			\hline
+		\end{tabular}
+	\end{center}
+	$y_d =$ $\bar{x_0} \bar{x_1} \bar{x_3} $ + $\bar{x_0} \bar{x_1} x_2 $ + $\bar{x_0} x_2 \bar{x_3} $ + $\bar{x_1} \bar{x_2} \bar{x_3} $ + $x_0 \bar{x_1} \bar{x_2} $
+
+
+	\begin{center}
+		\begin{tabular}{ |c|c|c|c| }
+			\hline
+		$\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} $  0&0 + 1 = $\bar{x_0} \bar{x_1} \bar{x_3} $  0' &0' + 4' = $\bar{x_1} \bar{x_3} $  0'' &$\bar{x_0} x_2 \bar{x_3} $\\
+		$\bar{x_0} \bar{x_1} x_2 \bar{x_3} $  1&0 + 3 = $\bar{x_1} \bar{x_2} \bar{x_3} $  1' &1' + 3' = $\bar{x_1} \bar{x_3} $  1'' &$\bar{x_1} \bar{x_3} $\\
+		$\bar{x_0} x_1 x_2 \bar{x_3} $  2&1 + 2 = $\bar{x_0} x_2 \bar{x_3} $  2' & &   \\
+		$x_0 \bar{x_1} \bar{x_2} \bar{x_3} $  3&1 + 4 = $\bar{x_1} x_2 \bar{x_3} $  3' & &   \\
+		$x_0 \bar{x_1} x_2 \bar{x_3} $  4&3 + 4 = $x_0 \bar{x_1} \bar{x_3} $  4' & &   \\
+			\hline
+		\end{tabular}
+	\end{center}
+	$y_e =$ $\bar{x_0} x_2 \bar{x_3} $ + $\bar{x_1} \bar{x_3} $
+
+
+	\begin{center}
+		\begin{tabular}{ |c|c|c| }
+			\hline
+		$\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} $  0&0 + 1 = $\bar{x_0} \bar{x_2} \bar{x_3} $  0' &$\bar{x_0} \bar{x_2} \bar{x_3} $\\
+		$\bar{x_0} x_1 \bar{x_2} \bar{x_3} $  1&0 + 4 = $\bar{x_1} \bar{x_2} \bar{x_3} $  1' &$\bar{x_0} x_1 \bar{x_2} $\\
+		$\bar{x_0} x_1 \bar{x_2} x_3 $  2&1 + 2 = $\bar{x_0} x_1 \bar{x_2} $  2' &$\bar{x_0} x_1 \bar{x_3} $\\
+		$\bar{x_0} x_1 x_2 \bar{x_3} $  3&1 + 3 = $\bar{x_0} x_1 \bar{x_3} $  3' &$\bar{x_1} \bar{x_2} \bar{x_3} $\\
+		$x_0 \bar{x_1} \bar{x_2} \bar{x_3} $  4&4 + 5 = $x_0 \bar{x_1} \bar{x_2} $  4' &$x_0 \bar{x_1} \bar{x_2} $\\
+		$x_0 \bar{x_1} \bar{x_2} x_3 $  5&4 + 6 = $x_0 \bar{x_1} \bar{x_3} $  5' &$x_0 \bar{x_1} \bar{x_3} $\\
+		$x_0 \bar{x_1} x_2 \bar{x_3} $  6& &   \\
+			\hline
+		\end{tabular}
+	\end{center}
+	$y_f =$ $\bar{x_0} \bar{x_2} \bar{x_3} $ + $\bar{x_0} x_1 \bar{x_2} $ + $\bar{x_0} x_1 \bar{x_3} $ + $\bar{x_1} \bar{x_2} \bar{x_3} $ + $x_0 \bar{x_1} \bar{x_2} $ + $x_0 \bar{x_1} \bar{x_3} $
+
+
+	\begin{center}
+		\begin{tabular}{ |c|c|c| }
+			\hline
+		$\bar{x_0} \bar{x_1} x_2 \bar{x_3} $  0&0 + 1 = $\bar{x_0} \bar{x_1} x_2 $  0' &$\bar{x_0} \bar{x_1} x_2 $\\
+		$\bar{x_0} \bar{x_1} x_2 x_3 $  1&0 + 4 = $\bar{x_0} x_2 \bar{x_3} $  1' &$\bar{x_0} x_1 \bar{x_2} $\\
+		$\bar{x_0} x_1 \bar{x_2} \bar{x_3} $  2&2 + 3 = $\bar{x_0} x_1 \bar{x_2} $  2' &$\bar{x_0} x_1 \bar{x_3} $\\
+		$\bar{x_0} x_1 \bar{x_2} x_3 $  3&2 + 4 = $\bar{x_0} x_1 \bar{x_3} $  3' &$\bar{x_0} x_2 \bar{x_3} $\\
+		$\bar{x_0} x_1 x_2 \bar{x_3} $  4&5 + 6 = $x_0 \bar{x_1} \bar{x_2} $  4' &$x_0 \bar{x_1} \bar{x_2} $\\
+		$x_0 \bar{x_1} \bar{x_2} \bar{x_3} $  5& &   \\
+		$x_0 \bar{x_1} \bar{x_2} x_3 $  6& &   \\
+			\hline
+		\end{tabular}
+	\end{center}
+	$y_g =$ $\bar{x_0} \bar{x_1} x_2 $ + $\bar{x_0} x_1 \bar{x_2} $ + $\bar{x_0} x_1 \bar{x_3} $ + $\bar{x_0} x_2 \bar{x_3} $ + $x_0 \bar{x_1} \bar{x_2} $
+
+	\subsubsection{СКНФ}
+
+	Корректно сократить возможно только СКНФ для e, f и g.
+	\begin{center}
+		\begin{tabular}[h]{ |c|c|c|c| }         
+			\hline
+$(x_0\vee x_1\vee x_2\vee\bar{x_3})$ 		       0&0+1=$(x_0 \vee x_1 \vee \bar{x_3})$ 0'	     &0'+5'=$(x_0 \vee \bar{x_3} )$ 0''&$(x_0 \vee \bar{x_1} \vee x_2 )$\\
+$(x_0\vee x_1\vee\bar{x_2}\vee\bar{x_3})$ 	       1&0+3=$(x_0 \vee x_2 \vee \bar{x_3})$ 1'	     &1'+3'=$(x_0 \vee \bar{x_3} )$ 1''&$(x_0 \vee \bar{x_3} )$         \\
+$(x_0\vee\bar{x_1} \vee x_2 \vee x_3)$ 			   2&0+5=$(x_1 \vee x_2 \vee \bar{x_3})$ 2' 	 & 								   &$(x_1 \vee x_2 \vee \bar{x_3} )$\\
+$(x_0\vee\bar{x_1} \vee x_2 \vee \bar{x_3})$ 	   3&1+4=$(x_0 \vee \bar{x_2} \vee \bar{x_3})$ 3'& 								   &   							    \\
+$(x_0\vee\bar{x_1} \vee \bar{x_2} \vee \bar{x_3})$ 4&2+3=$(x_0 \vee \bar{x_1} \vee x_2)$ 4'      & 								   &   							    \\
+$(\bar{x_0} \vee x_1 \vee x_2 \vee \bar{x_3})$     5&3+4=$(x_0 \vee \bar{x_1} \vee \bar{x_3})$ 5'& 								   &  							    \\
+			\hline
+		\end{tabular}
+	\end{center}
+	$y_e =$ $(x_0 \vee \bar{x_1} \vee x_2 )$ $\cdot$ $(x_0 \vee \bar{x_3} )$ $\cdot$ $(x_1 \vee x_2 \vee \bar{x_3} )$
+
+
+	\begin{center}
+		\begin{tabular}{ |c|c|c| }
+			\hline
+$(x_0\vee x_1\vee x_2\vee\bar{x_3})$ 0			&0+2=$(x_0\vee x_1\vee\bar{x_3})$ 0' 	  &$(x_0\vee\bar{x_2}\vee\bar{x_3})$\\
+$(x_0\vee x_1\vee\bar{x_2}\vee x_3)$ 1			&1+2=$(x_0\vee x_1\vee\bar{x_2})$ 1' 	  &$(x_0\vee x_1\vee\bar{x_2})$     \\
+$(x_0\vee x_1\vee\bar{x_2}\vee\bar{x_3})$ 2		&2+3=$(x_0\vee\bar{x_2}\vee\bar{x_3})$ 2' &$(x_0\vee x_1\vee\bar{x_3})$     \\
+$(x_0\vee\bar{x_1}\vee\bar{x_2}\vee\bar{x_3})$ 3& 										  &  								\\
+			\hline
+		\end{tabular}
+	\end{center}
+	$y_f =$ $(x_0 \vee \bar{x_2} \vee \bar{x_3} )$ $\cdot$ $(x_0 \vee x_1 \vee \bar{x_2} )$ $\cdot$ $(x_0 \vee x_1 \vee \bar{x_3} )$
+
+
+	\begin{center}
+		\begin{tabular}{ |c|c|c| }
+			\hline
+$(x_0\vee x_1\vee x_2\vee x_3)$ 0				 &0+1=$(x_0\vee x_1\vee x_2)$ 0' &$(x_0 \vee x_1 \vee x_2 )$ 					\\
+$(x_0\vee x_1\vee x_2\vee\bar{x_3})$ 1			 & 							     &$(x_0\vee\bar{x_1}\vee\bar{x_2}\vee\bar{x_3})$\\
+$(x_0\vee\bar{x_1}\vee\bar{x_2}\vee\bar{x_3})$ 2 & 								 &$(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$    \\
+$(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$ 3	 & 								 &   				   	    					\\
+			\hline
+		\end{tabular}
+	\end{center}
+	$y_g =$ $(x_0 \vee x_1 \vee x_2 ) \cdot $$(x_0\vee\bar{x_1}\vee\bar{x_2}\vee\bar{x_3})$ $\cdot(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$
+
+	\section{Перевод полученных выражений к базису 2И-НЕ/2ИЛИ-НЕ}
+	При переводе в базис к изначальному алгебраическому уравнению применяется двойное отрицание, после чего используются законы де Морагана:
+	
+	\begin{center}
+		$\overline{a \cdot b} = \bar{a} \vee \bar{b}$ \\
+		$\overline{a \vee b} = \bar{a} \cdot \bar{b}$ \\
+	\end{center}
+	
+	Чтобы не загромождать запись двойными отрицаниями, они будут опускаться после того, как будет показано их применение, то есть:
+	
+	\begin{center}
+		$\overline{\overline{A \vee B \vee C \vee D}} =$
+		$\overline{\bar{A} \cdot \bar{B} \cdot \bar{C} \cdot \bar{D}}$ \\
+		$A \vee B \vee C \vee D =$
+		$\overline{\overline{
+				   \overline{\overline{A \vee B}} \vee
+				   \overline{\overline{C \vee D}}
+				}}$
+	\end{center}
+
+	\newpage
+
+	\subsection{2И-НЕ}	
+	$y^{\text{ДНФ}}_a = \overline{\overline{\bar{x_0} x_2 \vee \bar{x_1} \bar{x_3} \vee x_0 \bar{x_1} \bar{x_2} \vee \bar{x_0} x_1 x_2}} =$ \\
+	$= \overline{\overline{\bar{x_0} x_2} \cdot \overline{\bar{x_0} \bar{x_3}} \cdot \overline{x_0 \bar{x_1} \bar{x_2}} \cdot \overline{\bar{x_0} x_1 x_2}}$ \\
+	$y^{\text{КНФ}}_a = \overline{\overline{\overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3})}} \cdot (x_0 \vee \bar{x_1} \vee x_2 \vee x_3)}} = $ \\
+	$= \overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3})}} \cdot \overline{\overline{(x_0 \vee \bar{x_1} \vee x_2 \vee x_3)}} = $ \\
+	$= \overline{\bar{x_0} \bar{x_1} \bar{x_2} x_3} \cdot \overline{\bar{x_0} x_1 \bar{x_2} \bar{x_3}}$ \\
+	
+	$y^{\text{ДНФ}}_b = \overline{\overline{\bar{x_1} x_2 \bar{x_3} \vee \bar{x_0} x_2 x_3 \vee \bar{x_0} \bar{x_1} x_3 \vee \bar{x_0} \bar{x_2} \bar{x_3} \vee x_0 \bar{x_1} \bar{x_3}}} = $ \\
+	$= \overline{\overline{\bar{x_1} x_2 \bar{x_3}} \cdot\overline{\bar{x_0} x_2 x_3} \cdot\overline{\bar{x_0} \bar{x_1} x_3} \cdot\overline{\bar{x_0} \bar{x_2} \bar{x_3}} \cdot \overline{x_0 \bar{x_1} \bar{x_3}}}$ \\
+	$y^{\text{КНФ}}_b = \overline{\overline{\overline{\overline{(x_0 \vee \bar{x_1} \vee x_2 \bar{x_3})}} \cdot(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee x_3) =}}$ \\
+	$= \overline{\overline{(x_0 \vee \bar{x_1} \vee x_2 \bar{x_3})}} \cdot\overline{\overline{(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee x_3)}} =$ \\
+	$= \overline{\bar{x_0} x_1 \bar{x_2} x_3} \cdot \overline{\bar{x_0} x_1 x_2 \bar{x_3}}$ \\
+	
+	$y^{\text{ДНФ}}_c = \overline{\overline{\bar{x_0} \bar{x_2} \vee x_0 \bar{x_1} \bar{x_2} \vee x_0 \bar{x_1} \bar{x_3} \vee\bar{x_0} x_2 x_3 \vee\bar{x_0} x_1 x_2}} =$ \\
+	$= \overline{\overline{\bar{x_0} \bar{x_2}} \cdot\overline{x_0 \bar{x_1} \bar{x_2}} \cdot\overline{x_0 \bar{x_1} \bar{x_3}} \cdot\overline{\bar{x_0} x_2 x_3} \cdot \overline{\bar{x_0} x_1 x_2}}$ \\
+	$y^{\text{КНФ}}_c = \overline{\overline{(x_0 \vee x_1 \vee \bar{x_2} \vee x_3)}} =$ $ \overline{\bar{x_0} \bar{x_1} x_2 \bar{x_3}}$ \\
+	
+	$y^{\text{ДНФ}}_d = \overline{\overline{x_0 \bar{x_1} \bar{x_2} \vee\bar{x_0} \bar{x_1} x_2 \vee\bar{x_0} x_2 \bar{x_3} \vee\bar{x_0} \bar{x_1} \bar{x_3} \vee\bar{x_0} x_1 \bar{x_2} x_3}} =$ \\
+	$\overline{\overline{x_0 \bar{x_1} \bar{x_2}} \cdot \overline{\bar{x_0} \bar{x_1} x_2} \cdot \overline{\bar{x_0} x_2 \bar{x_3}} \cdot \overline{\bar{x_0} \bar{x_1} \bar{x_3}} \cdot \overline{\bar{x_0} x_1 \bar{x_2} x_3}}$ \\
+	$y^{\text{КНФ}}_d = \overline{\overline{\overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot(x_0 \vee \bar{x_1} \vee x_2 \vee x_3) \cdot(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3})}} \cdot (\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)}}$ \\
+	$= \overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3})}} \cdot \overline{\overline{(x_0 \vee \bar{x_1} \vee x_2 \vee x_3)}} \cdot\overline{\overline{(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3})}} \cdot \overline{\overline{(\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)}}$ \\
+	$= \overline{\bar{x_0} \bar{x_1} \bar{x_2} x_3} \cdot \overline{\bar{x_0} x_1 \bar{x_2} \bar{x_3}} \cdot \overline{\bar{x_0} x_1 x_2 x_3} \cdot \overline{x_0 \bar{x_1} x_2 \bar{x_3}}$ \\
+	
+	$y^{\text{ДНФ}}_e = \overline{\overline{\bar{x_1} \bar{x_3} \vee \bar{x_0} x_2 \bar{x_3}}} = \overline{\overline{\bar{x_1} \bar{x_3}} \cdot \overline{\bar{x_0} x_2 \bar{x_3}}}$ \\
+	$y^{\text{КНФ}}_e = \overline{\overline{\overline{\overline{(x_0 \vee \bar{x_3}) \vee (x_0 \vee \bar{x_1} \vee x_2)}} \cdot (x_1 \vee x_2 \vee \bar{x_3})}} =$ \\
+	$= \overline{\overline{(x_0 \vee \bar{x_3})}} \cdot \overline{\overline{(x_0 \vee \bar{x_1} \vee x_2)}} \cdot \overline{\overline{(x_1 \vee x_2 \vee \bar{x_3})}} =$ \\
+	$= \overline{\bar{x_0} x_3} \cdot \overline{\bar{x_0} x_1 \bar{x_2}} \cdot \overline{\bar{x_1} \bar{x_2} x_3}$ \\
+	
+	$y^{\text{ДНФ}}_f = \overline{\overline{x_0 \bar{x_1} \bar{x_3} \vee x_0 \bar{x_1} \bar{x_2} \vee \bar{x_0} \bar{x_2} \bar{x_3} \vee \bar{x_0} x_1 x_2 \vee \bar{x_0} x_1 \bar{x_2}}} =$ \\
+	$= \overline{\overline{x_0 \bar{x_1} \bar{x_3}} \cdot \overline{x_0 \bar{x_1} \bar{x_2}} \cdot \overline{\bar{x_0} \bar{x_2} \bar{x_3}} \cdot \overline{\bar{x_0} x_1 x_3} \cdot \overline{\bar{x_0} x_1 \bar{x_2}}}$ \\
+	$y^{\text{КНФ}}_f = \overline{\overline{\overline{\overline{(x_0 \vee x_1 \vee \bar{x_2}) \cdot(x_0 \vee \bar{x_2} \vee \bar{x_3})}} \cdot (x_0 \vee x_1 \vee \bar{x_3})}} =$ \\
+	$= \overline{\overline{(x_0 \vee x_1 \vee \bar{x_2})}} \cdot \overline{\overline{(x_0 \vee \bar{x_2} \vee \bar{x_3})}} \cdot \overline{\overline{(x_0 \vee x_1 \vee \bar{x_3})}}$
+	$= \overline{\bar{x_0} \bar{x_1} x_2} \cdot \overline{\bar{x_0} x_2 x_3} \cdot \overline{\bar{x_0} \bar{x_1} x_3}$ \\
+	
+	$y^{\text{ДНФ}}_g = \overline{\overline{x_0 \bar{x_1} \bar{x_3} \vee \bar{x_0} \bar{x_1} x_2 \vee \bar{x_0} x_1 \bar{x_3} \vee \bar{x_0} x_1 \bar{x_2}}}$
+	$= \overline{\overline{x_0 \bar{x_1} \bar{x_3}} \cdot \overline{\bar{x_0} \bar{x_1} x_2} \cdot \overline{\bar{x_0} x_1 \bar{x_3}} \cdot \overline{\bar{x_0} x_1 \bar{x_2}}}$ \\
+	$y^{\text{КНФ}}_g = \overline{\overline{\overline{\overline{(x_0 \vee x_1 \vee x_2) \cdot (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3})}} \cdot (\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)}} =$ \\
+	$= \overline{\overline{(x_0 \vee x_1 \vee x_2)}} \cdot \overline{\overline{(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3})}} \cdot \overline{\overline{(\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)}} =$ \\
+	$= \overline{\bar{x_0} \bar{x_1} \bar{x_2}} \cdot \overline{\bar{x_0} x_1 x_2 x_3} \cdot \overline{x_0 \bar{x_1} x_2 \bar{x_3}}$ \\
+	
+	\subsection{2ИЛИ-НЕ}
+	
+	$y^{\text{ДНФ}}_a = \overline{\overline{\overline{\overline{ \bar{x_0} x_2 \vee \bar{x_1} \bar{x_3} }} \vee \overline{\overline{ x_0 \bar{x_1} \bar{x_2} \vee \bar{x_0} x_1 x_3}} }}$
+	$= \overline{\overline{\bar{x_0} x_2}} \vee \overline{\overline{\bar{x_1} \bar{x_3}}} \vee \overline{\overline{x_0 \bar{x_1} \bar{x_2}}} \vee \overline{\overline{\bar{x_0} x_1 x_3}} =$ \\
+	$= \overline{ x_0 \vee \bar{x_2}} \vee \overline{x_1 \vee x_3} \vee \overline{\bar{x_0} \vee x_1 \vee x_2} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_3}}$ \\
+	$y^{\text{КНФ}}_a = \overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee x_2 \vee x_3)}} =$\\
+	$= \overline{\overline{x_0 \vee x_1 \vee x_2 \vee \bar{x_3}} \vee \overline{x_0 \vee \bar{x_1} \vee x_2 \vee x_3}}$ \\
+	
+	$y^{\text{ДНФ}}_b = \overline{\overline{
+			\overline{\overline{
+					\bar{x_1} x_2 \bar{x_3} \vee \bar{x_0} x_2 x_3
+			}} \vee
+			\overline{\overline{
+					\overline{\overline{
+							\bar{x_0} \bar{x_1} x_3 \vee \bar{x_0} \bar{x_2} \bar{x_3}
+					}} \vee x_0 \bar{x_1} \bar{x_3}
+			}}
+	}} =$ \\
+	$= \overline{\overline{\bar{x_1} x_2 x_3}} \vee \overline{\overline{\bar{x_0} x_2 x_3}} \vee \overline{\overline{\bar{x_0} \bar{x_1} x_3}} \vee \overline{\overline{\bar{x_0} \bar{x_2} \bar{x_3}}} \vee \overline{\overline{x_0 \bar{x_1} \bar{x_3}}} =$ \\
+	$= \overline{x_1 \vee \bar{x_2} \vee x_3} \vee \overline{x_0 \vee \bar{x_2} \vee \bar{x_3}} \vee \overline{x_0 \vee x_1 \vee \bar{x_3}} \vee \overline{x_0 \vee x_2 \vee x_3} \vee \overline{\bar{x_0} \vee x_1 \vee x_3}$ \\
+	$y^{\text{КНФ}}_b = \overline{\overline{(x_0 \vee \bar{x_1} \vee x_2 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee x_3)}}$ \\
+	$= \overline{\overline{x_0 \vee \bar{x_1} \vee x_2 \vee \bar{x_3}} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_2} \vee x_3}}$ \\
+	
+	$y^{\text{ДНФ}}_c =  \overline{\overline{
+			\overline{\overline{
+					\bar{x_0} \bar{x_2} \vee x_0 \bar{x_1} \bar{x_2}
+			}} \vee
+			\overline{\overline{
+					\overline{\overline{
+							x_0 \bar{x_1} \bar{x_3} \vee \bar{x_0} x_2 x_3
+					}} \vee \bar{x_0} x_1 x_2
+			}}
+	}} =$ \\
+	$= \overline{\overline{\bar{x_0} \bar{x_2}}} \vee \overline{\overline{x_0 \bar{x_1} \bar{x_2}}} \vee  \overline{\overline{x_0 \bar{x_1} \bar{x_3}}} \vee  \overline{\overline{\bar{x_0} x_2 x_3}} \vee \overline{\overline{\bar{x_0} x_1 x_2}} =$ \\
+	$= \overline{x_0 \vee x_2} \vee \overline{\bar{x_0} \vee x_1 \vee x_2} \vee \overline{\bar{x_0} \vee x_1 \vee x_3} \vee \overline{x_0 \vee \bar{x_2} \vee \bar{x_3}} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_2}}$ \\
+	$y^{\text{КНФ}}_c = \overline{\overline{x_0 \vee x_1 \vee \bar{x_2} \vee x_3}}$ \\
+	
+	$y^{\text{ДНФ}}_d = \overline{\overline{
+			\overline{\overline{
+					x_0 \bar{x_1} \bar{x_2} \vee \bar{x_0} \bar{x_1} x_2 
+			}} \vee 
+			\overline{\overline{
+					\overline{\overline{
+							\bar{x_0} x_2 \bar{x_3} \vee \bar{x_0} \bar{x_1} \bar{x_3}
+					}} \vee \bar{x_0} x_1 \bar{x_2} x_3
+			}}
+	}} =$ \\
+	$= \overline{\overline{x_0 \bar{x_1} \bar{x_2}}} \vee \overline{\overline{\bar{x_0} \bar{x_1} x_2}} \vee \overline{\overline{\bar{x_0} x_2 \bar{x_3}}} \vee \overline{\overline{\bar{x_0} \bar{x_1} \bar{x_3}}} \vee \overline{\overline{\bar{x_0} x_1 \bar{x_2} x_3}}$ \\
+	$= \overline{\bar{x_0} \vee x_1 \vee x_2} \vee \overline{x_0 \vee x_1 \vee \bar{x_2}} \vee \overline{x_0 \vee \bar{x_2} \vee x_3} \vee \overline{x_0 \vee x_1 \vee x_3} \vee \overline{x_0 \vee \bar{x_1} \vee x_2 \vee \bar{x_3}}$ \\
+	$y^{\text{КНФ}}_d = \overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee x_2 \vee x_3) \cdot (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) \cdot (\bar{x_0} \vee x_1  \vee \bar{x_2} \vee x_3)}} =$ \\
+	$=\overline{\overline{x_0 \vee x_1 \vee x_2 \vee \bar{x_3}} \vee\overline{x_0 \vee \bar{x_1} \vee x_2 \vee x_3} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}} \vee \overline{\bar{x_0} \vee x_1  \vee \bar{x_2} \vee x_3}}$ \\
+	
+	$y^{\text{ДНФ}}_e = \overline{\overline{\bar{x_1} \bar{x_3} \vee \bar{x_0} x_2 \bar{x_3}}} $
+	$= \overline{\overline{\bar{x_1} \bar{x_3}}} \vee \overline{\overline{\bar{x_0} x_2 \bar{x_3}}} $
+	$= \overline{x_1 \vee x_3} \vee \overline{x_0 \vee \bar{x_2} \vee x_3}$ \\
+	$y^{\text{КНФ}}_e = \overline{\overline{(x_0 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee x_2) \cdot (x_1 \vee x_2 \vee \bar{x_3})}}$ \\
+	$= \overline{\overline{x_0 \vee \bar{x_3}} \vee \overline{x_0 \vee \bar{x_1} \vee x_2} \vee \overline{x_1 \vee x_2 \vee \bar{x_3}}}$ \\
+	
+	$y^{\text{ДНФ}}_f = \overline{\overline{
+			\overline{\overline{
+					x_0 \bar{x_1} \bar{x_3} \vee x_0 \bar{x_1} \bar{x_2} 
+			}} \vee
+			\overline{\overline{
+					\overline{\overline{
+							\bar{x_0} \bar{x_2} \bar{x_3} \vee \bar{x_0} x_1 x_3 
+					}} \vee \bar{x_0} x_1 \bar{x_2}
+			}}
+	}} =$ \\
+	$= \overline{\overline{x_0 \bar{x_1} \bar{x_3}}} \vee \overline{\overline{x_0 \bar{x_1} \bar{x_2}}} \vee \overline{\overline{\bar{x_0} \bar{x_2} \bar{x_3}}} \vee \overline{\overline{\bar{x_0} x_1 x_3}} \vee \overline{\overline{\bar{x_0} x_1 \bar{x_2}}}$ \\
+	$= \overline{\bar{x_0} \vee x_1 \vee x_3} \vee \overline{\bar{x_0} \vee x_1 \vee x_2} \vee \overline{x_0 \vee x_2 \vee x_3} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_3}} \vee \overline{x_0 \vee \bar{x_1} \vee x_2}$ \\
+	$y^{\text{КНФ}}_f = \overline{\overline{(x_0 \vee x_1 \vee \bar{x_2}) \cdot (x_0 \vee \bar{x_2} \vee \bar{x_3}) \cdot (x_0 \vee x_1 \vee \bar{x_3})}}$ \\
+	$= \overline{ \overline{x_0 \vee x_1 \vee \bar{x_2}} \vee \overline{x_0 \vee \bar{x_2} \vee \bar{x_3}} \vee \overline{x_0 \vee x_1 \vee \bar{x_3}}}$ \\
+	
+	$y^{\text{ДНФ}}_g = \overline{\overline{\overline{\overline{\bar{x_0} \bar{x_1} \bar{x_3} \vee \bar{x_0} \bar{x_1} x_2}} \vee \overline{\overline{\bar{x_0} x_1 \bar{x_3} \vee \bar{x_0} x_1 \bar{x_2}}}}}$
+	$= \overline{\overline{\bar{x_0} \bar{x_1} \bar{x_3}}} \vee
+	\overline{\overline{\bar{x_0} \bar{x_1} x_2}} \vee
+	\overline{\overline{\bar{x_0} x_1 \bar{x_3}}} \vee
+	\overline{\overline{\bar{x_0} x_1 \bar{x_2}}} $ \\
+	$= \overline{x_0 \vee x_1 \vee x_3} \vee \overline{x_0 \vee x_1 \vee \bar{x_2}} \vee \overline{x_0 \vee \bar{x_1} \vee x_3} \vee \overline{x_0 \vee \bar{x_1} \vee x_2}$ \\
+	$y^{\text{КНФ}}_g = \overline{\overline{(x_0 \vee x_1 \vee x_2) \cdot (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) \cdot (\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)}}$ \\
+	$= \overline{\overline{x_0 \vee x_1 \vee x_2} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}} \vee \overline{\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3}}$ \\
+	
+	\section{Цифровая схема}
+	\begin{flushleft}
+		Все схемы строились через КНФ.
+	\end{flushleft}
+	
+	\includeimage
+	{a_circuit}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема для светодиода А.} % Подпись рисунка
+	\includeimage
+	{a_waveform}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Сигнал на светодиоде А.} % Подпись рисунка
+	
+	\includeimage
+	{b_circuit}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема для светодиода B.} % Подпись рисунка
+	\includeimage
+	{b_waveform}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Сигнал на светодиоде B.} % Подпись рисунка
+	
+	\includeimage
+	{c_circuit}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема для светодиода C.} % Подпись рисунка
+	\includeimage
+	{c_waveform}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Сигнал на светодиоде C.} % Подпись рисунка
+	
+	\includeimage
+	{d_circuit}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема для светодиода D.} % Подпись рисунка
+	\includeimage
+	{d_waveform}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Сигнал на светодиоде D.} % Подпись рисунка
+	
+	\includeimage
+	{e_circuit}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема для светодиода E.} % Подпись рисунка
+	\includeimage
+	{e_waveform}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Сигнал на светодиоде E.} % Подпись рисунка
+	
+	\includeimage
+	{f_circuit}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема для светодиода F.} % Подпись рисунка
+	\includeimage
+	{f_waveform}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Сигнал на светодиоде F.} % Подпись рисунка
+	
+	\includeimage
+	{g_circuit}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема для светодиода G.} % Подпись рисунка
+	\includeimage
+	{g_waveform}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Сигнал на светодиоде G.} % Подпись рисунка
+	
+	\includeimage
+	{bcd_circuit}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема для светодиода BSD.} % Подпись рисунка
+	\includeimage
+	{bcd_waveform}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Сигнал на BSD.} % Подпись рисунка
+	\includeimage
+	{BCD_new}
+	{f} % Обтекание (без обтекания)
+	{h} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема для светодиода BSD(С отрицанием, так как в ПЛИС светодиоды на анодах).} % Подпись рисунка
+	
+	
+	\chapter{Счётчик с коэффициентом счёта 6.}
+	
+	\section{Счётчик для 6 знаков.}
+	\begin{flushleft}
+		Построим счётчик для 6 знаков.
+	\end{flushleft}
+
+	\includeimage
+	{CNT_citcuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема счётчика на D-триггерах для 6 знаков.} % Подпись рисунка
+
+	\includeimage
+	{CNT_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Вывод счётчика на D-триггерах для 6 знаков.} % Подпись рисунка
+
+	\section{Делитель частоты.}
+
+	\begin{flushleft}
+		Так как на вход будет подан сигнал с частотой 50 МГц, то мы
+		ничего не увидим, так как переключение бует слишком быстрым.
+		Необходимо собрать делитель напряжения сигнала до частоты в
+		50 Гц. Важно будет уточнить, что чтобы проверить схему в 
+		Quartus II, сделаем сквозной выход [0], потому что в 
+		противном случае сигнал будет нельзя проверить внутри 
+		электронной системы так как он будет слишком растянут, в то 
+		время перед тем как добавить его в ПЛИС надо будет переключить на [15].
+	\end{flushleft}
+
+	\begin{lstlisting}[language=verilog,escapeinside=``]
+module VD2(clk, out_pos);
+	input clk;
+	output reg [19:0]out_pos;
+
+	always @(posedge clk)
+	begin
+		out_pos <= out_pos + 1'd1;
+	end
+endmodule
+	\end{lstlisting}
+	
+	\includeimage
+	{VD2_20_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Результат деления.} % Подпись рисунка
+	
+	\chapter{Преобразователь кода, на выходе которого формируется
+			 последовательность бинарных чисел соответствующая цифрам
+			 студенческого билета.}
+	
+		\section{Декодер номера билета.}
+	\begin{flushleft}
+		Для начала построим декодер для билет под номером 20L274.
+	\end{flushleft}
+	
+	\begin{center}
+		\begin{tabular}{ |c||c|c|c||c|c|c|c| } 
+			\hline
+			Символ & $a_0$ & $a_1$ & $a_2$ & $x_0$ & $x_1$ & $x_2$ & $x_3$ \\
+			\hline
+			2 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+			0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\ 
+			Л & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\ 
+			2 & 0 & 1 & 1 & 0 & 0 & 1 & 0 \\ 
+			7 & 1 & 0 & 0 & 0 & 1 & 1 & 1 \\ 
+			4 & 1 & 0 & 1 & 0 & 1 & 0 & 0 \\  
+			\hline
+		\end{tabular}
+	\end{center}
+	
+	$x_0^{\text{СДНФ}} = \bar{a_0} a_1 \bar{a_2}$ \\
+	$x_1^{\text{СДНФ}} = a_0 \bar{a_1} \bar{a_2} \vee a_0 \bar{a_1} a_2$ \\
+	$x_2^{\text{СДНФ}} = \bar{a_0} \bar{a_1} \bar{a_2} \vee \bar{a_0} a_1 \bar{a_2} \vee \bar{a_0} a_1 a_2 \vee a_0 \bar{a_1} \bar{a_2}$ \\
+	$x_3^{\text{СДНФ}} = a_0 \bar{a_1} \bar{a_2}$ \\
+	
+	\begin{flushleft}
+		Переведем в 2И-НЕ: 
+	\end{flushleft}
+	
+	$x_0^{\text{ДНФ}} = \overline{\overline{\bar{a_0} a_1 \bar{a_2}}}$ \\
+	$x_1^{\text{ДНФ}} = \overline{\overline{a_0 \bar{a_1} \bar{a_2} \vee a_0 \bar{a_1} a_2}} =$ $\overline{\overline{a_0 \bar{a_1} \bar{a_2}} \cdot \overline{a_0 \bar{a_1} a_2}}$ \\
+	$x_2^{\text{ДНФ}} = \overline{\overline{\bar{a_0} \bar{a_1} \bar{a_2} \vee \bar{a_0} a_1 \bar{a_2} \vee \bar{a_0} a_1 a_2 \vee a_0 \bar{a_1} \bar{a_2}}} =$
+	$\overline{\overline{\bar{a_0} \bar{a_1} \bar{a_2}} \cdot \overline{\bar{a_0} a_1 \bar{a_2}} \cdot \overline{\bar{a_0} a_1 a_2} \cdot \overline{a_0 \bar{a_1} \bar{a_2}}}$ \\
+	$x_0^{\text{ДНФ}} = \overline{\overline{a_0 \bar{a_1} \bar{a_2}}}$ \\
+	
+	\includeimage
+	{decoder_20L274_circuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.05\textwidth} % Ширина рисунка
+	{Схема декодера для студенческого билета 20L274.} % Подпись рисунка
+	
+	\includeimage
+	{decoder_20L274_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Вывод декодера для студенческого билета 20L274.} % Подпись рисунка
+	
+	\includeimage
+	{CNT_citcuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема счётчика на D-триггерах для 6 знаков.} % Подпись рисунка
+	
+	\includeimage
+	{CNT_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Вывод счётчика на D-триггерах для 6 знаков.} % Подпись рисунка
+	
+	\begin{flushleft}
+		Как~видно~из~графика~\ref{img:CNT_waveform}, как только значение доходит
+		до 1 1 0 происходит сброс значений. Пострим финальную схему для вывода
+		номера билета.
+	\end{flushleft}
+	
+	\section{Общая схема.}
+	\includeimage
+	{counter_circuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема вывода билета.} % Подпись рисунка
+	
+	\includeimage
+	{counter_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Вывод вывода билета.} % Подпись рисунка
+
+	\begin{flushleft}
+		На~временных~диаграммах~\ref{img:counter_waveform}, значения на элементе 
+		CNT приходят с вывода TEST элемента VD2\_20, чтобы показать корректность 
+		работы счетчика.
+	\end{flushleft}
+
+	\includeimage
+	{counter_pin}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Подключения пинов на ПЛИС Cyclone IV E - EP4CE6F17C8.} % Подпись рисунка
+	\begin{flushleft}
+		Произошла проблема с запуском на ПЛИС, все не корретно отображается. 
+		Исправляем ошибки.
+	\end{flushleft}
+	
+	\section{Исправление ошибок.}
+	
+	\begin{flushleft}
+		Вывод билета на экран был не корректный, символы были в перемешку, было 
+		решено добавить дополнительный элемент SUB, который выставляет символы в 
+		правильном порядке.
+	\end{flushleft}
+	
+	\includeimage
+	{SUB}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Преобразователь.} % Подпись рисунка
+	
+	\begin{flushleft}
+		Подставим элемент в схему:
+	\end{flushleft}
+
+	\includeimage
+	{counter_circuit_new}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Обновленная схема.} % Подпись рисунка
+	
+	\begin{flushleft}
+		Вывод:
+	\end{flushleft}
+
+	\includeimage
+	{20L274}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Вывод моего билета 20Л274.} % Подпись рисунка
+	
+	\begin{flushleft}
+		P. s. П = Л = L
+	\end{flushleft}
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
