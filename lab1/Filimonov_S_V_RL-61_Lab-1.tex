@@ -50,10 +50,10 @@
 	\makereporttitle
 	{Радиоэлектроника и лазерная техника (РЛ)} % Название факультета
 	{Технология приборостроения (РЛ6)} % Название кафедры
-	{домашней работе №1} % Название работы (в дат. падеже)
+	{Лабораторной работе №1} % Название работы (в дат. падеже)
 	{Цифровые устройства и микропроцессоры} % Название курса (необязательный аргумент)
-	{ПЛИС Altera ССИ, минимизация алгебраических функций} % Тема работы
-	{20Л274} % Номер варианта (необязательный аргумент)
+	{Исследование дребезка контактов на кнопке.} % Тема работы
+	{} % Номер варианта (необязательный аргумент)
 	{Филимонов~С.~В./РЛ6-61} % Номер группы/ФИО студента (если авторов несколько, их необходимо разделить запятой)
 	{Семеренко~Д.~А.} % ФИО преподавателя
 	
@@ -184,189 +184,9 @@
    						 x_0 \bar{x_1} \bar{x_2} x_3$
 
 %=======================================================================================================================
-	\section{Минимизация с помощью различных алгоритмов}
-	\subsection{Законы алгебры логики}
-	Для начала сократим выражение с  помощью законов алгебры логики:
-	\\
-
-	\begin{center}
-	$y^{\text{СКНФ}}_a = (x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee x_2 \vee x_3) =  $ \\
-	$ ((x_0 \vee x_2) \vee (x_1 \vee \bar{x_3})) \cdot ((x_0 \vee x_2) \vee (\bar{x_1} \vee x_3)) =  $ \\
-	$ (x_0 \vee x_2) \vee ((x_1 \vee \bar{x_3}) \cdot (\bar{x_1} \vee x_3))$
-	\\
-	$y^{\text{СДНФ}}_a = \bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} \vee
-						 \underline{\bar{x_0} \bar{x_1} x_2 \bar{x_3}} \vee 
-					     \underline{\underline{\bar{x_0} \bar{x_1} x_2 x_3}} \vee
-						 \bar{x_0} x_1 \bar{x_2} x_3 \vee 
-						 \bar{x_0} x_1 x_2 \bar{x_3} \vee 
-						 \underline{\underline{\bar{x_0} x_1 x_2 x_3}} \vee 
-						 \underline{\underline{\underline{x_0 \bar{x_1} \bar{x_2} \bar{x_3}}}} \vee 
-						\underline{\underline{\underline{ x_0 \bar{x_1} \bar{x_2} x_3}}} \vee 
-						 \underline{x_0 \bar{x_1} x_2 \bar{x_3}} = $
-	$\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} \vee
-	 \bar{x_0} x_2 x_3 \vee
- 	 \bar{x_0} x_1 \bar{x_2} x_3 \vee 
-  	 \bar{x_0} x_1 x_2 \bar{x_3} \vee 
-     x_0 \bar{x_1} \bar{x_2} \vee 
- 	 \bar{x_1} x_2 \bar{x_3}$
-	\end{center}
-
-	
-	Используем закон дистрибутивности
-	\begin{center}
-	   \begin{tabular}{ |c| } 
-	     \hline
-	       $x \vee (y \cdot z) = (x \vee y) \cdot (x \vee z)$ \\
-	     \hline
-	     \end{tabular}
-	\end{center}
-    
-	\begin{center}
-		$y^{\text{СКНФ}}_b = (x_0 \vee \bar{x_1} \vee x_2 \vee \bar{x_3}) \cdot 
-							 (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee x_3) = $ \\
-		$\bar{x_1} \vee x_0 \vee (x_2 \vee \bar{x_3} \cdot 
-							 (\bar{x_2} \vee x_3))$
-		\\ 
-		$y^{\text{СДНФ}}_b = \underline{\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3}} \vee 
-							 \underline{\bar{x_0} \bar{x_1} \bar{x_2} x_3} \vee
-							 \underline{\underline{\bar{x_0} \bar{x_1} x_2 \bar{x_3}}} \vee 
-							 \underline{\underline{\bar{x_0} \bar{x_1} x_2 x_3}} \vee
-							 \bar{x_0} x_1 \bar{x_2} \bar{x_3} \vee 
-							 \bar{x_0} x_1 x_2 x_3 \vee 
-							 \underline{\underline{\underline{x_0 \bar{x_1} \bar{x_2} \bar{x_3}}}} \vee 
-							 x_0 \bar{x_1} \bar{x_2} x_3 \vee 
-							 \underline{\underline{\underline{x_0 \bar{x_1} x_2 \bar{x_3}}}} = $ \\
-		$\underline{\bar{x_0} \bar{x_1} \bar{x_2}} \vee 
-		 \underline{\bar{x_0} \bar{x_1} x_2} \vee
-		 \bar{x_0} x_1 \bar{x_2} \bar{x_3} \vee 
-		 \bar{x_0} x_1 x_2 x_3 \vee 
-		 x_0 \bar{x_1} \bar{x_2} x_3 \vee
-		 x_0 \bar{x_1} \bar{x_3} = $ \\
-		$\bar{x_0} \bar{x_1} \vee
-		 \bar{x_0} x_1 \bar{x_2} \bar{x_3} \vee 
-		 \bar{x_0} x_1 x_2 x_3 \vee 
-		 x_0 \bar{x_1} \bar{x_2} x_3 \vee
-		 x_0 \bar{x_1} \bar{x_3} $ 		
-	\end{center} 
+	\section{Минимизация с помощью Карт Карно.}
 
 
-	Для $y^{\text{СКНФ}}_c$ сокращать нечего $y^{\text{СКНФ}}_c = (x_0 \vee x_1 \vee \bar{x_2} \vee x_3)$.
-	\begin{center}   
-		$y^{\text{СДНФ}}_c = \underline{\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3}} \vee
-							 \underline{\bar{x_0} \bar{x_1} \bar{x_2} x_3} \vee 
-							 \bar{x_0} \bar{x_1} x_2 x_3 \vee
-							 \underline{\underline{\bar{x_0} x_1 \bar{x_2} \bar{x_3}}} \vee 
-							 \underline{\underline{\bar{x_0} x_1 \bar{x_2} x_3}} \vee 
-							 \underline{\underline{\underline{\bar{x_0} x_1 x_2 \bar{x_3}}}} \vee 
-							 \underline{\underline{\underline{\bar{x_0} x_1 x_2 x_3}}} \vee 
-							 \underline{\underline{\underline{\underline{x_0 \bar{x_1} \bar{x_2} \bar{x_3}}}}} \vee 
-							 \underline{\underline{\underline{\underline{x_0 \bar{x_1} \bar{x_2} x_3}}}} \vee 
-							 x_0 \bar{x_1} x_2 \bar{x_3} = $ \\
-		$\underline{\bar{x_0} \bar{x_1} \bar{x_2}} \vee
-		 \bar{x_0} \bar{x_1} x_2 x_3 \vee
-		 \underline{\underline{\bar{x_0} x_1 \bar{x_2}}} \vee
-		 \underline{\underline{\bar{x_0} x_1 x_2}} \vee
-		 \underline{x_0 \bar{x_1} \bar{x_2}} \vee
-		 x_0 \bar{x_1} x_2 \bar{x_3} = $ \\
-		$\bar{x_1} \bar{x_2} \vee
-		 \bar{x_0} \bar{x_1} x_2 x_3 \vee
-		 \bar{x_0} x_1 \vee
-		 x_0 \bar{x_1} x_2 \bar{x_3}$
-	\end{center}       
-
-
-	\begin{center}
-       $y^{\text{СКНФ}}_d = (x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot
-							(x_0 \vee \bar{x_1} \vee x_2 \vee x_3) \cdot 
-							(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) \cdot 
-							(\bar{x_0} \vee x_1  \vee \bar{x_2} \vee x_3) = $ \\
-	   $(x_0 \vee (x_1 \vee x_2 \vee \bar{x_3}) \cdot 
-	   			  (\bar{x_1} \vee x_2 \vee x_3) \cdot 
-	   			  (\bar{x_1} \vee \bar{x_2} \vee \bar{x_3})
-	    ) \cdot (\bar{x_0} \vee x_1  \vee \bar{x_2} \vee x_3)$ \\   
-	   $y^{\text{СДНФ}}_d = \underline{\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3}} \vee
-							\underline{\bar{x_0} \bar{x_1} x_2 \bar{x_3}} \vee 
-							\bar{x_0} \bar{x_1} x_2 x_3 \vee
-							\bar{x_0} x_1 \bar{x_2} x_3 \vee 
-							\bar{x_0} x_1 x_2 \bar{x_3} \vee$ 
-							$\underline{\underline{x_0 \bar{x_1} \bar{x_2} \bar{x_3}}} \vee 
-							\underline{\underline{x_0 \bar{x_1} \bar{x_2} x_3}} = $ \\
-	   $\bar{x_0} \bar{x_1} \bar{x_3} \vee
-	    \bar{x_0} \bar{x_1} x_2 x_3 \vee
-	    \bar{x_0} x_1 \bar{x_2} x_3 \vee 
-	    \bar{x_0} x_1 x_2 \bar{x_3} \vee 
-	    x_0 \bar{x_1} \bar{x_2}$				
-	\end{center}
-
-
-	\begin{center}
-		$y^{\text{СКНФ}}_e = \underline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3})} \cdot
-							 \underline{(x_0 \vee x_1 \vee \bar{x_2} \vee \bar{x_3})} \cdot
-							 \underline{\underline{(x_0 \vee \bar{x_1} \vee x_2 \vee x_3)}} \cdot 
-							 \underline{\underline{(x_0 \vee \bar{x_1} \vee x_2 \vee \bar{x_3})}} \cdot 
-							 (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) \cdot 
-							 (\bar{x_0} \vee x_1 \vee x_2 \vee \bar{x_3}) = $ \\
-		$(x_0 \vee x_1 \vee \bar{x_3}) \cdot 
-		 (x_0 \vee \bar{x_1} \vee x_2) \cdot
-		 ((x_0 \vee \bar{x_1} \vee \bar{x_2}) \cdot (\bar{x_0} \vee x_1 \vee x_2)) \vee \bar{x_3}$ \\		             
-		$y^{\text{СДНФ}}_e = \underline{\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3}} \vee
-							 \underline{\bar{x_0} \bar{x_1} x_2 \bar{x_3}} \vee 
-						     \bar{x_0} x_1 x_2 \bar{x_3} \vee
-							 \underline{\underline{x_0 \bar{x_1} \bar{x_2} \bar{x_3}}} \vee
-							 \underline{\underline{x_0 \bar{x_1} x_2 \bar{x_3}}} = $ \\
-	   $\underline{\bar{x_0} \bar{x_1} \bar{x_3}} \vee
-	    \bar{x_0} x_1 x_2 \bar{x_3} \vee
-	    \underline{x_0 \bar{x_1} \bar{x_3}} = $ \\
-	   $\bar{x_1} \bar{x_3} \vee
-	    \bar{x_0} x_1 x_2 \bar{x_3}$
-	\end{center}
-
-
-	\begin{center}
-	   $y^{\text{СКНФ}}_f = (x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot 
-							(x_0 \vee x_1 \vee \bar{x_2} \vee x_3) \cdot 
-							(x_0 \vee x_1 \vee \bar{x_2} \vee \bar{x_3}) \cdot 
-							(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) = $ \\
-	   $(x_0 \vee x_1 \vee (x_2 \vee \bar{x_3}) \cdot (\bar{x_2} \vee x_3)) \cdot
-	    (x_0 \vee \bar{x_2} \bar{x_3})$ \\
-	   $y^{\text{СДНФ}}_f = \underline{\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3}} \vee
-							\underline{\bar{x_0} x_1 \bar{x_2} \bar{x_3}} \vee 
-							\bar{x_0} x_1 \bar{x_2} x_3 \vee
-							\bar{x_0} x_1 x_2 \bar{x_3} \vee 
-							\underline{\underline{x_0 \bar{x_1} \bar{x_2} \bar{x_3}}} \vee $
-							$\underline{\underline{x_0 \bar{x_1} \bar{x_2} x_3}} \vee 
-							x_0 \bar{x_1} x_2 \bar{x_3} = $ \\
-	   $\bar{x_0} \bar{x_2} \bar{x_3} \vee 
-	    \bar{x_0} x_1 \bar{x_2} x_3 \vee
-	    \bar{x_0} x_1 x_2 \bar{x_3} \vee
-	    x_0 \bar{x_1} \bar{x_2} \vee
-	    x_0 \bar{x_1} x_2 \bar{x_3} $
-	\end{center}
-
-
-	\begin{center}
-       $y^{\text{СКНФ}}_g = (x_0 \vee x_1 \vee x_2 \vee x_3) \cdot 
-							(x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot 
-							(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) \cdot 
-							(\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3) = $ \\
-	   $(x_0 \vee x_1 \vee x_2) \cdot
-	    ((x_0 \vee \bar{x_1} \vee \bar{x_3}) \cdot (\bar{x_0} \vee x_1 \vee x_3) \vee \bar{x_2})$ \\		            
-	   $y^{\text{СДНФ}}_g = \underline{\bar{x_0} \bar{x_1} x_2 \bar{x_3}} \vee
-							\underline{\bar{x_0} \bar{x_1} x_2 x_3} \vee 
-							\underline{\underline{\bar{x_0} x_1 \bar{x_2} \bar{x_3}}} \vee
-							\underline{\underline{\bar{x_0} x_1 \bar{x_2} x_3}} \vee 
-							\bar{x_0} x_1 x_2 \bar{x_3} \vee 
-							\underline{\underline{\underline{x_0 \bar{x_1} \bar{x_2} \bar{x_3}}}} \vee$ 
-							$\underline{\underline{\underline{x_0 \bar{x_1} \bar{x_2} x_3}}} = $ \\
-	   $\bar{x_0} \bar{x_1} x_2 \vee
-	    \bar{x_0} x_1 \bar{x_2} \vee
-	    \bar{x_0} x_1 x_2 \bar{x_3} \vee
-	    x_0 \bar{x_1} \bar{x_2}$
-	\end{center}
-
-
-%=======================================================================================================================
-	\subsection{Карты Карно}
 	\centering{
     	\begin{tikzpicture}[karnaugh,
     						American style, 
@@ -597,173 +417,6 @@
 	\\
 	}
 
-	\subsection{Метод Квайна}
-	\subsubsection{СДНФ}
-	\begin{center}
-		\begin{tabular}{ |c|c|c|c| }     
-		    \hline
-		$\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} $  0&0 + 1 = $\bar{x_0} \bar{x_1} \bar{x_3} $  0' &0' + 9' = $\bar{x_1} \bar{x_3} $  0'' &$\bar{x_0} x_1 x_3 $\\
-		$\bar{x_0} \bar{x_1} x_2 \bar{x_3} $  1&0 + 6 = $\bar{x_1} \bar{x_2} \bar{x_3} $  1' &1' + 4' = $\bar{x_1} \bar{x_3} $  1'' &$\bar{x_0} x_2 $\\
-		$\bar{x_0} \bar{x_1} x_2 x_3 $  2&1 + 2 = $\bar{x_0} \bar{x_1} x_2 $  2' &2' + 7' = $\bar{x_0} x_2 $  2'' &$\bar{x_1} \bar{x_3} $\\
-		$\bar{x_0} x_1 \bar{x_2} x_3 $  3&1 + 4 = $\bar{x_0} x_2 \bar{x_3} $  3' &3' + 5' = $\bar{x_0} x_2 $  3'' &$x_0 \bar{x_1} \bar{x_2} $\\
-		$\bar{x_0} x_1 x_2 \bar{x_3} $  4&1 + 8 = $\bar{x_1} x_2 \bar{x_3} $  4' & &   \\
-		$\bar{x_0} x_1 x_2 x_3 $  5&2 + 5 = $\bar{x_0} x_2 x_3 $  5' & &   \\
-		$x_0 \bar{x_1} \bar{x_2} \bar{x_3} $  6&3 + 5 = $\bar{x_0} x_1 x_3 $  6' & &   \\
-		$x_0 \bar{x_1} \bar{x_2} x_3 $  7&4 + 5 = $\bar{x_0} x_1 x_2 $  7' & &   \\
-		$x_0 \bar{x_1} x_2 \bar{x_3} $  8&6 + 7 = $x_0 \bar{x_1} \bar{x_2} $  8' & &   \\
-		&6 + 8 = $x_0 \bar{x_1} \bar{x_3} $  9' & &   \\
-			\hline
-		\end{tabular}
-	\end{center}
-	$y_a =$ $\bar{x_0} x_1 x_3 $ + $\bar{x_0} x_2 $ + $\bar{x_1} \bar{x_3} $ + $x_0 \bar{x_1} \bar{x_2} $
-
-
-	\begin{center}
-		\begin{tabular}{ |c|c|c|c| }         
-			\hline
-		$\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} $  0&0 + 1 = $\bar{x_0} \bar{x_1} \bar{x_2} $  0' &0' + 6' = $\bar{x_0} \bar{x_1} $  0'' &$\bar{x_0} \bar{x_1} $\\
-		$\bar{x_0} \bar{x_1} \bar{x_2} x_3 $  1&0 + 2 = $\bar{x_0} \bar{x_1} \bar{x_3} $  1' &0' + 9' = $\bar{x_1} \bar{x_2} $  1'' &$\bar{x_0} \bar{x_2} \bar{x_3} $\\
-		$\bar{x_0} \bar{x_1} x_2 \bar{x_3} $  2&0 + 4 = $\bar{x_0} \bar{x_2} \bar{x_3} $  2' &1' + 4' = $\bar{x_0} \bar{x_1} $  2'' &$\bar{x_0} x_2 x_3 $\\
-		$\bar{x_0} \bar{x_1} x_2 x_3 $  3&0 + 6 = $\bar{x_1} \bar{x_2} \bar{x_3} $  3' &1' + 10' = $\bar{x_1} \bar{x_3} $  3'' &$\bar{x_1} \bar{x_2} $\\
-		$\bar{x_0} x_1 \bar{x_2} \bar{x_3} $  4&1 + 3 = $\bar{x_0} \bar{x_1} x_3 $  4' &3' + 5' = $\bar{x_1} \bar{x_2} $  4'' &$\bar{x_1} \bar{x_3} $\\
-		$\bar{x_0} x_1 x_2 x_3 $  5&1 + 7 = $\bar{x_1} \bar{x_2} x_3 $  5' &3' + 7' = $\bar{x_1} \bar{x_3} $  5'' &   \\
-		$x_0 \bar{x_1} \bar{x_2} \bar{x_3} $  6&2 + 3 = $\bar{x_0} \bar{x_1} x_2 $  6' & &   \\
-		$x_0 \bar{x_1} \bar{x_2} x_3 $  7&2 + 8 = $\bar{x_1} x_2 \bar{x_3} $  7' & &   \\
-		$x_0 \bar{x_1} x_2 \bar{x_3} $  8&3 + 5 = $\bar{x_0} x_2 x_3 $  8' & &   \\
-		&6 + 7 = $x_0 \bar{x_1} \bar{x_2} $  9' & &   \\
-		&6 + 8 = $x_0 \bar{x_1} \bar{x_3} $ 10' & &   \\
-			\hline
-		\end{tabular}
-	\end{center}
-	$y_b =$ $\bar{x_0} \bar{x_1} $ + $\bar{x_0} \bar{x_2} \bar{x_3} $ + $\bar{x_0} x_2 x_3 $ + $\bar{x_1} \bar{x_2} $ + $\bar{x_1} \bar{x_3} $
-
-
-	\begin{center}
-		\begin{tabular}{ |c|c|c|c| }   
-		    \hline
-		$\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} $  0&0 + 1 = $\bar{x_0} \bar{x_1} \bar{x_2} $  0' &0' + 7' = $\bar{x_0} \bar{x_2} $  0'' &$\bar{x_0} \bar{x_2} $\\
-		$\bar{x_0} \bar{x_1} \bar{x_2} x_3 $  1&0 + 3 = $\bar{x_0} \bar{x_2} \bar{x_3} $  1' &0' + 11' = $\bar{x_1} \bar{x_2} $  1'' &$\bar{x_0} x_1 $\\
-		$\bar{x_0} \bar{x_1} x_2 x_3 $  2&0 + 7 = $\bar{x_1} \bar{x_2} \bar{x_3} $  2' &1' + 4' = $\bar{x_0} \bar{x_2} $  2'' &$\bar{x_0} x_3 $\\
-		$\bar{x_0} x_1 \bar{x_2} \bar{x_3} $  3&1 + 2 = $\bar{x_0} \bar{x_1} x_3 $  3' &2' + 5' = $\bar{x_1} \bar{x_2} $  3'' &$\bar{x_1} \bar{x_2} $\\
-		$\bar{x_0} x_1 \bar{x_2} x_3 $  4&1 + 4 = $\bar{x_0} \bar{x_2} x_3 $  4' &3' + 9' = $\bar{x_0} x_3 $  4'' &$x_0 \bar{x_1} \bar{x_3} $\\
-		$\bar{x_0} x_1 x_2 \bar{x_3} $  5&1 + 8 = $\bar{x_1} \bar{x_2} x_3 $  5' &4' + 6' = $\bar{x_0} x_3 $  5'' &   \\
-		$\bar{x_0} x_1 x_2 x_3 $  6&2 + 6 = $\bar{x_0} x_2 x_3 $  6' &7' + 10' = $\bar{x_0} x_1 $  6'' &   \\
-		$x_0 \bar{x_1} \bar{x_2} \bar{x_3} $  7&3 + 4 = $\bar{x_0} x_1 \bar{x_2} $  7' &8' + 9' = $\bar{x_0} x_1 $  7'' &   \\
-		$x_0 \bar{x_1} \bar{x_2} x_3 $  8&3 + 5 = $\bar{x_0} x_1 \bar{x_3} $  8' & &   \\
-		$x_0 \bar{x_1} x_2 \bar{x_3} $  9&4 + 6 = $\bar{x_0} x_1 x_3 $  9' & &   \\
-		&5 + 6 = $\bar{x_0} x_1 x_2 $ 10' & &   \\
-		&7 + 8 = $x_0 \bar{x_1} \bar{x_2} $ 11' & &   \\
-		&7 + 9 = $x_0 \bar{x_1} \bar{x_3} $ 12' & &   \\
-			\hline
-		\end{tabular}
-	\end{center}
-	$y_c =$ $\bar{x_0} \bar{x_2} $ + $\bar{x_0} x_1 $ + $\bar{x_0} x_3 $ + $\bar{x_1} \bar{x_2} $ + $x_0 \bar{x_1} \bar{x_3} $
-
-
-	\begin{center}
-		\begin{tabular}{ |c|c|c| }       
-			\hline
-		$\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} $  0&0 + 1 = $\bar{x_0} \bar{x_1} \bar{x_3} $  0' &$\bar{x_0} \bar{x_1} \bar{x_3} $\\
-		$\bar{x_0} \bar{x_1} x_2 \bar{x_3} $  1&0 + 5 = $\bar{x_1} \bar{x_2} \bar{x_3} $  1' &$\bar{x_0} \bar{x_1} x_2 $\\
-		$\bar{x_0} \bar{x_1} x_2 x_3 $  2&1 + 2 = $\bar{x_0} \bar{x_1} x_2 $  2' &$\bar{x_0} x_2 \bar{x_3} $\\
-		$\bar{x_0} x_1 \bar{x_2} x_3 $  3&1 + 4 = $\bar{x_0} x_2 \bar{x_3} $  3' &$\bar{x_1} \bar{x_2} \bar{x_3} $\\
-		$\bar{x_0} x_1 x_2 \bar{x_3} $  4&5 + 6 = $x_0 \bar{x_1} \bar{x_2} $  4' &$x_0 \bar{x_1} \bar{x_2} $\\
-		$x_0 \bar{x_1} \bar{x_2} \bar{x_3} $  5& &   \\
-		$x_0 \bar{x_1} \bar{x_2} x_3 $  6& &   \\
-			\hline
-		\end{tabular}
-	\end{center}
-	$y_d =$ $\bar{x_0} \bar{x_1} \bar{x_3} $ + $\bar{x_0} \bar{x_1} x_2 $ + $\bar{x_0} x_2 \bar{x_3} $ + $\bar{x_1} \bar{x_2} \bar{x_3} $ + $x_0 \bar{x_1} \bar{x_2} $
-
-
-	\begin{center}
-		\begin{tabular}{ |c|c|c|c| }
-			\hline
-		$\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} $  0&0 + 1 = $\bar{x_0} \bar{x_1} \bar{x_3} $  0' &0' + 4' = $\bar{x_1} \bar{x_3} $  0'' &$\bar{x_0} x_2 \bar{x_3} $\\
-		$\bar{x_0} \bar{x_1} x_2 \bar{x_3} $  1&0 + 3 = $\bar{x_1} \bar{x_2} \bar{x_3} $  1' &1' + 3' = $\bar{x_1} \bar{x_3} $  1'' &$\bar{x_1} \bar{x_3} $\\
-		$\bar{x_0} x_1 x_2 \bar{x_3} $  2&1 + 2 = $\bar{x_0} x_2 \bar{x_3} $  2' & &   \\
-		$x_0 \bar{x_1} \bar{x_2} \bar{x_3} $  3&1 + 4 = $\bar{x_1} x_2 \bar{x_3} $  3' & &   \\
-		$x_0 \bar{x_1} x_2 \bar{x_3} $  4&3 + 4 = $x_0 \bar{x_1} \bar{x_3} $  4' & &   \\
-			\hline
-		\end{tabular}
-	\end{center}
-	$y_e =$ $\bar{x_0} x_2 \bar{x_3} $ + $\bar{x_1} \bar{x_3} $
-
-
-	\begin{center}
-		\begin{tabular}{ |c|c|c| }
-			\hline
-		$\bar{x_0} \bar{x_1} \bar{x_2} \bar{x_3} $  0&0 + 1 = $\bar{x_0} \bar{x_2} \bar{x_3} $  0' &$\bar{x_0} \bar{x_2} \bar{x_3} $\\
-		$\bar{x_0} x_1 \bar{x_2} \bar{x_3} $  1&0 + 4 = $\bar{x_1} \bar{x_2} \bar{x_3} $  1' &$\bar{x_0} x_1 \bar{x_2} $\\
-		$\bar{x_0} x_1 \bar{x_2} x_3 $  2&1 + 2 = $\bar{x_0} x_1 \bar{x_2} $  2' &$\bar{x_0} x_1 \bar{x_3} $\\
-		$\bar{x_0} x_1 x_2 \bar{x_3} $  3&1 + 3 = $\bar{x_0} x_1 \bar{x_3} $  3' &$\bar{x_1} \bar{x_2} \bar{x_3} $\\
-		$x_0 \bar{x_1} \bar{x_2} \bar{x_3} $  4&4 + 5 = $x_0 \bar{x_1} \bar{x_2} $  4' &$x_0 \bar{x_1} \bar{x_2} $\\
-		$x_0 \bar{x_1} \bar{x_2} x_3 $  5&4 + 6 = $x_0 \bar{x_1} \bar{x_3} $  5' &$x_0 \bar{x_1} \bar{x_3} $\\
-		$x_0 \bar{x_1} x_2 \bar{x_3} $  6& &   \\
-			\hline
-		\end{tabular}
-	\end{center}
-	$y_f =$ $\bar{x_0} \bar{x_2} \bar{x_3} $ + $\bar{x_0} x_1 \bar{x_2} $ + $\bar{x_0} x_1 \bar{x_3} $ + $\bar{x_1} \bar{x_2} \bar{x_3} $ + $x_0 \bar{x_1} \bar{x_2} $ + $x_0 \bar{x_1} \bar{x_3} $
-
-
-	\begin{center}
-		\begin{tabular}{ |c|c|c| }
-			\hline
-		$\bar{x_0} \bar{x_1} x_2 \bar{x_3} $  0&0 + 1 = $\bar{x_0} \bar{x_1} x_2 $  0' &$\bar{x_0} \bar{x_1} x_2 $\\
-		$\bar{x_0} \bar{x_1} x_2 x_3 $  1&0 + 4 = $\bar{x_0} x_2 \bar{x_3} $  1' &$\bar{x_0} x_1 \bar{x_2} $\\
-		$\bar{x_0} x_1 \bar{x_2} \bar{x_3} $  2&2 + 3 = $\bar{x_0} x_1 \bar{x_2} $  2' &$\bar{x_0} x_1 \bar{x_3} $\\
-		$\bar{x_0} x_1 \bar{x_2} x_3 $  3&2 + 4 = $\bar{x_0} x_1 \bar{x_3} $  3' &$\bar{x_0} x_2 \bar{x_3} $\\
-		$\bar{x_0} x_1 x_2 \bar{x_3} $  4&5 + 6 = $x_0 \bar{x_1} \bar{x_2} $  4' &$x_0 \bar{x_1} \bar{x_2} $\\
-		$x_0 \bar{x_1} \bar{x_2} \bar{x_3} $  5& &   \\
-		$x_0 \bar{x_1} \bar{x_2} x_3 $  6& &   \\
-			\hline
-		\end{tabular}
-	\end{center}
-	$y_g =$ $\bar{x_0} \bar{x_1} x_2 $ + $\bar{x_0} x_1 \bar{x_2} $ + $\bar{x_0} x_1 \bar{x_3} $ + $\bar{x_0} x_2 \bar{x_3} $ + $x_0 \bar{x_1} \bar{x_2} $
-
-	\subsubsection{СКНФ}
-
-	Корректно сократить возможно только СКНФ для e, f и g.
-	\begin{center}
-		\begin{tabular}[h]{ |c|c|c|c| }         
-			\hline
-$(x_0\vee x_1\vee x_2\vee\bar{x_3})$ 		       0&0+1=$(x_0 \vee x_1 \vee \bar{x_3})$ 0'	     &0'+5'=$(x_0 \vee \bar{x_3} )$ 0''&$(x_0 \vee \bar{x_1} \vee x_2 )$\\
-$(x_0\vee x_1\vee\bar{x_2}\vee\bar{x_3})$ 	       1&0+3=$(x_0 \vee x_2 \vee \bar{x_3})$ 1'	     &1'+3'=$(x_0 \vee \bar{x_3} )$ 1''&$(x_0 \vee \bar{x_3} )$         \\
-$(x_0\vee\bar{x_1} \vee x_2 \vee x_3)$ 			   2&0+5=$(x_1 \vee x_2 \vee \bar{x_3})$ 2' 	 & 								   &$(x_1 \vee x_2 \vee \bar{x_3} )$\\
-$(x_0\vee\bar{x_1} \vee x_2 \vee \bar{x_3})$ 	   3&1+4=$(x_0 \vee \bar{x_2} \vee \bar{x_3})$ 3'& 								   &   							    \\
-$(x_0\vee\bar{x_1} \vee \bar{x_2} \vee \bar{x_3})$ 4&2+3=$(x_0 \vee \bar{x_1} \vee x_2)$ 4'      & 								   &   							    \\
-$(\bar{x_0} \vee x_1 \vee x_2 \vee \bar{x_3})$     5&3+4=$(x_0 \vee \bar{x_1} \vee \bar{x_3})$ 5'& 								   &  							    \\
-			\hline
-		\end{tabular}
-	\end{center}
-	$y_e =$ $(x_0 \vee \bar{x_1} \vee x_2 )$ $\cdot$ $(x_0 \vee \bar{x_3} )$ $\cdot$ $(x_1 \vee x_2 \vee \bar{x_3} )$
-
-
-	\begin{center}
-		\begin{tabular}{ |c|c|c| }
-			\hline
-$(x_0\vee x_1\vee x_2\vee\bar{x_3})$ 0			&0+2=$(x_0\vee x_1\vee\bar{x_3})$ 0' 	  &$(x_0\vee\bar{x_2}\vee\bar{x_3})$\\
-$(x_0\vee x_1\vee\bar{x_2}\vee x_3)$ 1			&1+2=$(x_0\vee x_1\vee\bar{x_2})$ 1' 	  &$(x_0\vee x_1\vee\bar{x_2})$     \\
-$(x_0\vee x_1\vee\bar{x_2}\vee\bar{x_3})$ 2		&2+3=$(x_0\vee\bar{x_2}\vee\bar{x_3})$ 2' &$(x_0\vee x_1\vee\bar{x_3})$     \\
-$(x_0\vee\bar{x_1}\vee\bar{x_2}\vee\bar{x_3})$ 3& 										  &  								\\
-			\hline
-		\end{tabular}
-	\end{center}
-	$y_f =$ $(x_0 \vee \bar{x_2} \vee \bar{x_3} )$ $\cdot$ $(x_0 \vee x_1 \vee \bar{x_2} )$ $\cdot$ $(x_0 \vee x_1 \vee \bar{x_3} )$
-
-
-	\begin{center}
-		\begin{tabular}{ |c|c|c| }
-			\hline
-$(x_0\vee x_1\vee x_2\vee x_3)$ 0				 &0+1=$(x_0\vee x_1\vee x_2)$ 0' &$(x_0 \vee x_1 \vee x_2 )$ 					\\
-$(x_0\vee x_1\vee x_2\vee\bar{x_3})$ 1			 & 							     &$(x_0\vee\bar{x_1}\vee\bar{x_2}\vee\bar{x_3})$\\
-$(x_0\vee\bar{x_1}\vee\bar{x_2}\vee\bar{x_3})$ 2 & 								 &$(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$    \\
-$(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$ 3	 & 								 &   				   	    					\\
-			\hline
-		\end{tabular}
-	\end{center}
-	$y_g =$ $(x_0 \vee x_1 \vee x_2 ) \cdot $$(x_0\vee\bar{x_1}\vee\bar{x_2}\vee\bar{x_3})$ $\cdot(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$
-
 	\section{Перевод полученных выражений к базису 2И-НЕ/2ИЛИ-НЕ}
 	При переводе в базис к изначальному алгебраическому уравнению применяется двойное отрицание, после чего используются законы де Морагана:
 	
@@ -826,88 +479,6 @@ $(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$ 3	 & 								 &   				   	    					\\
 	$= \overline{\overline{(x_0 \vee x_1 \vee x_2)}} \cdot \overline{\overline{(x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3})}} \cdot \overline{\overline{(\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)}} =$ \\
 	$= \overline{\bar{x_0} \bar{x_1} \bar{x_2}} \cdot \overline{\bar{x_0} x_1 x_2 x_3} \cdot \overline{x_0 \bar{x_1} x_2 \bar{x_3}}$ \\
 	
-	\subsection{2ИЛИ-НЕ}
-	
-	$y^{\text{ДНФ}}_a = \overline{\overline{\overline{\overline{ \bar{x_0} x_2 \vee \bar{x_1} \bar{x_3} }} \vee \overline{\overline{ x_0 \bar{x_1} \bar{x_2} \vee \bar{x_0} x_1 x_3}} }}$
-	$= \overline{\overline{\bar{x_0} x_2}} \vee \overline{\overline{\bar{x_1} \bar{x_3}}} \vee \overline{\overline{x_0 \bar{x_1} \bar{x_2}}} \vee \overline{\overline{\bar{x_0} x_1 x_3}} =$ \\
-	$= \overline{ x_0 \vee \bar{x_2}} \vee \overline{x_1 \vee x_3} \vee \overline{\bar{x_0} \vee x_1 \vee x_2} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_3}}$ \\
-	$y^{\text{КНФ}}_a = \overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee x_2 \vee x_3)}} =$\\
-	$= \overline{\overline{x_0 \vee x_1 \vee x_2 \vee \bar{x_3}} \vee \overline{x_0 \vee \bar{x_1} \vee x_2 \vee x_3}}$ \\
-	
-	$y^{\text{ДНФ}}_b = \overline{\overline{
-			\overline{\overline{
-					\bar{x_1} x_2 \bar{x_3} \vee \bar{x_0} x_2 x_3
-			}} \vee
-			\overline{\overline{
-					\overline{\overline{
-							\bar{x_0} \bar{x_1} x_3 \vee \bar{x_0} \bar{x_2} \bar{x_3}
-					}} \vee x_0 \bar{x_1} \bar{x_3}
-			}}
-	}} =$ \\
-	$= \overline{\overline{\bar{x_1} x_2 x_3}} \vee \overline{\overline{\bar{x_0} x_2 x_3}} \vee \overline{\overline{\bar{x_0} \bar{x_1} x_3}} \vee \overline{\overline{\bar{x_0} \bar{x_2} \bar{x_3}}} \vee \overline{\overline{x_0 \bar{x_1} \bar{x_3}}} =$ \\
-	$= \overline{x_1 \vee \bar{x_2} \vee x_3} \vee \overline{x_0 \vee \bar{x_2} \vee \bar{x_3}} \vee \overline{x_0 \vee x_1 \vee \bar{x_3}} \vee \overline{x_0 \vee x_2 \vee x_3} \vee \overline{\bar{x_0} \vee x_1 \vee x_3}$ \\
-	$y^{\text{КНФ}}_b = \overline{\overline{(x_0 \vee \bar{x_1} \vee x_2 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee x_3)}}$ \\
-	$= \overline{\overline{x_0 \vee \bar{x_1} \vee x_2 \vee \bar{x_3}} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_2} \vee x_3}}$ \\
-	
-	$y^{\text{ДНФ}}_c =  \overline{\overline{
-			\overline{\overline{
-					\bar{x_0} \bar{x_2} \vee x_0 \bar{x_1} \bar{x_2}
-			}} \vee
-			\overline{\overline{
-					\overline{\overline{
-							x_0 \bar{x_1} \bar{x_3} \vee \bar{x_0} x_2 x_3
-					}} \vee \bar{x_0} x_1 x_2
-			}}
-	}} =$ \\
-	$= \overline{\overline{\bar{x_0} \bar{x_2}}} \vee \overline{\overline{x_0 \bar{x_1} \bar{x_2}}} \vee  \overline{\overline{x_0 \bar{x_1} \bar{x_3}}} \vee  \overline{\overline{\bar{x_0} x_2 x_3}} \vee \overline{\overline{\bar{x_0} x_1 x_2}} =$ \\
-	$= \overline{x_0 \vee x_2} \vee \overline{\bar{x_0} \vee x_1 \vee x_2} \vee \overline{\bar{x_0} \vee x_1 \vee x_3} \vee \overline{x_0 \vee \bar{x_2} \vee \bar{x_3}} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_2}}$ \\
-	$y^{\text{КНФ}}_c = \overline{\overline{x_0 \vee x_1 \vee \bar{x_2} \vee x_3}}$ \\
-	
-	$y^{\text{ДНФ}}_d = \overline{\overline{
-			\overline{\overline{
-					x_0 \bar{x_1} \bar{x_2} \vee \bar{x_0} \bar{x_1} x_2 
-			}} \vee 
-			\overline{\overline{
-					\overline{\overline{
-							\bar{x_0} x_2 \bar{x_3} \vee \bar{x_0} \bar{x_1} \bar{x_3}
-					}} \vee \bar{x_0} x_1 \bar{x_2} x_3
-			}}
-	}} =$ \\
-	$= \overline{\overline{x_0 \bar{x_1} \bar{x_2}}} \vee \overline{\overline{\bar{x_0} \bar{x_1} x_2}} \vee \overline{\overline{\bar{x_0} x_2 \bar{x_3}}} \vee \overline{\overline{\bar{x_0} \bar{x_1} \bar{x_3}}} \vee \overline{\overline{\bar{x_0} x_1 \bar{x_2} x_3}}$ \\
-	$= \overline{\bar{x_0} \vee x_1 \vee x_2} \vee \overline{x_0 \vee x_1 \vee \bar{x_2}} \vee \overline{x_0 \vee \bar{x_2} \vee x_3} \vee \overline{x_0 \vee x_1 \vee x_3} \vee \overline{x_0 \vee \bar{x_1} \vee x_2 \vee \bar{x_3}}$ \\
-	$y^{\text{КНФ}}_d = \overline{\overline{(x_0 \vee x_1 \vee x_2 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee x_2 \vee x_3) \cdot (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) \cdot (\bar{x_0} \vee x_1  \vee \bar{x_2} \vee x_3)}} =$ \\
-	$=\overline{\overline{x_0 \vee x_1 \vee x_2 \vee \bar{x_3}} \vee\overline{x_0 \vee \bar{x_1} \vee x_2 \vee x_3} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}} \vee \overline{\bar{x_0} \vee x_1  \vee \bar{x_2} \vee x_3}}$ \\
-	
-	$y^{\text{ДНФ}}_e = \overline{\overline{\bar{x_1} \bar{x_3} \vee \bar{x_0} x_2 \bar{x_3}}} $
-	$= \overline{\overline{\bar{x_1} \bar{x_3}}} \vee \overline{\overline{\bar{x_0} x_2 \bar{x_3}}} $
-	$= \overline{x_1 \vee x_3} \vee \overline{x_0 \vee \bar{x_2} \vee x_3}$ \\
-	$y^{\text{КНФ}}_e = \overline{\overline{(x_0 \vee \bar{x_3}) \cdot (x_0 \vee \bar{x_1} \vee x_2) \cdot (x_1 \vee x_2 \vee \bar{x_3})}}$ \\
-	$= \overline{\overline{x_0 \vee \bar{x_3}} \vee \overline{x_0 \vee \bar{x_1} \vee x_2} \vee \overline{x_1 \vee x_2 \vee \bar{x_3}}}$ \\
-	
-	$y^{\text{ДНФ}}_f = \overline{\overline{
-			\overline{\overline{
-					x_0 \bar{x_1} \bar{x_3} \vee x_0 \bar{x_1} \bar{x_2} 
-			}} \vee
-			\overline{\overline{
-					\overline{\overline{
-							\bar{x_0} \bar{x_2} \bar{x_3} \vee \bar{x_0} x_1 x_3 
-					}} \vee \bar{x_0} x_1 \bar{x_2}
-			}}
-	}} =$ \\
-	$= \overline{\overline{x_0 \bar{x_1} \bar{x_3}}} \vee \overline{\overline{x_0 \bar{x_1} \bar{x_2}}} \vee \overline{\overline{\bar{x_0} \bar{x_2} \bar{x_3}}} \vee \overline{\overline{\bar{x_0} x_1 x_3}} \vee \overline{\overline{\bar{x_0} x_1 \bar{x_2}}}$ \\
-	$= \overline{\bar{x_0} \vee x_1 \vee x_3} \vee \overline{\bar{x_0} \vee x_1 \vee x_2} \vee \overline{x_0 \vee x_2 \vee x_3} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_3}} \vee \overline{x_0 \vee \bar{x_1} \vee x_2}$ \\
-	$y^{\text{КНФ}}_f = \overline{\overline{(x_0 \vee x_1 \vee \bar{x_2}) \cdot (x_0 \vee \bar{x_2} \vee \bar{x_3}) \cdot (x_0 \vee x_1 \vee \bar{x_3})}}$ \\
-	$= \overline{ \overline{x_0 \vee x_1 \vee \bar{x_2}} \vee \overline{x_0 \vee \bar{x_2} \vee \bar{x_3}} \vee \overline{x_0 \vee x_1 \vee \bar{x_3}}}$ \\
-	
-	$y^{\text{ДНФ}}_g = \overline{\overline{\overline{\overline{\bar{x_0} \bar{x_1} \bar{x_3} \vee \bar{x_0} \bar{x_1} x_2}} \vee \overline{\overline{\bar{x_0} x_1 \bar{x_3} \vee \bar{x_0} x_1 \bar{x_2}}}}}$
-	$= \overline{\overline{\bar{x_0} \bar{x_1} \bar{x_3}}} \vee
-	\overline{\overline{\bar{x_0} \bar{x_1} x_2}} \vee
-	\overline{\overline{\bar{x_0} x_1 \bar{x_3}}} \vee
-	\overline{\overline{\bar{x_0} x_1 \bar{x_2}}} $ \\
-	$= \overline{x_0 \vee x_1 \vee x_3} \vee \overline{x_0 \vee x_1 \vee \bar{x_2}} \vee \overline{x_0 \vee \bar{x_1} \vee x_3} \vee \overline{x_0 \vee \bar{x_1} \vee x_2}$ \\
-	$y^{\text{КНФ}}_g = \overline{\overline{(x_0 \vee x_1 \vee x_2) \cdot (x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}) \cdot (\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3)}}$ \\
-	$= \overline{\overline{x_0 \vee x_1 \vee x_2} \vee \overline{x_0 \vee \bar{x_1} \vee \bar{x_2} \vee \bar{x_3}} \vee \overline{\bar{x_0} \vee x_1 \vee \bar{x_2} \vee x_3}}$ \\
-	
 	\section{Цифровая схема}
 	\begin{flushleft}
 		Все схемы строились через КНФ.
@@ -929,125 +500,108 @@ $(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$ 3	 & 								 &   				   	    					\\
 	\includeimage
 	{b_circuit}
 	{f} % Обтекание (без обтекания)
-	{h} % Положение рисунка (см. figure из пакета float)
+	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
 	{Схема для светодиода B.} % Подпись рисунка
 	\includeimage
 	{b_waveform}
 	{f} % Обтекание (без обтекания)
-	{h} % Положение рисунка (см. figure из пакета float)
+	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
 	{Сигнал на светодиоде B.} % Подпись рисунка
 	
 	\includeimage
 	{c_circuit}
 	{f} % Обтекание (без обтекания)
-	{h} % Положение рисунка (см. figure из пакета float)
+	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
 	{Схема для светодиода C.} % Подпись рисунка
 	\includeimage
 	{c_waveform}
 	{f} % Обтекание (без обтекания)
-	{h} % Положение рисунка (см. figure из пакета float)
+	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
 	{Сигнал на светодиоде C.} % Подпись рисунка
 	
 	\includeimage
 	{d_circuit}
 	{f} % Обтекание (без обтекания)
-	{h} % Положение рисунка (см. figure из пакета float)
+	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
 	{Схема для светодиода D.} % Подпись рисунка
 	\includeimage
 	{d_waveform}
 	{f} % Обтекание (без обтекания)
-	{h} % Положение рисунка (см. figure из пакета float)
+	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
 	{Сигнал на светодиоде D.} % Подпись рисунка
 	
 	\includeimage
 	{e_circuit}
 	{f} % Обтекание (без обтекания)
-	{h} % Положение рисунка (см. figure из пакета float)
+	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
 	{Схема для светодиода E.} % Подпись рисунка
 	\includeimage
 	{e_waveform}
 	{f} % Обтекание (без обтекания)
-	{h} % Положение рисунка (см. figure из пакета float)
+	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
 	{Сигнал на светодиоде E.} % Подпись рисунка
 	
 	\includeimage
 	{f_circuit}
 	{f} % Обтекание (без обтекания)
-	{h} % Положение рисунка (см. figure из пакета float)
+	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
 	{Схема для светодиода F.} % Подпись рисунка
 	\includeimage
 	{f_waveform}
 	{f} % Обтекание (без обтекания)
-	{h} % Положение рисунка (см. figure из пакета float)
+	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
 	{Сигнал на светодиоде F.} % Подпись рисунка
 	
 	\includeimage
 	{g_circuit}
 	{f} % Обтекание (без обтекания)
-	{h} % Положение рисунка (см. figure из пакета float)
+	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
 	{Схема для светодиода G.} % Подпись рисунка
 	\includeimage
 	{g_waveform}
 	{f} % Обтекание (без обтекания)
-	{h} % Положение рисунка (см. figure из пакета float)
+	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
 	{Сигнал на светодиоде G.} % Подпись рисунка
 	
 	\includeimage
 	{bcd_circuit}
 	{f} % Обтекание (без обтекания)
-	{h} % Положение рисунка (см. figure из пакета float)
+	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
 	{Схема для светодиода BSD.} % Подпись рисунка
 	\includeimage
 	{bcd_waveform}
 	{f} % Обтекание (без обтекания)
-	{h} % Положение рисунка (см. figure из пакета float)
+	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
 	{Сигнал на BSD.} % Подпись рисунка
 	\includeimage
 	{BCD_new}
 	{f} % Обтекание (без обтекания)
-	{h} % Положение рисунка (см. figure из пакета float)
+	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
 	{Схема для светодиода BSD(С отрицанием, так как в ПЛИС светодиоды на анодах).} % Подпись рисунка
-	
-	
-	\chapter{Счётчик с коэффициентом счёта 6.}
-	
-	\section{Счётчик для 6 знаков.}
-	\begin{flushleft}
-		Построим счётчик для 6 знаков.
-	\end{flushleft}
 
-	\includeimage
-	{CNT_citcuit}
-	{f} % Обтекание (без обтекания)
-	{H} % Положение рисунка (см. figure из пакета float)
-	{1.0\textwidth} % Ширина рисунка
-	{Схема счётчика на D-триггерах для 6 знаков.} % Подпись рисунка
+	\newpage
+		
+	\section{Уточнение.}
 
-	\includeimage
-	{CNT_waveform}
-	{f} % Обтекание (без обтекания)
-	{H} % Положение рисунка (см. figure из пакета float)
-	{1.0\textwidth} % Ширина рисунка
-	{Вывод счётчика на D-триггерах для 6 знаков.} % Подпись рисунка
-
-	\section{Делитель частоты.}
+	\subsection{Таймер}
 
 	\begin{flushleft}
+		Пропишем таймер, который будет считать 5 секунд.
 		Так как на вход будет подан сигнал с частотой 50 МГц, то мы
 		ничего не увидим, так как переключение бует слишком быстрым.
 		Необходимо собрать делитель напряжения сигнала до частоты в
@@ -1055,173 +609,468 @@ $(\bar{x_0}\vee x_1\vee\bar{x_2}\vee x_3)$ 3	 & 								 &   				   	    					\\
 		Quartus II, сделаем сквозной выход [0], потому что в 
 		противном случае сигнал будет нельзя проверить внутри 
 		электронной системы так как он будет слишком растянут, в то 
-		время перед тем как добавить его в ПЛИС надо будет переключить на [15].
+		время перед тем как добавить его в ПЛИС надо будет переключить на [28].
+	
 	\end{flushleft}
 
-	\begin{lstlisting}[language=verilog,escapeinside=``]
-module VD2(clk, out_pos);
+\begin{lstlisting}[language=verilog,escapeinside=``]
+module Timer(clk, reset, out_pos);
 	input clk;
-	output reg [19:0]out_pos;
+	input reset;
+	output reg [28:0]out_pos;
 
 	always @(posedge clk)
 	begin
-		out_pos <= out_pos + 1'd1;
+		if (reset == 0)
+			out_pos = 0;
+		else
+			out_pos <= out_pos + 1'd1;
 	end
 endmodule
-	\end{lstlisting}
+\end{lstlisting}
+
+	\subsection{Переадресатор.}
 	
-	\includeimage
-	{VD2_20_waveform}
-	{f} % Обтекание (без обтекания)
-	{H} % Положение рисунка (см. figure из пакета float)
-	{1.0\textwidth} % Ширина рисунка
-	{Результат деления.} % Подпись рисунка
-	
-	\chapter{Преобразователь кода, на выходе которого формируется
-			 последовательность бинарных чисел соответствующая цифрам
-			 студенческого билета.}
-	
-		\section{Декодер номера билета.}
-	\begin{flushleft}
-		Для начала построим декодер для билет под номером 20L274.
+	\begin{flushleft}	
+		В ходе тестов всплыла ошибка. что сигнал подается на элементы не корректно,
+		Ошибка была в неправельных сигнал поступающих на BCD,
+		для решения ее использовался элемент, который перенаправляет выходы.
+		С X0, X1, X2, X3 -> X3, X2, X1, X0.
 	\end{flushleft}
 	
-	\begin{center}
-		\begin{tabular}{ |c||c|c|c||c|c|c|c| } 
-			\hline
-			Символ & $a_0$ & $a_1$ & $a_2$ & $x_0$ & $x_1$ & $x_2$ & $x_3$ \\
-			\hline
-			2 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
-			0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\ 
-			Л & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\ 
-			2 & 0 & 1 & 1 & 0 & 0 & 1 & 0 \\ 
-			7 & 1 & 0 & 0 & 0 & 1 & 1 & 1 \\ 
-			4 & 1 & 0 & 1 & 0 & 1 & 0 & 0 \\  
-			\hline
-		\end{tabular}
-	\end{center}
+	\includeimage
+	{redirector_circuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема переадресатора.} % Подпись рисунка
 	
-	$x_0^{\text{СДНФ}} = \bar{a_0} a_1 \bar{a_2}$ \\
-	$x_1^{\text{СДНФ}} = a_0 \bar{a_1} \bar{a_2} \vee a_0 \bar{a_1} a_2$ \\
-	$x_2^{\text{СДНФ}} = \bar{a_0} \bar{a_1} \bar{a_2} \vee \bar{a_0} a_1 \bar{a_2} \vee \bar{a_0} a_1 a_2 \vee a_0 \bar{a_1} \bar{a_2}$ \\
-	$x_3^{\text{СДНФ}} = a_0 \bar{a_1} \bar{a_2}$ \\
+	\subsection{Мультиплекстор.}
+	
+	\includeimage
+	{multiplexer_circuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема мультиплекстора.} % Подпись рисунка
+	
+	\includeimage
+	{multiplexer_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временные диаграммы мультиплекстора.} % Подпись рисунка
+
+%=======================================================================================================================
+	\chapter{Десятичный счетчик.}
 	
 	\begin{flushleft}
-		Переведем в 2И-НЕ: 
+		Так как нам надо будет считать до 99 по заданию, то для этого необходимо собрать счетчик. 
+		Возможны две реализации счетчика: (1) Бинарная и (2) Десятичная. Я решил реализовать дестичную версию,
+		так как у нас только два числа. Но важным уточнением будет, что правильнее было бы собрать бинарный счетчик.
+	\end{flushleft}
+
+	\section{Cчетчики.}
+
+	\begin{flushleft}
+		Итак для начала необходимо определится с счечиком, он должен быть реверсиным,
+		синхронным и срабатывать по заднему фронту, для того чтобы срабатывать при нажатии кнопки.
+		Соберем две версии, с предустановкой и без предустановки.
+	\end{flushleft}
+
+	\subsection{Реверсивный счетчик.}
+
+	\begin{flushleft}
+		Простая схема синхронного счетчика с реверсивным ходом, по заднему фронту.
+	\end{flushleft}
+
+	\includeimage
+	{reversff_without_circuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Синхронный реверсивный счетчик по заднему фронту.} % Подпись рисунка
+	
+	\includeimage
+	{reversff_without_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временный диаграммы.} % Подпись рисунка
+
+	\subsection{Реверсивный счетчик с предустановкой.}
+
+	\begin{flushleft}
+		Схема синхронного счетчика с реверсивным ходом, по заднему фронту. 
+		С возможностью предустановки значения. Важным уточнением является, 
+		то что для того чтобы использовать предустановку надо подать сигнал на маркер.
 	\end{flushleft}
 	
-	$x_0^{\text{ДНФ}} = \overline{\overline{\bar{a_0} a_1 \bar{a_2}}}$ \\
-	$x_1^{\text{ДНФ}} = \overline{\overline{a_0 \bar{a_1} \bar{a_2} \vee a_0 \bar{a_1} a_2}} =$ $\overline{\overline{a_0 \bar{a_1} \bar{a_2}} \cdot \overline{a_0 \bar{a_1} a_2}}$ \\
-	$x_2^{\text{ДНФ}} = \overline{\overline{\bar{a_0} \bar{a_1} \bar{a_2} \vee \bar{a_0} a_1 \bar{a_2} \vee \bar{a_0} a_1 a_2 \vee a_0 \bar{a_1} \bar{a_2}}} =$
-	$\overline{\overline{\bar{a_0} \bar{a_1} \bar{a_2}} \cdot \overline{\bar{a_0} a_1 \bar{a_2}} \cdot \overline{\bar{a_0} a_1 a_2} \cdot \overline{a_0 \bar{a_1} \bar{a_2}}}$ \\
-	$x_0^{\text{ДНФ}} = \overline{\overline{a_0 \bar{a_1} \bar{a_2}}}$ \\
-	
 	\includeimage
-	{decoder_20L274_circuit}
-	{f} % Обтекание (без обтекания)
-	{H} % Положение рисунка (см. figure из пакета float)
-	{1.05\textwidth} % Ширина рисунка
-	{Схема декодера для студенческого билета 20L274.} % Подпись рисунка
-	
-	\includeimage
-	{decoder_20L274_waveform}
+	{reversff_with_circuit}
 	{f} % Обтекание (без обтекания)
 	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
-	{Вывод декодера для студенческого билета 20L274.} % Подпись рисунка
+	{Синхронный реверсивный счетчик по заднему фронту с предустановкой.} % Подпись рисунка
 	
 	\includeimage
-	{CNT_citcuit}
+	{reversff_with_waveform}
 	{f} % Обтекание (без обтекания)
 	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
-	{Схема счётчика на D-триггерах для 6 знаков.} % Подпись рисунка
+	{Временные диаграммы.} % Подпись рисунка
+
+	\section{Маркеры числа.}
+
+	\begin{flushleft}
+		В дальнейшем нам понадобится возможность узнавать какой значение на шине, 
+		для этого придется использовать один из трех маркеров(0, 9, 10). 
+	\end{flushleft}
+
+	\subsection{Маркер 0.}
 	
 	\includeimage
-	{CNT_waveform}
+	{MRK_zero_circuit}
 	{f} % Обтекание (без обтекания)
 	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
-	{Вывод счётчика на D-триггерах для 6 знаков.} % Подпись рисунка
+	{Схема маркера 0.} % Подпись рисунка
+	
+	\includeimage
+	{MRK_zero_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временные диаграммы.} % Подпись рисунка
+	
+	\subsection{Маркер 9.}	
+	
+	\includeimage
+	{MRK_nine_circuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема маркера 9.} % Подпись рисунка
+	
+	\includeimage
+	{MRK_nine_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временные диаграммы.} % Подпись рисунка
+	
+	\subsection{Маркер 10.}
+
+	\includeimage
+	{MRK_ten_circuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема маркера 10.} % Подпись рисунка
+	
+	\includeimage
+	{MRK_ten_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временные диаграммы.} % Подпись рисунка
+
+	\section{Десятичный счетчик, без защиты.}
+
+	\begin{flushleft}
+		Итак у нас есть все элементы для того чтобы собрать простой дестичный счетчик, 
+		в котором не будет никаких защит, и маркеров символизирующих нам о том или ином значении.
+	\end{flushleft}
+
+	\includeimage
+	{ten_CNT_circuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Счетчик десятичный, без предохранителя.} % Подпись рисунка
+	
+	\includeimage
+	{ten_CNT_waveform1}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временные диаграммы(1).} % Подпись рисунка
+	
+	\includeimage
+	{ten_CNT_waveform2}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временные диаграммы(2).} % Подпись рисунка
+
+	\begin{flushleft}
+		P. s. Важно будет уточнить, что возможны ошибки,
+		в дальнеешем при запуске платы
+		из за того что для десяток единиц разные счетчики. 
+		Так что возможное место ошибок может быть в них
+	\end{flushleft}
+
+	\section{Блокиратор.}
+
+	\begin{flushleft}
+		Для начала собрем блокиратор, так называемую "Защита от дурака". 
+		Идея заключается в том, что при реверсивнымом ходе мы блокируем
+		сигнал если он пришел к нулю и блокируем сигнал, если он без 
+		включенного реверса пришел к 99. Для этого на вход подаем
+		сигнал с 00 или 99.
+	\end{flushleft}
+
+	\includeimage
+	{blocker_circuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема блокиратора.} % Подпись рисунка
+	
+	\includeimage
+	{blocker_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временные диаграммы.} % Подпись рисунка
+
+	\section{Watch Dog.}
+
+	\begin{flushleft}
+		Теперь нам осталось собрать элемент, который оповещает нас
+		о том равен ли сигнал на счетчике 00 или 99.
+	\end{flushleft}
+
+	\includeimage
+	{watch_dog_circuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Смотрящий за сигналом.} % Подпись рисунка
+	
+	\includeimage
+	{watch_dog_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временные диаграммы.} % Подпись рисунка
+
+	\section{Десятичный счетчик.}
+
+	\begin{flushleft}	
+		Время собрать рабочий счетчик, с защитой и статусными сигналами
+	\end{flushleft}
+	
+	\includeimage
+	{CNT_new_circuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Готовый счетчик.} % Подпись рисунка
+	
+	\includeimage
+	{CNT_new_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временные диаграммы.} % Подпись рисунка
+
+	\section{Счетчик со встроенным мультиплекстором.}
+
+	\begin{flushleft}
+		Ввиду того что на выходе мы имеем две шины, то их необходимо между
+		собой переключать, для этого нам понадобится большой мультиплекстор.
+		Который мы сразу объеденим с счетчиком, чтобы в финальной
+		схеме было меньше элементов.
+	\end{flushleft}
+
+	\includeimage
+	{multiplexer_BIG_circuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Мултиплекстор большой для шины счетчика десятков.} % Подпись рисунка
+	
+	\includeimage
+	{multiplexer_BIG_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временные диаграммы.} % Подпись рисунка
+	
+	\includeimage
+	{CNT_pp_MP}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема десятичного счетчика совмещенного с БОЛЬШИМ мультиплекстором.} % Подпись рисунка
+
+%=======================================================================================================================
+
+	\chapter{Схема считывания сигнала с кнопки и механизм обратного счета.}
 	
 	\begin{flushleft}
-		Как~видно~из~графика~\ref{img:CNT_waveform}, как только значение доходит
-		до 1 1 0 происходит сброс значений. Пострим финальную схему для вывода
-		номера билета.
+		Необходимо реализовать механизм считывания сигнала с кнопки, 
+		который будет запускать/сбрасывать сигнал с кнопки, 
+		как только по времени прохидит 5 секунд начинать обратный счет.
+	\end{flushleft}
+
+	\section{RS-триггер.}
+	
+	\begin{flushleft}
+		В этом нам понадобится RS-триггер, предлагаю немного изменить триггер из среды Quartus.
+	\end{flushleft}
+
+	\includeimage
+	{my_rsff_circuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема RS-триггера.} % Подпись рисунка
+	
+	\includeimage
+	{my_rsff_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временные диаграммы.} % Подпись рисунка
+
+	\section{Таймер.}
+	
+	\begin{flushleft}
+		Таймер который начинает работу при нажатии на кнопку. 
+		Каждый клик производит сброс счетчика, для сброса
+		должно приходить внешнее значение сброса. В данный момент важно уточнить, 
+		что в схеме обратный счет начинается спустя 1 секунду бездействия.
+		Ввиду того что значение может менятся,
+		и возможно такое что надо будет строить временные диаграммы,
+		то берем с внешней шины таймера значение которые подаем на сброс.
+	\end{flushleft}
+
+	\includeimage
+	{timer_with_click_circuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема таймера с кликом.} % Подпись рисунка
+	
+	\includeimage
+	{timer_with_click_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временные диаграммы.} % Подпись рисунка
+
+	\section{Задержка.}
+
+	\begin{flushleft}	
+		Ввиду особенности принципа работы, сигнал который мы получаем с таймера его необходимо задержать.
+	\end{flushleft}
+	
+	\includeimage
+	{delay_circuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема задержки.} % Подпись рисунка
+	
+	\includeimage
+	{delay_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временные диаграммы.} % Подпись рисунка
+
+	\section{Блок бесконечного счета.}
+	
+	\begin{flushleft}
+		Блок с бесконечным счетом, схож примерно с таймером, но для удобства я сделал в нем еще сквозной канал с кнопкой.
+	\end{flushleft}
+	
+	\includeimage
+	{inf_cnt_circuit}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема бесконечного счетчика.} % Подпись рисунка
+	
+	\includeimage
+	{inf_cnt_waveform}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временные диаграммы.} % Подпись рисунка
+
+	\section{Схема считывания сигнала с кнопки и механизм обратного счета.}
+
+	\begin{flushleft}
+		И так время собрать общую схему. На таймер приходит сигнал с кнопки, 
+		запускает таймер, как только проходит 5 секунд (1 секунда, так как мы отлаживаем), 
+		сигнал сбрасывает таймер, и переходит в задержку. С задержки он
+		попадает на бесконечный счетчик и RS-триггер, который включает
+		СТАБИЛЬНЫЙ реверсивный ход. Счетчик считает до 00.
+	\end{flushleft}
+
+	\includeimage
+	{timer_pp_inf_cnt}
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема таймера с бесконечным счетчиком.} % Подпись рисунка
+
+%=======================================================================================================================
+
+	\chapter{Счетчик, для ислледования дребезга контактов.}
+
+	\begin{flushleft}
+		Все элементы готовы, настало время собрать воедино всю схему. Опускаю моменты связанные с условием.
 	\end{flushleft}
 	
 	\section{Общая схема.}
+
 	\includeimage
 	{counter_circuit}
 	{f} % Обтекание (без обтекания)
 	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
-	{Схема вывода билета.} % Подпись рисунка
+	{Общая схема счетчика.} % Подпись рисунка
 	
 	\includeimage
 	{counter_waveform}
 	{f} % Обтекание (без обтекания)
 	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
-	{Вывод вывода билета.} % Подпись рисунка
+	{Временные диаграммы на низких задержках.} % Подпись рисунка
+
+	\section{Результат.}
 
 	\begin{flushleft}
-		На~временных~диаграммах~\ref{img:counter_waveform}, значения на элементе 
-		CNT приходят с вывода TEST элемента VD2\_20, чтобы показать корректность 
-		работы счетчика.
-	\end{flushleft}
-
-	\includeimage
-	{counter_pin}
-	{f} % Обтекание (без обтекания)
-	{H} % Положение рисунка (см. figure из пакета float)
-	{1.0\textwidth} % Ширина рисунка
-	{Подключения пинов на ПЛИС Cyclone IV E - EP4CE6F17C8.} % Подпись рисунка
-	\begin{flushleft}
-		Произошла проблема с запуском на ПЛИС, все не корретно отображается. 
-		Исправляем ошибки.
-	\end{flushleft}
-	
-	\section{Исправление ошибок.}
-	
-	\begin{flushleft}
-		Вывод билета на экран был не корректный, символы были в перемешку, было 
-		решено добавить дополнительный элемент SUB, который выставляет символы в 
-		правильном порядке.
+		По неизвестным причинам качество снимков оказалось ужасным, 
+		по этому я выложил видео с работой счетчика на Яндекс.Диск(https://disk.yandex.ru/d/J8X07rPAcTW99w).
 	\end{flushleft}
 	
 	\includeimage
-	{SUB}
+	{test1}
 	{f} % Обтекание (без обтекания)
 	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
-	{Преобразователь.} % Подпись рисунка
+	{Снимок счетчика 1.} % Подпись рисунка
 	
-	\begin{flushleft}
-		Подставим элемент в схему:
-	\end{flushleft}
-
 	\includeimage
-	{counter_circuit_new}
+	{test2}
 	{f} % Обтекание (без обтекания)
 	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
-	{Обновленная схема.} % Подпись рисунка
+	{Снимок счетчика 2.} % Подпись рисунка
 	
-	\begin{flushleft}
-		Вывод:
-	\end{flushleft}
-
 	\includeimage
-	{20L274}
+	{test3}
 	{f} % Обтекание (без обтекания)
 	{H} % Положение рисунка (см. figure из пакета float)
 	{1.0\textwidth} % Ширина рисунка
-	{Вывод моего билета 20Л274.} % Подпись рисунка
+	{Снимок счетчика 3.} % Подпись рисунка
 	
-	\begin{flushleft}
-		P. s. П = Л = L
-	\end{flushleft}
+
 \end{document}
 
 

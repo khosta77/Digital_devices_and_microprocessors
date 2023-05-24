@@ -1,0 +1,124 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2013 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II 64-Bit
+# Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Full Version
+# Date created = 11:51:32  April 04, 2023
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		lab1_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone IV E"
+set_global_assignment -name DEVICE EP4CE6F17C8
+set_global_assignment -name TOP_LEVEL_ENTITY my_counter_click_new
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "11:51:32  APRIL 04, 2023"
+set_global_assignment -name LAST_QUARTUS_VERSION "22.1std.0 Lite Edition"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name SIMULATION_MODE FUNCTIONAL
+set_global_assignment -name EDA_SIMULATION_TOOL "Questa Intel FPGA (Verilog)"
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
+set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST ON -section_id eda_simulation
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+set_location_assignment PIN_D1 -to A
+set_location_assignment PIN_F8 -to A0
+set_location_assignment PIN_F3 -to B
+set_location_assignment PIN_M16 -to Button
+set_location_assignment PIN_F2 -to C
+set_location_assignment PIN_F1 -to D
+set_location_assignment PIN_G2 -to E
+set_location_assignment PIN_G1 -to F
+set_location_assignment PIN_E7 -to G
+set_location_assignment PIN_G5 -to U2_138_select
+set_location_assignment PIN_J1 -to U3_138_select
+set_location_assignment PIN_E1 -to START
+set_location_assignment PIN_B16 -to LED
+set_location_assignment PIN_L4 -to A1
+set_location_assignment PIN_L3 -to A2
+set_location_assignment PIN_C16 -to LED2
+set_location_assignment PIN_D15 -to LED3
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
+set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE "D:/circuit/lab1/timer_with_click_waveform.vwf"
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name BDF_FILE A.bdf
+set_global_assignment -name BDF_FILE B.bdf
+set_global_assignment -name BDF_FILE C.bdf
+set_global_assignment -name BDF_FILE D.bdf
+set_global_assignment -name BDF_FILE E.bdf
+set_global_assignment -name BDF_FILE F.bdf
+set_global_assignment -name BDF_FILE G.bdf
+set_global_assignment -name BDF_FILE signal_decoder.bdf
+set_global_assignment -name BDF_FILE BCD.bdf
+set_global_assignment -name BDF_FILE multiplexer.bdf
+set_global_assignment -name VECTOR_WAVEFORM_FILE multiplexer_waveform.vwf
+set_global_assignment -name BDF_FILE reversff.bdf
+set_global_assignment -name VECTOR_WAVEFORM_FILE reversff_waveform.vwf
+set_global_assignment -name BDF_FILE reversff_with_preset.bdf
+set_global_assignment -name VECTOR_WAVEFORM_FILE reversff_with_present_waveform.vwf
+set_global_assignment -name BDF_FILE MRK_equally_ZERO.bdf
+set_global_assignment -name VECTOR_WAVEFORM_FILE MRK_equally_ZERO_waveform.vwf
+set_global_assignment -name BDF_FILE MRK_equally_NINE.bdf
+set_global_assignment -name VECTOR_WAVEFORM_FILE MRK_equally_NINE_waveform.vwf
+set_global_assignment -name BDF_FILE MRK_equally_TEN.bdf
+set_global_assignment -name VECTOR_WAVEFORM_FILE MRK_equally_TEN_waveform.vwf
+set_global_assignment -name BDF_FILE counter.bdf
+set_global_assignment -name VECTOR_WAVEFORM_FILE counter_waveform.vwf
+set_global_assignment -name BDF_FILE CNT.bdf
+set_global_assignment -name VECTOR_WAVEFORM_FILE CNT_waveform.vwf
+set_global_assignment -name BDF_FILE num_status.bdf
+set_global_assignment -name VECTOR_WAVEFORM_FILE num_status_waveform.vwf
+set_global_assignment -name BDF_FILE blocker.bdf
+set_global_assignment -name VECTOR_WAVEFORM_FILE blocker_waveform.vwf
+set_global_assignment -name BDF_FILE counter_new.bdf
+set_global_assignment -name VECTOR_WAVEFORM_FILE counter_new_waveform.vwf
+set_global_assignment -name BDF_FILE multiplextor_BIG.bdf
+set_global_assignment -name VECTOR_WAVEFORM_FILE multiplexer_BIG_waveform.vwf
+set_global_assignment -name BDF_FILE counter_new_with_multiplexer_BIG.bdf
+set_global_assignment -name VERILOG_FILE Timer.v
+set_global_assignment -name BDF_FILE rsff.bdf
+set_global_assignment -name VECTOR_WAVEFORM_FILE rsff_waveform.vwf
+set_global_assignment -name BDF_FILE Timer_with_click.bdf
+set_global_assignment -name VECTOR_WAVEFORM_FILE Timer_with_click_waveform.vwf
+set_global_assignment -name BDF_FILE inf_counter.bdf
+set_global_assignment -name VECTOR_WAVEFORM_FILE inf_counter_waveform.vwf
+set_global_assignment -name BDF_FILE delay.bdf
+set_global_assignment -name VECTOR_WAVEFORM_FILE delay_waveform.vwf
+set_global_assignment -name BDF_FILE inf_timer.bdf
+set_global_assignment -name VECTOR_WAVEFORM_FILE inf_timer_waveform.vwf
+set_global_assignment -name BDF_FILE my_counter_click_new.bdf
+set_global_assignment -name VECTOR_WAVEFORM_FILE my_counter_click_new_waveform.vwf
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
