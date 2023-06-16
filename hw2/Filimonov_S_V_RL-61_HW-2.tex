@@ -1,0 +1,1072 @@
+\documentclass{bmstu}
+\usepackage{multirow}
+%\usepackage{karnaugh-map}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{listings}
+\usepackage{appendix}
+\usepackage{bm, amsmath, amsfonts}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{subfig}
+\usepackage{url}
+\usepackage{multirow}
+\usepackage{array} 
+\usepackage{wrapfig} % in preamble
+
+% set the code style
+\RequirePackage{listings}
+\RequirePackage{xcolor}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{
+	numbers=left,  
+	frame=tb,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	framerule=1pt,
+	rulecolor=\color{gray!35},
+	backgroundcolor=\color{gray!5},
+	basicstyle={\ttfamily},
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+
+\usetikzlibrary{karnaugh}
+
+\begin{document}
+	\makereporttitle
+	{Радиоэлектроника и лазерная техника (РЛ)} % Название факультета
+	{Технология приборостроения (РЛ6)} % Название кафедры
+	{домашней работе №2} % Название работы (в дат. падеже)
+	{Цифровые устройства и микропроцессоры} % Название курса (необязательный аргумент)
+	{Микроконтроллер stm32 (GPIOy, TIMx, FLASH, USART, DMA)} % Тема работы
+	{} % Номер варианта (необязательный аргумент)
+	{Филимонов~С.~В./РЛ6-61, Болотина~Е.Е./РЛ6-69} % Номер группы/ФИО студента (если авторов несколько, их необходимо разделить запятой)
+	{Семеренко~Д.~А.} % ФИО преподавателя
+	
+	\tableofcontents
+%=============================================================================================================
+	\chapter{Оборудование.}
+	
+	Перед началом работы необходимо разобратся с оборудованием, которое будет использоватся.
+	Выполнить работу можно было на микроконтроллере \textbf{stm32f0} или \textbf{stm32f4}. 
+	Я решил выбрать \textbf{stm32f4} так как плата быстрее и мощнее чем \textbf{f0}, дипломная работа будет на \textbf{stm32f4} и в целом, надо готовится к будущим трудностям.
+	
+	\section{stm32f407vg.}
+	
+	На~рисунке~\ref{img:stm32f4_grean_board} плата stm32f407vg-discovery, полноценный чип, работала без нареканий.
+	
+	\includeimage
+	{stm32f4_grean_board} % Имя файла
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{stm32f407vg-discovery.}
+	
+	\includeimage
+	{block_diagram_stm32f407} % Имя файла
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема чипа.}
+	
+	\section{stm32f411ve.}
+	
+	На~рисунке~\ref{img:stm32f4_blue_board} плата stm32f411ve-discovery, обрезанный чип, были трудности с корректностью работы, об этом подробно будет в следующих главах.
+	
+	\includeimage
+	{stm32f4_blue_board} % Имя файла
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{stm32f411ve-discovery.}
+	
+	\includeimage
+	{block_diagram_stm32f411} % Имя файла
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Схема чипа.}
+	
+	В дальнейшем платы будут назваться \underline{ЗЕЛЕНАЯ(GREAN)} и \underline{ГОЛУБАЯ(BLUE)}.
+	
+	\section{Прошивка плат.}
+	
+	Платы прошивались спомощью терминала UNIX системы, прошивка выполнялась \textbf{openBCD}. Написание код проходило в текстовом редоакторе \textbf{Vim}.
+	Были трудности с отладкой, ввиду того, что не было IDE, приходилось использовать для отладки чисты gdb, ввиду того что нету навыков использования gdb,
+	то программная отладка не осуществлялась.
+	
+	Сброка проекта осуществлялась спомощью \textbf{Makefile}. Сборка:
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=bash]
+$ make all
+	\end{lstlisting}
+	\endgroup
+	
+	Платы прошивались командой:
+	
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=bash]
+$ sudo openocd -f interface/stlink.cfg -f target/stm32f4x.cfg -c \
+"init; reset halt; flash write_image erase main.hex; "\  
+"reset; exit"
+	\end{lstlisting}
+	\endgroup
+	
+	\section{Дополнительное оборудование.}
+	
+	Ввиду того, что программная отладка не осуществлялась, то было решено использовать внешние средства отладки, такие как логические анлаизаторы. 
+	В данной работе я использовал \textbf{KingstVIS LA1010}.
+	
+	\includeimage
+	{KingstVIS_LA1010_board} % Имя файла
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{KingstVIS LA1010.}
+	
+	\includeimage
+	{KingstVIS_LA1010_disp} % Имя файла
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Интерефейс логического анализатора.}
+
+	Платы соединялись проводами мама-мама.
+%=============================================================================================================
+	\chapter{Интерфейсы передачи.}
+	
+	И так по заданию нам предстоит разработать параллельный и последовательный интерфейс передачи данных, поговорим о каждом подробно.
+	
+	\section{Последовательный интерфейс передачи данных.}
+	
+	Последовательный интерфейс передачи данных представляет собой интерфейс состоящий из 1-ого/2-ух каналов,
+	один из которых передает данные, другой сигнализирует о передаче данных. В данном примере канал $d\text{\textunderscore}out$ отвечает за передачу данных,
+	а канал $d\text{\textunderscore}send$ сигнализирует о том, что началась передача данных. В первом канале передача осуществляется путем того, что ноль означает ноль, один на проводе означет
+	логическую единицу и таким образом передается 8 бит, с задержкой \textbf{N}. Приемник и передатчик должны быть настроненны на одинаковую частоту(задержку),
+	чтобы такая передача работала.
+	
+	\includeimage
+	{serial_waveform} % Имя файла
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временные диаграммы последовательной передачи.}
+	
+	Стоит добавить пару слов про проект. Реализация последовательной передачи вынесена в отдельный $serial\text{\textunderscore}transmission.h$ и $serial\text{\textunderscore}transmission.c$ файлы.
+	В блоке с иницализацие будет подробно сказано про то какие пины используются.
+	
+	\subsection{Функция инициализации.}
+	
+	Перед тем как начать последовательную передачу необходимо инициализировать перефереию. Для гибкости было решено вынести в макросы пины интерфейсов.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C, name=serial_transmission_h]
+#define RCC_D_OUT_GREAN() { RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN; }
+#define GPIO_D_OUT_GREAN  GPIOC
+#define PIN_D_OUT_GREAN  2
+
+#define RCC_D_SEND_GREAN() { RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN; }
+#define GPIO_D_SEND_GREAN GPIOC
+#define PIN_D_SEND_GREAN 3
+
+#define RCC_D_OUT_BLUE() { RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN; }
+#define GPIO_D_OUT_BLUE GPIOC
+#define PIN_D_OUT_BLUE  6
+
+#define RCC_D_SEND_BLUE() { RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN; }
+#define GPIO_D_SEND_BLUE GPIOC
+#define PIN_D_SEND_BLUE 7
+	\end{lstlisting}
+	\endgroup
+	
+	Вообще некоторые макросы не рациаонально сделаны. К примеру макросы, которые отвечают за инициализацию тактирования в коде проделают одну и туже операцию 2-4 раза. Справедливо будет отметить два момента:
+
+	\begin{enumerate}
+		\item Такая инициализация позволяет быстро поменять пины и масштабировать проект.
+		\item Эти операции выполняются в блоке с инициализацие, от которого не требуется большая скорость работы и соотвественно можно использовать более медленное операции.
+	\end{enumerate}
+
+	Время инициализировать приемник и передатчик, в данном случае приемником будет \underline{ГОЛУБАЯ} плата, а передатчиком \underline{ЗЕЛЕНАЯ}. 
+	Функции будут $static$, спрятаны от основного кода, в целом можно и публичными сделать, но я решил сделать так. Функция $serial\text{\textunderscore}init()$ уже доступна из вне.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C, name=serial_transmission_c]
+static void serial_init_transmitter() {
+	RCC_D_SEND_GREAN();
+	GPIO_D_SEND_GREAN->MODER |= (0x1 << (2 * PIN_D_SEND_GREAN));
+	GPIO_D_SEND_GREAN->ODR |= (0x1 << PIN_D_SEND_GREAN);
+	RCC_D_OUT_GREAN();
+	GPIO_D_OUT_GREAN->MODER |= (0x1 << (2 * PIN_D_OUT_GREAN));
+	GPIO_D_OUT_GREAN->ODR |= (0x1 << PIN_D_OUT_GREAN);
+}
+
+static void serial_init_receiver() {
+	RCC_D_SEND_BLUE();
+	GPIO_D_SEND_BLUE->MODER |= (0x1 << (2 * PIN_D_SEND_BLUE));
+	GPIO_D_SEND_BLUE->IDR |= (0x1 << PIN_D_SEND_BLUE);
+	RCC_D_OUT_BLUE();
+	GPIO_D_OUT_BLUE->MODER |= (0x1 << (2 * PIN_D_OUT_BLUE));
+	GPIO_D_OUT_BLUE->IDR |= (0x1 << PIN_D_OUT_BLUE);
+}
+
+void serial_init() {
+	serial_init_transmitter();
+	serial_init_receiver();
+}
+	\end{lstlisting}
+	\endgroup
+	 
+	\subsection{Функция передачи данных.}
+	
+	Итак переферия инициализирована, но перед тем как приступить к написанию алгоритма стоит оговорить частоту работы всей системы.
+	Для задания частоты будут исползьовать задержки, которые записаны в две переменные $serial\text{\textunderscore}delay\text{\textunderscore}in$ и $serial\text{\textunderscore}delay\text{\textunderscore}freq$. 
+	В коде они будут заданы как глобальные константы, но вообще они должны изменятся.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C, name=serial_transmission_c]
+void serial_write(uint8_t *df, const uint16_t size) {
+	if (size == 0)
+	return;
+	
+	GPIO_D_SEND_GREAN->ODR &= ~(0x1 << PIN_D_SEND_GREAN);
+	for (int t = 0; t < serial_delay_in; t++);
+	
+	for (uint16_t i = 0; i < size; i++) {
+		for (int j = 0; j < 8; j++) {
+			if ((*(df + i) & (1 << j)) == 0)
+				GPIO_D_OUT_GREAN->ODR &= ~(0x1 << PIN_D_OUT_GREAN);
+			else
+				GPIO_D_OUT_GREAN->ODR |= (0x1 << PIN_D_OUT_GREAN);
+			for (int t = 0; t < serial_delay_freq; t++);
+		}
+	}
+	
+	GPIO_D_SEND_GREAN->ODR |= (0x1 << PIN_D_SEND_GREAN);
+}
+	\end{lstlisting}
+	\endgroup
+	
+	Код выше последователь выводит последовательный поток данных.
+	
+%	Вставить временные диаграммы полученный такой передачей
+	\includeimage
+	{serial_translation} % Имя файла
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временные диаграммы последовательной передачи.}
+	
+	\subsection{Функция считывания данных.}
+	
+	Считывание данных происходит таким же образом, но наоборот. Проверки сигнала на пине мы вывели в отдельный макрос.
+	
+	\begingroup
+	\fontsize{8pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C, name=serial_transmission_c]
+#define STATUS_POS_OUT(marker)  (((GPIO_D_OUT_BLUE->IDR >> PIN_D_OUT_BLUE) & 0x1) == marker)
+#define STATUS_POS_SEND(marker) (((GPIO_D_SEND_BLUE->IDR >> PIN_D_SEND_BLUE) & 0x1) == marker)
+	\end{lstlisting}
+	\endgroup
+	
+	По коду можно добавить, что для буфферный массив создается с запасом, размер 2048 элементов. Функция возращает размер массива.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C, name=serial_transmission_c]
+uint16_t serial_read(uint8_t *df) {
+	if (STATUS_POS_SEND(1))
+		return 0x0;
+	uint16_t size = 0x0;
+	uint8_t buffer_df[2048];
+	for (int t = 0; t < serial_delay_in; t++);
+	
+	for (; STATUS_POS_SEND(0); size++) {
+		for (int i = 0; i < 8; i++) {
+			if (STATUS_POS_OUT(1))
+				buffer_df[size] |= (0x1 << i);
+			else
+				buffer_df[size] &= ~(0x1 << i);
+			for (int t = 0; t < serial_delay_freq; t++);
+		}
+	}
+	
+	if (size == 0)
+		return 0;
+	memcpy(df, &buffer_df[0], (size * sizeof(uint8_t)));
+	return size;
+}		
+	\end{lstlisting}
+	\endgroup
+	
+	Стоит так же добавить что из буфферного в возращаемый массив данные копировались спомощью функции $memcpy()$.
+	
+	\subsection{Трудности.}
+	
+	Входе работы над этим интерфейсом мы столкнулись с нескольким проблемами, решение которых не поддается понимаю. 
+	
+	\begin{enumerate}
+		\item Первой проблемой явлется ложный дребезг контактов. Решение этой трудности это избавится от проводов ''мама-мама'', напрямую припаяв провода.
+		\item Второй трудностью явлется не корректность считываемых данных, говоря иначе данные передаются корректно, но считываются с помехами в битах. 
+		Причина этого явления опытном путем была выяснена в том, что микроконтроллеры разные и \textbf{stm32f411ve} может работать не корректно, ввиду того что очень обрезан.
+		\item Третья и заключительная это задержки сигналов.
+	\end{enumerate}
+
+	Попытки решения этих ошибок не привели к успеху, а только подтвердили версию, что \textbf{stm32f411ve} работает не корректно.
+	
+	\section{Параллельный интерфейс передачи данных.}
+	
+	Параллельный интерфейс представляет собой интерфейс передачи данных по 8-ми канальной шине(), где каждый канал отвечает за 1 бит и так же используются дополнительные линии для подтверждения получения сигнала и уведомлении о том, что началсь передача.
+	
+	\includeimage
+	{parallel_waveform} % Имя файла
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временные диаграммы параллельной передачи передачи.}
+	
+	В реализации данного интерфейса использользовалась наша собственная библиотека, для параллельной передачи, но важно будет уточнить, что это библиотека не явлется решением задачи, а является только инструментом для решения задачи.
+	
+	\subsection{Библиотека stepan\textunderscore stm32f4\textunderscore bus.h.}
+	
+	В данном случае мы опустим детальное описание функций, так как они относятся немного к другому. И в идеале это все через класс из С++ сделать.
+	
+	Структура:
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+typedef struct {
+	GPIO_TypeDef *GPIO;
+	int16_t _pin_s;
+	int16_t _pin_e;
+} Bus_Line;	
+	\end{lstlisting}
+	\endgroup
+	
+	Инициализация:
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+void stp_bus_init(Bus_Line *Bus, GPIO_TypeDef *GPIO, uint16_t _pin_start, uint16_t _pin_end, uint8_t _init) {
+	Bus->GPIO = GPIO;
+	Bus->_pin_s = _pin_start;
+	Bus->_pin_e = _pin_end;
+	for (int i = Bus->_pin_s; i < Bus->_pin_e; ++i) {
+		switch (_init) {
+			case BUS_INIT_MODER: {
+				stp_init_moder_gpio(Bus->GPIO, i, 0x1);
+				break;
+			}
+			case BUS_INIT_IDR: {
+				stp_init_idr_gpio(Bus->GPIO, i);
+				break;
+			}
+		};
+	}
+}
+	\end{lstlisting}
+	\endgroup
+	
+	Запись:
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+void stp_bus_out(Bus_Line *Bus, uint8_t value) {
+	const int _size_value = (Bus->_pin_e - Bus->_pin_s);
+	for (int i = Bus->_pin_s, j = 0; i < Bus->_pin_e && j < _size_value; ++i, ++j) {
+		if ((value & (1 << j)) == 0) {
+			stp_bus_write_to_pins(Bus, i, 0);
+		} else {
+			stp_bus_write_to_pins(Bus, i, 1);
+		}
+	}
+}	
+	\end{lstlisting}
+	\endgroup
+	
+	Чтение:
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+uint8_t stp_bus_read(Bus_Line *Bus) {
+	uint8_t _num = 0x00;
+	const int _size_value = (Bus->_pin_e - Bus->_pin_s) * 10;
+	for (int i = Bus->_pin_s, j = 0; i < Bus->_pin_e && j < _size_value; ++i, ++j) {
+		_num |= (stp_bus_read_from_pins(Bus, i) <<  j);
+	}
+	return _num;
+}
+	\end{lstlisting}
+	\endgroup
+	
+	\subsection{Функция инициализации.}
+	
+	Перед тем как начать последовательную передачу необходимо инициа- лизировать перефереию. Для гибкости было решено вынести в макросы пины интерфейсов.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+#define RCC_EN_GREAN() { RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN; }
+#define GPIO_EN_GREAN GPIOA
+#define PIN_EN_GREAN 7
+
+#define RCC_RD_GREAN() { RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN; }
+#define GPIO_RD_GREAN GPIOA
+#define PIN_RD_GREAN 6
+
+#define RCC_EN_BLUE() { RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN; }
+#define GPIO_EN_BLUE GPIOA
+#define PIN_EN_BLUE  5
+
+#define RCC_RD_BLUE() { RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;}
+#define GPIO_RD_BLUE GPIOA
+#define PIN_RD_BLUE  4
+
+#define BUS_RD_RCC() { RCC->AHB1ENR |= RCC_AHB1ENR_GPIOEEN; }
+#define BUS_RD_GPIO GPIOE
+#define BUS_RD_PIN_S 7
+#define BUS_RD_PIN_E 15
+
+#define BUS_WT_RCC() { RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN; }
+#define BUS_WT_GPIO GPIOD
+#define BUS_WT_PIN_S 0
+#define BUS_WT_PIN_E 8
+	\end{lstlisting}
+	\endgroup
+	
+	Вообще некоторые макросы не рациаонально сделаны. К примеру макросы, которые отвечают за инициализацию тактирования в коде проделают одну и туже операцию 2-4 раза. Справедливо будет отметить два момента:
+	
+	\begin{enumerate}
+		\item Такая инициализация позволяет быстро поменять пины и масштабировать проект.
+		\item Эти операции выполняются в блоке с инициализацие, от которого не требуется большая скорость работы и соотвественно можно использовать более медленное операции.
+	\end{enumerate}
+	
+	Время инициализировать приемник и передатчик, в данном случае передатчик будет \underline{ГОЛУБАЯ} плата, а приемником \underline{ЗЕЛЕНАЯ}. 
+	Функции будут $static$, спрятаны от основного кода, в целом можно и публичными сделать, но я решил сделать так. Функция $parallel\text{\textunderscore}init()$ уже доступна из вне.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+static Bus_Line bus_w;
+static Bus_Line bus_r;
+
+static void parallel_init_transmitter() {
+	BUS_WT_RCC();
+	stp_bus_init(&bus_w, BUS_WT_GPIO, BUS_WT_PIN_S, BUS_WT_PIN_E, 0);
+	
+	RCC_EN_BLUE();
+	GPIO_EN_BLUE->MODER |= (0x1 << (2 * PIN_EN_BLUE));
+	GPIO_EN_BLUE->ODR &= ~(0x1 << PIN_EN_BLUE);
+	
+	RCC_RD_BLUE();
+	GPIO_RD_BLUE->MODER |= (0x1 << (2 * PIN_RD_BLUE));
+	GPIO_RD_BLUE->IDR |= (0x1 << PIN_RD_BLUE);
+	
+	stp_bus_init(&bus_w, 0);
+}
+
+static void parallel_init_receiver() {
+	BUS_RD_RCC();
+	stp_bus_init(&bus_r, BUS_RD_GPIO, BUS_RD_PIN_S, BUS_WT_PIN_E, 1);
+	
+	RCC_EN_GREAN();
+	GPIO_EN_GREAN->MODER |= (0x1 << (2 * PIN_EN_GREEN));
+	GPIO_EN_GREAN->IDR |= (0x1 << PIN_EN_GREEN);
+	
+	GPIO_RD_GREAN->MODER |= (0x1 << (2 * PIN_RD_GREEN));
+	GPIO_RD_GREAN->ODR &= ~(0x1 << PIN_RD_GREEN);
+}
+
+void parallel_init() {
+	parallel_init_transmitter();
+	parallel_init_receiver();
+}
+	\end{lstlisting}
+	\endgroup
+	
+	\subsection{Функция передачи данных.}
+	
+	Код ниже параллельно выводит поток данных.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+void parallel_write(uint8_t *df, const uint16_t size) {
+	GPIO_EN_BLUE->ODR |= (0x1 << PIN_EN_BLUE);
+	
+	while (((GPIO_RD_BLUE->IDR >> PIN_RD_BLUE) & 0x1) != 1);
+	
+	for (uint16_t i = 0; (i < size); i++) {
+		stp_bus_out(&bus_w, *(df + i));
+		for (int t = 0; t < 60; t++);
+	}
+	
+	GPIO_EN_BLUE->ODR &= ~(0x1 << PIN_EN_BLUE);
+	for (int t = 0; t < 50; t++);
+}		
+	\end{lstlisting}
+	\endgroup
+	
+	%	Вставить временные диаграммы полученный такой передачей
+	\includeimage
+	{parallel_translation} % Имя файла
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Временные диаграммы параллельной передачи.}
+
+	\subsection{Функция считывания данных.}
+	
+	По коду можно добавить, что для буфферный массив создается с запасом, размер 2048 элементов. Функция возращает размер массива.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+uint16_t parallel_read(uint8_t *df) {
+	if (((GPIO_EN_GREAN->IDR >> PIN_EN_GREAN) & 0x1) != 1)
+	return 0x00;
+	
+	uint16_t size = 0x0;
+	uint8_t buffer_df[SIZE];
+	
+	GPIO_RD_GREAN->ODR |= (0x1 << PIN_RD_GREAN);
+	for (int t = 0; t < 20; t++);
+	
+	for (; (((GPIO_EN_GREAN->IDR >> PIN_EN_GREAN) & 0x1) == 1); size++) {
+		buffer_df[size] = stp_bus_read(&bus_r);
+		for (int t = 0; t < 50; t++);
+	}
+	
+	memcpy(df, &buffer_df[0], (size * sizeof(uint8_t)));
+	
+	GPIO_RD_GREAN->ODR &= ~(0x1 << PIN_RD_GREAN);
+	return size;
+}
+	\end{lstlisting}
+	\endgroup
+	
+	Стоит так же добавить что из буфферного в возращаемый массив данные копировались спомощью функции $memcpy()$.
+	
+	\subsection{Трудности.}
+	
+	В отличии от последовательной передачи трудностей с параллельной передаче не было. Но стоит отметить, что недостаток такой передачи это то что она требует большого колличества перефирии.
+	
+	\section{Обощение по передачам.}
+	
+	В каждом блоке про виды передач данных уже было сказано, с какими проблемами мы столкнулись. В целом говоря обощенно, самый надежный спосбо передачи данных это паралельный и на удивление он окзался и самым быстрым, но главный недотаток в том, что он требует большого колличества переферии.
+%=============================================================================================================
+	\chapter{FLASH.}
+	
+	Одной из задач для решения поставленной задачи было разщобратся во FLASH памяти микроконтроллера, это было отдано на домашнее обучении и в данной главе мы распишем чему мы научились.
+	
+	Flash память это внутренняя память микроконтроллера, которая сохраняет свое значение после обесточивания микроконтроллера, тем самым мы можем сохранять какие-нибудь значения.
+	
+	\includeimage
+	{FLASH_block_diagramm} % Имя файла
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Диаграмма устройства flash-памяти в микроконтроллере.}
+		
+	В \textbf{stm32f40x} и \text{stm32f41x} память разделена на 12 секторов.
+	
+	\includeimage
+	{FLASH_module_organization} % Имя файла
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Секторы flash-памяти в микроконтроллере.}
+
+	\section{Инициализация памяти.}
+		
+	Чтобы начать работу со flash ее необходимо проинициализировать. В ней используются временные задержки, таблица которых приведена ниже.
+	
+	\includeimage
+	{FLASH_number_of_wiat_states} % Имя файла
+	{f} % Обтекание (без обтекания)
+	{H} % Положение рисунка (см. figure из пакета float)
+	{1.0\textwidth} % Ширина рисунка
+	{Таблица с задержками памяти.}
+	
+	В начале необходимо сбросить настройки $ACR$, после установить временные задержки на 5 тиков по таблице выше($FLASH\text{\textunderscore}ACR\text{\textunderscore}LATENCY\text{\textunderscore}5WS$). После чего необходимо включить кэш данных($FLASH\text{\textunderscore}ACR\text{\textunderscore}DCEN$) и команд($FLASH\text{\textunderscore}ACR\text{\textunderscore}ICEN$). Частоту настроить от PLL генератора и подождать пока он запустится.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+void stp_flash_init() {
+	FLASH->ACR = 0;
+	FLASH->ACR |= FLASH_ACR_LATENCY_5WS;
+	FLASH->ACR |= FLASH_ACR_ICEN;
+	FLASH->ACR |= FLASH_ACR_DCEN;
+	RCC->CFGR |= RCC_CFGR_SW_1;
+	while ((RCC->CFGR & 0x0F) != 0x0A);
+}
+	\end{lstlisting}
+	\endgroup
+	
+	\section{Разблокировка и блокировка памяти.}
+	
+	Память защищена блокиратором и для того, чтобы иметь к ней доступ ее необходимо разблокировать, это возможно сделать спомощью записи двух ключей в регистр.
+
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+void stp_flash_unlock() {
+	if (FLASH->CR & FLASH_CR_LOCK) {
+		FLASH->KEYR = 0x45670123;
+		FLASH->KEYR = 0xCDEF89AB;
+	}
+}
+	\end{lstlisting}
+	\endgroup
+
+	После работы доступ к памяти следует заблокировать.
+
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+void stp_flash_lock() {
+	FLASH->CR |= FLASH_CR_LOCK;
+}
+	\end{lstlisting}
+	\endgroup
+	
+	\subsection{Уточнение про разблокировку памяти.}
+	
+	Так же после того как мы разблокировали память, стоит подождать пока она разблокируется.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+#define STP_FLASH_WHILE_BSY()  { while (FLASH->SR & FLASH_SR_BSY){} }
+	\end{lstlisting}
+	\endgroup
+	
+	
+	\section{Запись данных в память.}
+	
+	Подробный алгоритм записи данных в память мы опустим, но отметим, что две функции ниже нужны для записи числа формата $unsigned char$.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+static void stp_flash_write(uint32_t address, uint8_t data) {
+	FLASH->CR |= FLASH_CR_PG;
+	*(uint8_t *)address = data;
+	STP_FLASH_WHILE_BSY();
+	FLASH->CR &= ~FLASH_CR_PG;
+}
+
+static void stp_flash_write_buffer(uint32_t address, const uint8_t * dataBuffer, uint32_t size) {
+	stp_flash_unlock();
+	STP_FLASH_WHILE_BSY();
+	while (size >= sizeof(uint8_t)) {
+		stp_flash_write(address, *(const uint8_t *)dataBuffer);
+		address += sizeof(uint8_t);
+		dataBuffer += sizeof(uint8_t);
+		size -= sizeof(uint8_t);
+	}
+	stp_flash_lock();
+}
+	\end{lstlisting}
+	\endgroup
+	
+	Если же нам надо записать более большие числа, то для этого воспользуемся разбиением больших чисел на более мелкие составляющие.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+void stp_flash_write_8(uint32_t address, const uint8_t *dataBuffer, uint32_t size) {
+	stp_flash_write_buffer(address, dataBuffer, size);
+}
+
+void stp_flash_write_16(uint32_t address, const uint16_t *dataBuffer, uint32_t size) {
+	uint8_t buffer[(sizeof(uint16_t) * size)];
+	memcpy(buffer, dataBuffer, (sizeof(uint16_t) * size));
+	stp_flash_write_buffer(address, buffer, (sizeof(uint16_t) * size));
+}
+
+void stp_flash_write_32(uint32_t address, const uint32_t *dataBuffer, uint32_t size) {
+	uint8_t buffer[(sizeof(uint32_t) * size)];
+	memcpy(buffer, dataBuffer, (sizeof(uint32_t) * size));
+	stp_flash_write_buffer(address, buffer, (sizeof(uint32_t) * size));
+}
+	\end{lstlisting}
+	\endgroup
+	
+	\section{Чтение данных из памяти.}
+	
+	Для того, чтобы считать данные мы напрямую обращаемся к адресу памяти.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+void stp_flash_read_8(uint32_t address, uint8_t *buffer, uint32_t size) {
+	memcpy(buffer, (uint8_t*) address, size);
+}
+
+void stp_flash_read_16(uint32_t address, uint16_t *buffer, uint32_t size) {
+	uint8_t char_buffer[(sizeof(uint16_t) * size)];
+	memcpy(char_buffer, (uint8_t*) address, (sizeof(uint16_t) * size));
+	memcpy(buffer, char_buffer, (size * sizeof(uint16_t)));
+}
+
+void stp_flash_read_32(uint32_t address, uint32_t *buffer, uint32_t size) {
+	uint8_t char_buffer[(sizeof(uint32_t) * size)];
+	memcpy(char_buffer, (uint8_t*) address, (sizeof(uint32_t) * size));
+	memcpy(buffer, char_buffer, (size * sizeof(uint32_t)));
+}
+	\end{lstlisting}
+	\endgroup
+	
+	\section{Пример использования.}
+	
+	Нами было решено привести абстракный пример использования flash памяти, для того, чтобы глава была более самостоятельной.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+#define START_ADDRESS 	0x0800C000 	%	(FLASH_BASE + 48*1024)
+
+stp_flash_init();
+stp_flash_erase(3);
+const uint32_t SIZE = 254;
+uint32|16|8_t arr1[SIZE];
+for (uint32_t i = 0; i < SIZE; ++i)
+arr1[i] = (i + 1);
+
+stp_flash_write_32|16|8(START_ADDRESS, arr1, STP_SIZE_OF_ARRAY(arr1));
+uint32|16|8_t arr2[SIZE];
+stp_flash_read_32|16|8(START_ADDRESS, arr2, STP_SIZE_OF_ARRAY(arr2));
+for (uint32_t i = 0; i < SIZE; i++) {
+	trace_printf("error %u %u %u\n", i, *(arr2 + i), *(arr1 + i));
+
+stp_flash_lock();
+	\end{lstlisting}
+	\endgroup
+%=============================================================================================================
+	\chapter{Тандем программы.}
+	
+	И так время приступить к написанию программы запуска всего задания. Как уже оговаривалось ранее у нас две платы \underline{ЗЕЛЕНАЯ(GREAN)} и \underline{ГОЛУБАЯ(BLUE)}.
+	И для них код писался в одном проекте, в процессе запуска платы будут через джампер проверять в каком режиме они должны работать и запускать соответствующий цикл-луп.
+	Но инициализация переферии у всех будет общей, это немного не рационально, но было решено оставить так, так как в некоторых участках повторяющегося кода стала меньше.
+	
+	\section{Раздельный запуск.}
+	
+	В этой секции мы распишем запуск плат.
+	
+	\subsection{main.}
+	
+	Функция $main$ состоит всего из двух строк, где первый строкой мы инициализируем платы, а во второй запускаем все процессы.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+int main(void) {
+	init();
+	process();
+}
+	\end{lstlisting}
+	\endgroup
+	
+	Инициализируется переферия для: кнопки, светодиодов, различных передач, частота работы и выбор режима работы.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+void init() {
+	SystemCoreClockUpdate();
+	transmission_init();
+	Work_mode_init();
+	Button_init();
+	led_init();
+}
+	\end{lstlisting}
+	\endgroup
+	
+	В процессе инициализируется запуск циклов для \underline{ЗЕЛЕНОЙ} и \underline{ГОЛУБОЙ} платы.
+
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+void process() {
+	blue_board_launch();
+	grean_board_launch();
+}
+	\end{lstlisting}
+	\endgroup
+	
+	Стоит оговорится, как работает раздельный вызов, весьма тривиально. Просто проверяем есть ли сигнал на джампере. Если да, то запускаем плату, если нет то выходим из функции.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+if (!status_GREAN())
+	return;
+	\end{lstlisting}
+	\endgroup
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+if (!status_BLUE())
+	return;
+	\end{lstlisting}
+	\endgroup
+	
+	\subsection{Раздельный старт}
+	
+	А теперь более подробно про раздельный старт, для начало мы его инициализируем. Так же как это было в различных интерфейсах передачи.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+#define RCC_WORK_MODE_IN_GREAN() { RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN; }
+#define GPIO_WORK_MODE_IN_GREAN GPIOB
+#define PIN_WORK_MODE_IN_GREAN  1
+
+#define RCC_WORK_MODE_OUT_GREAN() { RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN; }
+#define GPIO_WORK_MODE_OUT_GREAN GPIOB
+#define PIN_WORK_MODE_OUT_GREAN 0
+
+#define RCC_WORK_MODE_IN_BLUE() { RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN; }
+#define GPIO_WORK_MODE_IN_BLUE GPIOC
+#define PIN_WORK_MODE_IN_BLUE  1
+
+#define RCC_WORK_MODE_OUT_BLUE() { RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN; }
+#define GPIO_WORK_MODE_OUT_BLUE GPIOC
+#define PIN_WORK_MODE_OUT_BLUE 0
+		
+void Work_mode_init() {
+	RCC_WORK_MODE_IN_GREAN();
+	GPIO_WORK_MODE_IN_GREAN->IDR |= (0x1 << PIN_WORK_MODE_IN_GREAN);
+	
+	RCC_WORK_MODE_OUT_GREAN();
+	GPIO_WORK_MODE_OUT_GREAN->MODER |= (0x1 << (2 * PIN_WORK_MODE_OUT_GREAN));
+	GPIO_WORK_MODE_OUT_GREAN->ODR |= (0x1 << PIN_WORK_MODE_OUT_GREAN);
+	
+	RCC_WORK_MODE_IN_BLUE();
+	GPIO_WORK_MODE_IN_BLUE->IDR |= (0x1 << PIN_WORK_MODE_IN_BLUE);
+	
+	RCC_WORK_MODE_OUT_BLUE();
+	GPIO_WORK_MODE_OUT_BLUE->MODER |= (0x1 << (2 * PIN_WORK_MODE_OUT_BLUE));
+	GPIO_WORK_MODE_OUT_BLUE->ODR |= (0x1 << PIN_WORK_MODE_OUT_BLUE);
+}
+	\end{lstlisting}
+	\endgroup
+	\subsection{}
+	
+	Проверка сигнала на джамперах
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+int status_blue() {
+	return (((GPIO_WORK_MODE_IN_BLUE->IDR >> PIN_WORK_MODE_IN_BLUE) & 0x01) == 1);
+}
+
+int status_grean() {
+	return (((GPIO_WORK_MODE_IN_GREAN->IDR >> PIN_WORK_MODE_IN_GREAN) & 0x01) == 1);
+}
+	\end{lstlisting}
+	\endgroup
+	
+	Ну а использование было выше. Время реализовать циклы для каждой платы.
+	
+	\section{Реализация loop-ов.}
+	
+	\subsection{ЗЕЛЕНАЯ.}
+	
+	Ниже приведен код для цикла зеленой платы. При нажатии один раз на кнопку происходит последовательная передача. При долгом нажатии происходит запись считанной параллельной передачи данных из flash и проверка с уже известной данными.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+static void button_event(uint32_t *mrk_button_on, uint32_t *time_click, uint8_t *df, uint16_t *size) {
+	if (btn_click()) {
+		if (*mrk_button_on == 0) {
+			blick_c(ORANGE);
+			serial_write(df, *size);
+			blick_c(ORANGE);
+			*mrk_button_on = 1;
+		}
+		++*time_click;
+	} else {
+		*time_click = 0;
+		*mrk_button_on = 0;
+	}
+}
+
+static void time_up(uint32_t *time_click, uint8_t *df) {
+	if (*time_click >= LONG_CLICK) {
+		blick_c(BLUE);
+		uint8_t buffer_df_bus[SIZE];
+		stp_flash_unlock();
+		stp_flash_read_8(START_ADDRESS, buffer_df_bus, SIZE);
+		stp_flash_lock();
+		for (uint16_t i = 0; i < SIZE; i++) {
+			if (*(df + i) != buffer_df_bus[i]) {
+				blick_c(RED); 
+			}
+		}
+	}
+}
+
+static void parallel_reads(uint8_t *df, uint16_t *size) {
+	*size = parallel_read(df);
+	if (*size != 0x0) {
+		blick_c(RED);
+		stp_flash_unlock();
+		stp_flash_erase(3);
+		stp_flash_write_8(START_ADDRESS, df, *size);
+		stp_flash_lock();
+	} 
+}
+
+void grean_board_loop() {
+	uint8_t df_bus[SIZE];
+	uint8_t df_con[SIZE];
+	uint16_t size_bus = 0;
+	uint16_t size_con = SIZE;
+	
+	for (uint16_t i = 0; i < size_bus; i++) {
+		df_bus[i] = (i % 254);
+	}
+	
+	uint32_t mrk_button_on = 0;
+	uint32_t time_click = 0;
+	
+	while (1) {
+		button_event(&mrk_button_on, &time_click, &df_con[0], &size_con);
+		time_up(&time_click, &df_con[0]);
+		parallel_reads(&df_bus[0], &size_bus);
+	}
+}
+	\end{lstlisting}
+	\endgroup
+	
+	\subsection{ГОЛУБАЯ}
+	
+	Цикл для \underline{ГОЛУБОЙ} платы мы решили оставить без изменений, для сравнения как было изначально все реализовано.
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+void blue_board_loop() {
+	uint8_t df_bus[SIZE];
+	uint8_t df_con[SIZE];
+	uint16_t size_bus = SIZE;
+	uint16_t size_con = 0;
+	
+	for (uint16_t i = 0; i < size_bus; i++) {
+		df_bus[i] = (i % 254);
+	}
+	
+	uint32_t mrk_button_on = 0;
+	uint32_t time_click = 0;
+	
+	while (1) {
+		if (btn_click()) {
+			if (mrk_button_on == 0) {
+				blick_c(ORANGE);
+				parallel_write(&df_bus[0], size_bus);
+				blick_c(ORANGE);
+				mrk_button_on = 1;
+			}
+			++time_click;
+		} else {
+			time_click = 0;
+			mrk_button_on = 0;
+		}
+		
+		if (time_click >= LONG_CLICK) {
+			blick_c(GREAN);
+			uint8_t buffer_df_con[SIZE];
+			stp_flash_unlock();
+			stp_flash_read_8(START_ADDRESS, buffer_df_con, SIZE);
+			stp_flash_lock();
+			for (uint16_t i = 0; i < SIZE; i++) {
+				if (df_bus[i] != buffer_df_con[i]) {
+					blick_c(RED); 
+				}
+			}
+		}
+		
+		size_con = serial_read(&df_con[0]);
+		if (size_con != 0x0) {
+			blick_c(RED);
+			stp_flash_unlock();
+			stp_flash_erase(3);
+			stp_flash_write_8(START_ADDRESS, df_con, size_con);
+			stp_flash_lock();
+		}
+		
+	}
+}
+	\end{lstlisting}
+	\endgroup
+	
+	\subsection{Промежуточный итог.}
+	
+	Код представленный в листингах копилируется, платы спокойной прошиваются. \textbf{Но в ходе работы напильником в каких-то листингах возможны опечатки в одну букву.}
+	Размер массивов 1024 элемента.
+
+%=============================================================================================================
+	\chapter{Итог.}
+
+	Обобщенно говоря в ходе работы над домашней работай номер 2, мы познакомились и научились работать с микроконотоллерами семейства $stm32$.
+	Знакомство оказалось весьма интересным и сложным, но это даже хорошо, так как эта сложность открывает огромные возможности для своих собственныйх проектов.
+	Стоит отметить, что в ходе задания не все алгоритмы были выполнены хорошо, можно было бы и красивее, лучшее. Но ввиду малого опыта работы с таким микроконтроллером и сжатыми сроками, было решено оставить, то что вышло.
+	
+	\newpage
+	\begingroup
+	\fontsize{10pt}{10pt}\selectfont
+	\textbf{P.s.} после повторной проверки вяснилось, что оптимизация кода не очень удачно прошла, в итоге рабочий вариант программы детально стоит смотреть в файле с программой. В листингах ошибка может быть в чтении данных с регистров.
+	\endgroup
+
+\end{document}
+
+%	На~рисунке~\ref{img:BCD} пример семисегментного индикатора.
+
+%\includeimage
+%	{BCD} % Имя файла без расширения (файл должен быть расположен в директории inc/img/)
+%	{f} % Обтекание (без обтекания)
+%	{H} % Положение рисунка (см. figure из пакета float)
+%	{0.25\textwidth} % Ширина рисунка
+%	{Семисегментный индикатор} % Подпись рисунка 
+
+
+%	\begin{lstlisting}[language=C]
+	
+	%	\end{lstlisting}
+
+%	\begingroup
+%	\fontsize{12pt}{12pt}\selectfont
+%	\begin{lstlisting}[language=C]
+	
+	%	\end{lstlisting}
+%	\endgroup

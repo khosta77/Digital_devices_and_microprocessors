@@ -1,0 +1,39 @@
+#include "work_mode.h"
+
+void Work_mode_init() {
+    RCC_WORK_MODE_IN_GREAN();
+    GPIO_WORK_MODE_IN_GREAN->IDR |= (0x1 << PIN_WORK_MODE_IN_GREAN);
+
+    RCC_WORK_MODE_OUT_GREAN();
+    GPIO_WORK_MODE_OUT_GREAN->MODER |= (0x1 << (2 * PIN_WORK_MODE_OUT_GREAN));
+    GPIO_WORK_MODE_OUT_GREAN->ODR |= (0x1 << PIN_WORK_MODE_OUT_GREAN);
+
+    RCC_WORK_MODE_IN_BLUE();
+    GPIO_WORK_MODE_IN_BLUE->IDR |= (0x1 << PIN_WORK_MODE_IN_BLUE);
+
+    RCC_WORK_MODE_OUT_BLUE();
+    GPIO_WORK_MODE_OUT_BLUE->MODER |= (0x1 << (2 * PIN_WORK_MODE_OUT_BLUE));
+    GPIO_WORK_MODE_OUT_BLUE->ODR |= (0x1 << PIN_WORK_MODE_OUT_BLUE);
+/* Legacy, можно удалить, но мб пригодится.
+    RCC_INIT_GPIOB();
+    RCC_INIT_GPIOC();
+
+    GPIOB->MODER |= GPIO_MODER_MODER0_0;
+    GPIOB->ODR |= GPIO_ODR_OD0;
+    GPIOB->IDR |= GPIO_IDR_ID1;
+
+    GPIOC->MODER |= GPIO_MODER_MODER0_0;
+    GPIOC->ODR |= GPIO_ODR_OD0;
+    GPIOC->IDR |= GPIO_IDR_ID1;
+*/
+}
+
+int status_blue() {
+    return (((GPIO_WORK_MODE_IN_BLUE->IDR >> PIN_WORK_MODE_IN_BLUE) & 0x01) == 1);
+}
+
+int status_grean() {
+    return (((GPIO_WORK_MODE_IN_GREAN->IDR >> PIN_WORK_MODE_IN_GREAN) & 0x01) == 1);
+}
+
+
