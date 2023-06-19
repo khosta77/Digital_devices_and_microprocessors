@@ -1,0 +1,169 @@
+\documentclass{bmstu}
+\usepackage{multirow}
+%\usepackage{karnaugh-map}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{listings}
+\usepackage{appendix}
+\usepackage{bm, amsmath, amsfonts}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{subfig}
+\usepackage{url}
+\usepackage{multirow}
+\usepackage{array} 
+\usepackage{wrapfig} % in preamble
+
+% set the code style
+\RequirePackage{listings}
+\RequirePackage{xcolor}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{
+	numbers=left,  
+	frame=tb,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	framerule=1pt,
+	rulecolor=\color{gray!35},
+	backgroundcolor=\color{gray!5},
+	basicstyle={\ttfamily},
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+
+\usetikzlibrary{karnaugh}
+
+\begin{document}
+	\makereporttitle
+	{Радиоэлектроника и лазерная техника (РЛ)} % Название факультета
+	{Технология приборостроения (РЛ6)} % Название кафедры
+	{Рубежный контроль №2} % Название работы (в дат. падеже)
+	{Цифровые устройства и микропроцессоры} % Название курса (необязательный аргумент)
+	{Задание 2} % Тема работы
+	{} % Номер варианта (необязательный аргумент)
+	{Филимонов~С.~В./РЛ6-61} % Номер группы/ФИО студента (если авторов несколько, их необходимо разделить запятой)
+	{Семеренко~Д.~А.} % ФИО преподавателя
+	
+	\textbf{Задание:} Написать программу для МК, в которой длительность свечения светодиода зависит от величины напряжения на входе
+	2-ого канала АЦП, частота сигнала определяется величиной аналогового сигнала на входе бого канала АЦІ. Частота преобразования АЦП 10 Гц.
+	
+	Идея была считывать сигнал с 2-ух энкодеров и подставлять их значения в параметры таймера для генерации ШИМ.
+	
+	\textbf{Код:}
+	
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{lstlisting}[language=C]
+#include "../system/include/cmsis/stm32f4xx.h"
+
+#define PIN_ANALOG_READ_1 1
+#define PIN_ANALOG_READ_2 2
+#define PIN_LED_GREAN 12
+#define S 1
+
+#define SIZE 2
+uint32_t adc1[SIZE];
+
+void GPIO_init() {
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
+	GPIOA->MODER |= (GPIO_MODER_MODE0_0 | GPIO_MODER_MODE0_1 | GPIO_MODER_MODE1_0 | GPIO_MODER_MODE1_1); 
+}
+
+void DMA2_Stream4_IRQHandler(void) {
+	if((DMA2->HISR & (DMA_HISR_TCIF4 | DMA_HISR_HTIF4)) == (DMA_HISR_TCIF4 | DMA_HISR_HTIF4)) {
+		DMA2->HIFCR = (DMA_HIFCR_CTCIF4 | DMA_HIFCR_CHTIF4);
+	} 
+}
+
+void DMA_init() {
+	RCC->AHB1ENR |= RCC_AHB1ENR_DMA2EN;
+	DMA2_Stream4->PAR |= (uint32_t)&ADC1->DR;
+	DMA2_Stream4->M0AR |= (uint32_t)&adc1;
+	DMA2_Stream4->NDTR = SIZE;
+	DMA2_Stream4->CR = (DMA_SxCR_CIRC | DMA_SxCR_MINC | DMA_SxCR_PSIZE_1 | DMA_SxCR_MSIZE_1 | DMA_SxCR_TCIE);
+	NVIC_EnableIRQ(DMA2_Stream4_IRQn);
+	NVIC_SetPriority(DMA2_Stream4_IRQn, 4);
+	DMA2_Stream4->CR |= DMA_SxCR_EN;
+}
+
+void ADC_init(){
+	GPIO_init();
+	RCC->APB2ENR = RCC_APB2ENR_ADC1EN;
+	ADC1->CR1 |= ADC_CR1_SCAN;
+	ADC1->CR2 |= (ADC_CR2_ADON | ADC_CR2_CONT | ADC_CR2_EOCS | ADC_CR2_DMA | ADC_CR2_DDS);
+	ADC1->SQR3 |= ((0 << 0) | (1 << 5));
+	ADC1->SQR1 |= (1 << 20);
+	DMA_init();
+	ADC1->CR2 |= ADC_CR2_SWSTART;
+}
+
+void TIM4_IRQHandler(void) {
+	TIM4->SR &= ~TIM_SR_UIF;
+	TIM4->CR1 &= ~TIM_CR1_CEN;
+	TIM4->PSC = (adc1[0] * 100);
+	TIM4->CCR1 = (adc1[1] / 100);
+	TIM4->CR1 |= TIM_CR1_CEN;
+}
+
+void TIM4_init() {
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
+	GPIOD->MODER |= (0x2 << (2 * PIN_LED_GREAN));
+	GPIOD->AFR[1] |= (0x2 << 16);
+	RCC->APB1ENR |= RCC_APB1ENR_TIM4EN;
+	TIM4->PSC = 1;
+	TIM4->ARR = 100;
+	TIM4->CCMR1 |= 0x60;
+	TIM4->CCR1 = 1;
+	TIM4->CCER |= 0x1;
+	TIM4->DIER |= TIM_DIER_UIE;
+	NVIC_EnableIRQ(TIM4_IRQn);
+	NVIC_SetPriority(TIM4_IRQn, 2);
+	TIM4->CR1 |= TIM_CR1_CEN;
+}
+
+void init() {
+	ADC_init();
+	TIM4_init();
+}
+
+int main(void) {
+	init();
+	while(1);
+}		
+	\end{lstlisting}
+	\endgroup
+\end{document}
+
+%	На~рисунке~\ref{img:BCD} пример семисегментного индикатора.
+
+%\includeimage
+%	{BCD} % Имя файла без расширения (файл должен быть расположен в директории inc/img/)
+%	{f} % Обтекание (без обтекания)
+%	{H} % Положение рисунка (см. figure из пакета float)
+%	{0.25\textwidth} % Ширина рисунка
+%	{Семисегментный индикатор} % Подпись рисунка 
+
+
+%	\begin{lstlisting}[language=C]
+	
+	%	\end{lstlisting}
+
+%	\begingroup
+%	\fontsize{12pt}{12pt}\selectfont
+%	\begin{lstlisting}[language=C]
+	
+	%	\end{lstlisting}
+%	\endgroup
